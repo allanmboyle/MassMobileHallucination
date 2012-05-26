@@ -17,14 +17,20 @@
 		}
 	</script>
 	<style>
-		.
+		.bigbutton { 
+			width: 100px;
+			height: 100px;
+			background-color: blue;
+		}
 	</style>
 </head>
 <body>
 	<h1>The Mass Mobie Hellucination Game.</h1>
 	Your name: <input type=text onchange="changeName()" id=username /> <br/>
-	<input type=button style="width: 100px; height: 50px; background-color: yellow" value="LEFT" onclick="left()" /> 
-	<input type=button style="width: 100px; height: 50px; background-color: yellow" value="RIGHT" onclick="right()" /> 
+	<span>
+		<input type=button class=bigbutton value="LEFT" onclick="left()" /> 
+		<input type=button class=bigbutton value="RIGHT" onclick="right()" /> 
+	</span>
 </body>
 </html>
 
