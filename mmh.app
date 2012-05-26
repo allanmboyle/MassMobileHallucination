@@ -1,5 +1,5 @@
 //
-// Mass Mobile Hellucination
+// Mass Mobile Hallucination
 // 
 // @simonraikallen 2012
 // 
