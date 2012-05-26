@@ -8,3 +8,4 @@ Suited to conference talks.
 This is really just an all-JavaScript experiment.
 
 Simon.
+simonraikallen@gmail.com
