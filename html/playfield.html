@@ -1,24 +1,58 @@
 <html>
 <head>
-	<title>THis is the playfield</title>
+	<title>Playfield</title>
 	<script src="/socket.io/socket.io.js"></script>
     <script>
         var socket = io.connect('http://localhost/playfield');
+		var theBoard = {};
+		var numberOfPlayers = 0;
 
-        socket.on('board', function (board) {
-			alert("got a new board");
+        socket.on('board', function (aBoard) {
 			// wipe out what I know and draw a new board
+			theBoard = aBoard
         });
 
         socket.on('change', function (data) {
-			alert("got an update from " + data.username + " who moved " + data.direction);
-			// change the position of one thing I've got to reflect the new state
+			if (!theBoard[data.username]) {
+				alert("no users recognized!");
+			} else {
+				if (data.direction == "left") {
+					theBoard[data.username].x--;
+				} else {
+					theBoard[data.username].x++;
+				}
+			}
+
+			updateBoard();
         });
+
+        socket.on('newuser', function (data) {
+			theBoard[data.username] = {};
+			theBoard[data.username].x = 10;
+			theBoard[data.username].y = numberOfPlayers;
+			numberOfPlayers++;
+
+			updateBoard();
+        });
+
+		function updateBoard() {
+			var c=document.getElementById("playfield");
+			var ctx=c.getContext("2d");
+
+			ctx.fillStyle="#00bb11";
+			ctx.clearRect (0,0,200,100);
+			ctx.fillStyle="#FFccee";
+			for (p in theBoard) {
+				x = theBoard[p].x;
+				y = theBoard[p].y;
+				ctx.fillRect(x*10,y*10,x*10+8,y*10+8);
+			}	
+		}
     </script>
 </head>
 
 <body>
 <h1> Mass Mobile Hellucinegenic Playfield <h1>
-<div style="width:60%; height: 60%; background-color: black"> PLAYFIELD HERE </div>
+<canvas id="playfield" width="200" height="100" bgcolor="gold"></canvas>
 </body>
 </html>
