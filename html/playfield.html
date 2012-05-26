@@ -18,6 +18,7 @@
 				theBoard[players[p].id].y = numberOfPlayers;
 				numberOfPlayers++;
 			}
+			updateBoard();
         });
 
         socket.on('change', function (data) {
@@ -36,6 +37,7 @@
 		// Sometimes the player with data.id is not found. Not sure why!
         socket.on('namechange', function (data) {
 			theBoard[data.id].username = data.username;
+			updateBoard();
 		});
 
         socket.on('newuser', function (data) {
@@ -50,13 +52,14 @@
 		// Color them out on woosing out of the game
         socket.on('woosout', function (data) {
 			theBoard[data.id].dead = true;
+			updateBoard();
 		});
 
 		function updateBoard() {
 			var c=document.getElementById("playfield");
 			var ctx=c.getContext("2d");
 
-			ctx.clearRect (0,0,200,100);
+			ctx.clearRect (0,0,600,200);
 			for (p in theBoard) {
 				x = theBoard[p].x;
 				y = theBoard[p].y;
@@ -66,6 +69,12 @@
 					ctx.fillStyle="#113311"; // black
 				}
 				ctx.fillRect(x-5,y*10+2,x+5,y*10+8);
+
+				if (theBoard[p].username) {
+					ctx.fillStyle="#ff1144"; 
+					ctx.font = "bold 15px arial";     // different font
+					ctx.fillText(theBoard[p].username, x, y*10 + 10);
+				}
 			}	
 		}
     </script>
@@ -73,6 +82,6 @@
 
 <body bgcolor="lightblue">
 <h1> Mass Mobile Hellucinegenic Playfield <h1>
-<canvas id="playfield" width="200" height="100" bgcolor="gold"></canvas>
+<canvas id="playfield" width="600" height="200" bgcolor="gold"></canvas>
 </body>
 </html>
