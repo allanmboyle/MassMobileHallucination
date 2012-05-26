@@ -1,0 +1,30 @@
+<html>
+<head>
+	<title>Mass Mobile Hellucination</title>
+	<script src="/socket.io/socket.io.js"></script>
+	<script>
+		var socket = io.connect('http://localhost');
+	  	socket.on('news', function (data) {
+			console.log(data);
+			socket.emit('my other event', { my: 'data' });
+	  	});
+
+		function left() { socket.emit("left"); }
+		function right() { socket.emit("right"); } 
+
+		function changeName() {
+			socket.emit("namechange", document.getElementById('username').value);
+		}
+	</script>
+	<style>
+		.
+	</style>
+</head>
+<body>
+	<h1>The Mass Mobie Hellucination Game.</h1>
+	Your name: <input type=text onchange="changeName()" id=username /> <br/>
+	<input type=button style="width: 100px; height: 50px; background-color: yellow" value="LEFT" onclick="left()" /> 
+	<input type=button style="width: 100px; height: 50px; background-color: yellow" value="RIGHT" onclick="right()" /> 
+</body>
+</html>
+
