@@ -5,8 +5,8 @@
 // 
 var server 		= require('express').createServer(),  
 	io			= require('socket.io').listen(server),
-	playfield 	= require('./playfield.js'),
-	players 	= require('./players.js');
+	playfield 	= require('./lib/playfield.js'),
+	players 	= require('./lib/players.js');
 
 // The state of the playing board. Where all the players are.
 var board = {};
@@ -15,8 +15,8 @@ var board = {};
 server.listen(8080);
 
 // Serve up our two html fies
-server.get('/', function (req, res) { res.sendfile(__dirname + '/index.html'); });
-server.get('/playfield', function (req, res) { res.sendfile(__dirname + '/playfield.html'); });
+server.get('/', function (req, res) { res.sendfile(__dirname + '/html/index.html'); });
+server.get('/playfield', function (req, res) { res.sendfile(__dirname + '/html/playfield.html'); });
 
 // socket handlers (one per namespace
 var playersconnection = io.of('/players').on('connection', players.playerhandlers);

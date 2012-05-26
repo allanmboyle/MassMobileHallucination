@@ -11,7 +11,7 @@
         });
 
         socket.on('change', function (data) {
-			alert("got an update: " + data);
+			alert("got an update from " + data.username + " who moved " + data.direction);
 			// change the position of one thing I've got to reflect the new state
         });
     </script>
