@@ -7,51 +7,71 @@
 		var theBoard = {};
 		var numberOfPlayers = 0;
 
-        socket.on('board', function (aBoard) {
-			// wipe out what I know and draw a new board
-			theBoard = aBoard
+        // initialize a new board
+		socket.on('players', function (players) {
+			theBoard = {};
+			numberOfPlayers = 0;
+			for (p in players) {
+				theBoard[players[p].id] = {};
+				if (players[p].username) theBoard[players[p].id].username = players[p].username;
+				theBoard[players[p].id].x = 100;
+				theBoard[players[p].id].y = numberOfPlayers;
+				numberOfPlayers++;
+			}
         });
 
         socket.on('change', function (data) {
-			if (!theBoard[data.username]) {
-				alert("no users recognized!");
-			} else {
+			if (theBoard[data.id]) { // boundary condition on playfield restart
 				if (data.direction == "left") {
-					theBoard[data.username].x--;
+					theBoard[data.id].x -= 10;
 				} else {
-					theBoard[data.username].x++;
+					theBoard[data.id].x += 10;
 				}
 			}
 
 			updateBoard();
         });
 
+		// user changed their name
+		// Sometimes the player with data.id is not found. Not sure why!
+        socket.on('namechange', function (data) {
+			theBoard[data.id].username = data.username;
+		});
+
         socket.on('newuser', function (data) {
-			theBoard[data.username] = {};
-			theBoard[data.username].x = 10;
-			theBoard[data.username].y = numberOfPlayers;
+			theBoard[data.id] = {};
+			theBoard[data.id].x = 100;
+			theBoard[data.id].y = numberOfPlayers;
 			numberOfPlayers++;
 
 			updateBoard();
         });
 
+		// Color them out on woosing out of the game
+        socket.on('woosout', function (data) {
+			theBoard[data.id].dead = true;
+		});
+
 		function updateBoard() {
 			var c=document.getElementById("playfield");
 			var ctx=c.getContext("2d");
 
-			ctx.fillStyle="#00bb11";
 			ctx.clearRect (0,0,200,100);
-			ctx.fillStyle="#FFccee";
 			for (p in theBoard) {
 				x = theBoard[p].x;
 				y = theBoard[p].y;
-				ctx.fillRect(x*10,y*10,x*10+8,y*10+8);
+				if (!theBoard[p].dead ) { 
+					ctx.fillStyle="#33CCff"; 
+				} else { 
+					ctx.fillStyle="#113311"; // black
+				}
+				ctx.fillRect(x-5,y*10+2,x+5,y*10+8);
 			}	
 		}
     </script>
 </head>
 
-<body>
+<body bgcolor="lightblue">
 <h1> Mass Mobile Hellucinegenic Playfield <h1>
 <canvas id="playfield" width="200" height="100" bgcolor="gold"></canvas>
 </body>

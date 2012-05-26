@@ -8,8 +8,8 @@ var server 		= require('express').createServer(),
 	playfield 	= require('./lib/playfield.js'),
 	players 	= require('./lib/players.js');
 
-// The state of the playing board. Where all the players are.
-var board = {};
+// The currently connected user list
+var playerList = {};
 
 // start up the server 
 server.listen(8080);
@@ -18,10 +18,12 @@ server.listen(8080);
 server.get('/', function (req, res) { res.sendfile(__dirname + '/html/index.html'); });
 server.get('/playfield', function (req, res) { res.sendfile(__dirname + '/html/playfield.html'); });
 
-// socket handlers (one per namespace
+// set up socket handlers (one per namespace)
 var playersconnection = io.of('/players').on('connection', players.playerhandlers);
 var playfieldconnection = io.of('/playfield').on('connection', playfield.playfieldhandlers);
 
 // pass the playfield to the players module so they can tell the players where they have moved.
-// TODO: We need a Board object that the players change and that in turn send a message to the playfield to redraw.
-players.setplayfield(playfieldconnection);
+// pass the player list to both connections. This is the main server state.
+players.setPlayfield(playfieldconnection);
+players.setPlayers(playerList);
+playfield.setPlayers(playerList);
