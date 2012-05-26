@@ -1,44 +1,27 @@
-console.log("sdfs");
+//
+// Mass Mobile Hellucination
+// 
+// @simonraikallen 2012
+// 
+var server 		= require('express').createServer(),  
+	io			= require('socket.io').listen(server),
+	playfield 	= require('./playfield.js'),
+	players 	= require('./players.js');
 
-var server 	= require('http').createServer(serverHandler),  
-	io		= require('socket.io').listen(server),
-	fs		= require("fs");
+// The state of the playing board. Where all the players are.
+var board = {};
 
+// start up the server 
 server.listen(8080);
 
-function serverHandler (req, res) {
-	fs.readFile(__dirname + '/index.html',
-		function (err, data) {
-			if (err) {
-			  res.writeHead(500);
-			  return res.end('Error loading index.html');
-			} else {
-				res.writeHead(200);
-				res.end(data);
-			}
-  		}
-	);
-}
+// Serve up our two html fies
+server.get('/', function (req, res) { res.sendfile(__dirname + '/index.html'); });
+server.get('/playfield', function (req, res) { res.sendfile(__dirname + '/playfield.html'); });
 
-io.sockets.on('connection', function (socket) {
-	console.log("We have a connection!");
+// socket handlers (one per namespace
+var playersconnection = io.of('/players').on('connection', players.playerhandlers);
+var playfieldconnection = io.of('/playfield').on('connection', playfield.playfieldhandlers);
 
-  	socket.emit('news', { hello: 'world' });
-
-  	socket.on('namechange', function (name) {
-		socket.set("username", name);
-    	console.log("Name change: " + name);
-  	});
-
-  	socket.on('left', function (data) {
-		socket.get("username", function (err, name) { 
-	    	console.log("left from " + name);
-  		});
-	});
-
-  	socket.on('right', function (data) {
-		socket.get("username", function (err, name) { 
-    		console.log("right from " + name);
-  		});
-  	});
-});
+// pass the playfield to the players module so they can tell the players where they have moved.
+// TODO: We need a Board object that the players change and that in turn send a message to the playfield to redraw.
+players.setplayfield(playfieldconnection);

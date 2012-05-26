@@ -1,0 +1,24 @@
+<html>
+<head>
+	<title>THis is the playfield</title>
+	<script src="/socket.io/socket.io.js"></script>
+    <script>
+        var socket = io.connect('http://localhost/playfield');
+
+        socket.on('board', function (board) {
+			alert("got a new board");
+			// wipe out what I know and draw a new board
+        });
+
+        socket.on('change', function (data) {
+			alert("got an update: " + data);
+			// change the position of one thing I've got to reflect the new state
+        });
+    </script>
+</head>
+
+<body>
+<h1> Mass Mobile Hellucinegenic Playfield <h1>
+<div style="width:60%; height: 60%; background-color: black"> PLAYFIELD HERE </div>
+</body>
+</html>
