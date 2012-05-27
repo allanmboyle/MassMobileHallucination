@@ -11,11 +11,14 @@ regular client pointed http://localhost:8080... and have a play around!
 
 TODOs
 =====
+o group updates and send periodically to playfield.
+o write the REAL game
 x Fix the type in the repo name.
 x get a basic socket.io example working so I know how it works
 x static file server for the mobile page and graphics - USED EXPRESS
 x set up game viewing page
 x socket commands for receving updated screen positions for online viewer
+o set up server on Heroku
 - game engine to play the game - MOVING TO CLIENT
 x and update based on input and actions.
 x sign up page to put in your name.
