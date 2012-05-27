@@ -6,6 +6,10 @@
         var socket = io.connect('http://localhost/playfield');
 		var theBoard = {};
 		var numberOfPlayers = 0;
+		var numberOfCalls = 0;
+
+		var times = 0;
+		var totalTime = 0;
 
         // initialize a new board
 		socket.on('players', function (players) {
@@ -21,16 +25,32 @@
 			updateBoard();
         });
 
-        socket.on('change', function (data) {
-			if (theBoard[data.id]) { // boundary condition on playfield restart
-				if (data.direction == "left") {
-					theBoard[data.id].x -= 10;
-				} else {
-					theBoard[data.id].x += 10;
+        socket.on('updates', function (updates) {
+			// record the change for stats
+			numberOfCalls += updates.length;
+
+// start a timer
+var start = new Date().getTime();
+
+			// process the player move			
+			for (update in updates) {
+				data = updates[update];
+				if (theBoard[data.id]) { // boundary condition on playfield restart
+					if (data.dir == "l") {
+						theBoard[data.id].x -= 10;
+					} else {
+						theBoard[data.id].x += 10;
+					}
 				}
 			}
 
 			updateBoard();
+
+// end timer
+var end = new Date().getTime();
+totalTime += end - start;
+times ++;
+
         });
 
 		// user changed their name
@@ -77,11 +97,34 @@
 				}
 			}	
 		}
+
+		// every second see how many user updates were received		
+		var lastCount = 0;
+		function stats() {
+			callsInThisPeriod = numberOfCalls - lastCount;
+			document.getElementById("stats").innerHTML = callsInThisPeriod;
+			lastCount = numberOfCalls;
+
+			document.getElementById("timer").innerHTML = totalTime/times;
+			totalTime=0;times=0;
+
+			setTimeout(stats, 1000);
+		}
+	
     </script>
 </head>
 
 <body bgcolor="lightblue">
 <h1> Mass Mobile Hallucinegenic Playfield <h1>
-<canvas id="playfield" width="600" height="200" bgcolor="gold"></canvas>
+<div style="background-color: grey">
+	Messages per second: <span id="stats"></span></br>
+	Time to process a packet: <span id="timer">f</span>
+</div>
+
+<canvas id="playfield" width="900" height="400" bgcolor="gold"></canvas>
+<div style="width: 100%; background-color: pink">THE END</div>
+<script>
+	stats();
+</script>
 </body>
 </html>

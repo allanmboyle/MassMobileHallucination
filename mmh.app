@@ -17,13 +17,19 @@ server.listen(8080);
 // Serve up our two html fies
 server.get('/', function (req, res) { res.sendfile(__dirname + '/html/index.html'); });
 server.get('/playfield', function (req, res) { res.sendfile(__dirname + '/html/playfield.html'); });
+server.get('/test', function (req, res) { res.sendfile(__dirname + '/html/scaletest.html'); });
 
 // set up socket handlers (one per namespace)
-var playersconnection = io.of('/players').on('connection', players.playerhandlers);
-var playfieldconnection = io.of('/playfield').on('connection', playfield.playfieldhandlers);
+var playersConnection = io.of('/players').on('connection', players.playerhandlers);
+var playfieldConnection = io.of('/playfield').on('connection', playfield.playfieldhandlers);
 
 // pass the playfield to the players module so they can tell the players where they have moved.
-// pass the player list to both connections. This is the main server state.
-players.setPlayfield(playfieldconnection);
+// pass the player list to both modules as this is the main server state.
+players.setPlayfield(playfield);
 players.setPlayers(playerList);
+
 playfield.setPlayers(playerList);
+playfield.setConnection(playfieldConnection);
+
+// start the timer that periodically sends player updates to the playfield
+playfield.startUpdates();
