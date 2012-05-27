@@ -11,6 +11,7 @@ regular client pointed http://localhost:8080... and have a play around!
 
 TODOs
 =====
+x Fix the type in the repo name.
 x get a basic socket.io example working so I know how it works
 x static file server for the mobile page and graphics - USED EXPRESS
 x set up game viewing page
