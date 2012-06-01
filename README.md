@@ -11,7 +11,7 @@ regular client pointed http://localhost:8080... and have a play around!
 
 TODOs
 =====
-o group updates and send periodically to playfield.
+x group updates and send periodically to playfield.
 o write the REAL game
 x Fix the type in the repo name.
 x get a basic socket.io example working so I know how it works
@@ -26,6 +26,14 @@ x Test controls with two buttons Left Right
 o Gets accelerometer detection working for iphone/android and windows mobile
 x sockets for receiving telematray data from mobiles
 o give a diffent page for each mobile controller
+
+Games
+=====
+o flying stars
+o tetris
+o tug of war?
+o capture the bricks
+o 
 
 The Model
 =========
