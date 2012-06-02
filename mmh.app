@@ -18,6 +18,7 @@ server.listen(8080);
 server.get('/', function (req, res) { res.sendfile(__dirname + '/html/index.html'); });
 server.get('/playfield', function (req, res) { res.sendfile(__dirname + '/html/playfield.html'); });
 server.get('/test', function (req, res) { res.sendfile(__dirname + '/html/scaletest.html'); });
+server.get('/motiontest', function (req, res) { res.sendfile(__dirname + '/html/motiondetector.html'); });
 
 // set up socket handlers (one per namespace)
 var playersConnection = io.of('/players').on('connection', players.playerhandlers);
