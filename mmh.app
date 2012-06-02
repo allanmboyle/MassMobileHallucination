@@ -14,7 +14,7 @@ var server 		= express.createServer(),
 var playerList = {};
 
 // start up the server 
-server.listen(8080);
+server.listen(process.env.PORT || 8080);
 
 // serve up static content images, css etc...
 server.use(express.static(__dirname + '/public/images')); 
