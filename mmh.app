@@ -14,7 +14,7 @@ var playerList = {};
 // start up the server 
 server.listen(8080);
 
-// Serve up our two html fies
+// Serve up our html fies
 server.get('/', function (req, res) { res.sendfile(__dirname + '/html/index.html'); });
 server.get('/playfield', function (req, res) { res.sendfile(__dirname + '/html/playfield.html'); });
 server.get('/test', function (req, res) { res.sendfile(__dirname + '/html/scaletest.html'); });
