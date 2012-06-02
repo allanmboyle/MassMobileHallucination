@@ -3,7 +3,9 @@
 // 
 // @simonraikallen 2012
 // 
-var server 		= require('express').createServer(),  
+
+var express = require('express');
+var server 		= express.createServer(),  
 	io			= require('socket.io').listen(server),
 	playfield 	= require('./lib/playfield.js'),
 	players 	= require('./lib/players.js');
@@ -14,7 +16,9 @@ var playerList = {};
 // start up the server 
 server.listen(8080);
 
-// Serve up our html fies
+// serve up static content images, css etc...
+server.use(express.static(__dirname + '/public/images')); 
+
 server.get('/', function (req, res) { res.sendfile(__dirname + '/html/index.html'); });
 server.get('/playfield', function (req, res) { res.sendfile(__dirname + '/html/playfield.html'); });
 server.get('/test', function (req, res) { res.sendfile(__dirname + '/html/scaletest.html'); });
