@@ -1,1 +1,1 @@
-web: node mmh.js
+web: node mmh.app
