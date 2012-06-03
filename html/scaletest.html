@@ -9,20 +9,19 @@
 			player.socket = io.connect('/players', {'force new connection': true});
 			player.socket.emit("namechange", "Loren Carpenter " + Math.floor(Math.random()*9999));
 			players.push(player);
+
+			// show the number of players
+			document.getElementById("num").innerHTML = "# Players: " + players.length;
 		}
 
 		function emit() {
 			for (p in players) {
-				if (Math.round(Math.random()) == 0) {
-					players[p].socket.emit("left");
-					document.getElementById("dots").innerHTML += "l";
-				} else {
-					players[p].socket.emit("right");
-					document.getElementById("dots").innerHTML += "r";
-				}	
+				// move them both up and down
+				if (Math.round(Math.random()) == 0) { players[p].socket.emit("left"); } else { players[p].socket.emit("right"); }
+				if (Math.round(Math.random()) == 0) { players[p].socket.emit("up"); } else { players[p].socket.emit("down"); }	
 			}
 
-			setTimeout(emit, 100);
+			setTimeout(emit, 200);
 		}
 
 		// kick it off
@@ -32,7 +31,8 @@
 </head>
 <body>
 <h1> Scalability test </h1>
-<input type=button onclick="addPlayer()" value="Add Player" />
+<input type=button onclick="addPlayer()" value="Add Player" /> <span id=num></span>
+<div id="dots">
 <div id="dots">
 rah rah
 </div>

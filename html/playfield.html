@@ -18,8 +18,8 @@
 			for (p in players) {
 				theBoard[players[p].id] = {};
 				if (players[p].username) theBoard[players[p].id].username = players[p].username;
-				theBoard[players[p].id].x = 100;
-				theBoard[players[p].id].y = numberOfPlayers;
+				theBoard[players[p].id].x = Math.random()*900;
+				theBoard[players[p].id].y = Math.random()*900;
 				numberOfPlayers++;
 			}
 			updateBoard();
@@ -38,8 +38,12 @@ var start = new Date().getTime();
 				if (theBoard[data.id]) { // boundary condition on playfield restart
 					if (data.dir == "l") {
 						theBoard[data.id].x -= 10;
-					} else {
+					} else if (data.dir == "r") {
 						theBoard[data.id].x += 10;
+					} else if (data.dir == "u") {
+						theBoard[data.id].y -= 10;
+					} else if (data.dir == "d") {
+						theBoard[data.id].y += 10;
 					}
 				}
 			}
@@ -62,8 +66,8 @@ times ++;
 
         socket.on('newuser', function (data) {
 			theBoard[data.id] = {};
-			theBoard[data.id].x = 100;
-			theBoard[data.id].y = numberOfPlayers;
+			theBoard[data.id].x = Math.random()*900;
+			theBoard[data.id].y = Math.random()*900;
 			numberOfPlayers++;
 
 			updateBoard();
@@ -79,7 +83,7 @@ times ++;
 			var c=document.getElementById("playfield");
 			var ctx=c.getContext("2d");
 
-			ctx.clearRect (0,0,600,200);
+			ctx.clearRect (0,0,900,900);
 			for (p in theBoard) {
 				x = theBoard[p].x;
 				y = theBoard[p].y;
@@ -88,12 +92,12 @@ times ++;
 				} else { 
 					ctx.fillStyle="#113311"; // black
 				}
-				ctx.fillRect(x-5,y*10+2,x+5,y*10+8);
+				ctx.fillRect(x-5,y-5,x+5,y+5);
 
 				if (theBoard[p].username) {
 					ctx.fillStyle="#ff1144"; 
 					ctx.font = "bold 15px arial";     // different font
-					ctx.fillText(theBoard[p].username, x, y*10 + 10);
+					ctx.fillText(theBoard[p].username, x, y);
 				}
 			}	
 		}
@@ -121,7 +125,7 @@ times ++;
 	Time to process a packet: <span id="timer">f</span>
 </div>
 
-<canvas id="playfield" width="900" height="400" bgcolor="gold"></canvas>
+<canvas id="playfield" width="900" height="900" bgcolor="gold"></canvas>
 <div style="width: 100%; background-color: pink">THE END</div>
 <script>
 	stats();

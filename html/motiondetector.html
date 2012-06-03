@@ -2,7 +2,7 @@
 <html lang="en"> 
 <head>
 	<meta charset="UTF-8">
-	<title></title>
+	<title>Game Orientation Blah</title>
 	
 	<style type="text/css">
 		body {
@@ -36,7 +36,7 @@
 </head>
 <body>
 	<div class="main">
-	    <h2>Device Orientation</h2>
+	    <h2>Device Orientation With Sockets</h2>
 	    <table>
 	    	<tr>
 	    		<td>Event Supported</td>
@@ -65,7 +65,11 @@
 				<img src="MYOB.png" id="imgLogo" class="logo">
 	</div>
 	
+  	<script src="/socket.io/socket.io.js"></script>
 	<script type="text/javascript">
+		// connect to the game server as a player
+        var socket = io.connect('/players');
+
 		init3();
 		var count = 0;
 	
@@ -106,7 +110,13 @@
 					
 					// call our orientation event handler
 					deviceOrientationHandler(tiltLR, tiltFB, dir, motUD);
+
 					}, false);
+
+				// send the current orientation (left/right) periodically to the game server
+				socket.emit("namechange", "iPhone!");
+				sendOrientationToGameServer();
+
 			} else if (window.OrientationEvent) {
 				document.getElementById("doEvent").innerHTML = "MozOrientation";
 				window.addEventListener('MozOrientation', function(eventData) {
@@ -141,8 +151,28 @@
 			document.getElementById("imgLogo").style.webkitTransform = "rotate("+ tiltLR +"deg) rotate3d(1,0,0, "+ (tiltFB*-1)+"deg)";
 			document.getElementById("imgLogo").style.MozTransform = "rotate("+ tiltLR +"deg)";
 			document.getElementById("imgLogo").style.transform = "rotate("+ tiltLR +"deg) rotate3d(1,0,0, "+ (tiltFB*-1)+"deg)";
+
+			// store current value so can keep sending to game server periodically
+			gameTiltLR = tiltLR;
+			gameTiltFB = tiltFB;
 		}
-		
+	
+		var gameTiltLR = 0;	
+		var gameTiltFB = 0;	
+		function sendOrientationToGameServer() {
+			if (gameTiltLR > 14) {
+				socket.emit("right");
+			} else if (gameTiltLR < -14) {
+				socket.emit("left");
+			}
+			if (gameTiltFB > 14) {
+				socket.emit("down");
+			} else if (gameTiltFB < -14) {
+				socket.emit("up");
+			}
+			// do it again in a few millis...
+			setTimeout(sendOrientationToGameServer, 50);
+		}
 //http://www.html5rocks.com/en/tutorials/device/orientation/
 		
 		// Some other fun rotations to try...
