@@ -11,6 +11,10 @@
 		var times = 0;
 		var totalTime = 0;
 
+
+		MAX_X = 900;
+		MAX_Y = 600;
+
         // initialize a new board
 		socket.on('players', function (players) {
 			theBoard = {};
@@ -18,8 +22,8 @@
 			for (p in players) {
 				theBoard[players[p].id] = {};
 				if (players[p].username) theBoard[players[p].id].username = players[p].username;
-				theBoard[players[p].id].x = Math.random()*900;
-				theBoard[players[p].id].y = Math.random()*900;
+				theBoard[players[p].id].x = Math.random()*MAX_X;
+				theBoard[players[p].id].y = Math.random()*MAX_Y;
 				numberOfPlayers++;
 			}
 			updateBoard();
@@ -45,6 +49,12 @@ var start = new Date().getTime();
 					} else if (data.dir == "d") {
 						theBoard[data.id].y += 10;
 					}
+
+					// don't let them go off the board
+					if (theBoard[data.id].y > MAX_Y) { theBoard[data.id].y = MAX_Y; } 
+					if (theBoard[data.id].x > MAX_X) { theBoard[data.id].x = MAX_X; } 
+					if (theBoard[data.id].y < 0) { theBoard[data.id].y = 0; } 
+					if (theBoard[data.id].x < 0) { theBoard[data.id].x = 0; } 
 				}
 			}
 
@@ -66,8 +76,8 @@ times ++;
 
         socket.on('newuser', function (data) {
 			theBoard[data.id] = {};
-			theBoard[data.id].x = Math.random()*900;
-			theBoard[data.id].y = Math.random()*900;
+			theBoard[data.id].x = Math.random()*MAX_X;
+			theBoard[data.id].y = Math.random()*MAX_Y;
 			numberOfPlayers++;
 
 			updateBoard();
@@ -83,16 +93,20 @@ times ++;
 			var c=document.getElementById("playfield");
 			var ctx=c.getContext("2d");
 
-			ctx.clearRect (0,0,900,900);
+			ctx.clearRect (0,0,MAX_X,MAX_Y);
 			for (p in theBoard) {
 				x = theBoard[p].x;
 				y = theBoard[p].y;
 				if (!theBoard[p].dead ) { 
-					ctx.fillStyle="#33CCff"; 
+					ctx.fillStyle="#ff4411"; 
 				} else { 
 					ctx.fillStyle="#113311"; // black
 				}
-				ctx.fillRect(x-5,y-5,x+5,y+5);
+				ctx.fillRect(x,y,50,50);
+				ctx.fillStyle="#ffffff"; 
+				ctx.fillRect(x+10,y+10,30,30);
+				ctx.fillStyle="#113322"; 
+				ctx.strokeRect(x+12,y+12,28,28);
 
 				if (theBoard[p].username) {
 					ctx.fillStyle="#ff1144"; 
@@ -125,7 +139,7 @@ times ++;
 	Time to process a packet: <span id="timer">f</span>
 </div>
 
-<canvas id="playfield" width="900" height="900" bgcolor="gold"></canvas>
+<canvas id="playfield" width="900" height="600" bgcolor="gold"></canvas>
 <div style="width: 100%; background-color: pink">THE END</div>
 <script>
 	stats();
