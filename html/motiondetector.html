@@ -160,6 +160,9 @@
 		var gameTiltLR = 0;	
 		var gameTiltFB = 0;	
 		function sendOrientationToGameServer() {
+			socket.emit("axis", {axis: "x", accel: gameTiltLR});
+			socket.emit("axis", {axis: "y", accel: gameTiltFB});
+			/*
 			if (gameTiltLR > 14) {
 				socket.emit("right");
 			} else if (gameTiltLR < -14) {
@@ -170,8 +173,10 @@
 			} else if (gameTiltFB < -14) {
 				socket.emit("up");
 			}
+			*/
+
 			// do it again in a few millis...
-			setTimeout(sendOrientationToGameServer, 50);
+			setTimeout(sendOrientationToGameServer, 40);
 		}
 //http://www.html5rocks.com/en/tutorials/device/orientation/
 		

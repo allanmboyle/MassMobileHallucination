@@ -4,10 +4,6 @@
 	<script src="/socket.io/socket.io.js"></script>
 	<script>
 		var socket = io.connect('/players');
-	  	socket.on('news', function (data) {
-			console.log(data);
-			socket.emit('my other event', { my: 'data' });
-	  	});
 
 		function left() { socket.emit("left"); }
 		function right() { socket.emit("right"); } 

@@ -11,7 +11,6 @@
 		var times = 0;
 		var totalTime = 0;
 
-
 		MAX_X = 900;
 		MAX_Y = 600;
 
@@ -24,6 +23,8 @@
 				if (players[p].username) theBoard[players[p].id].username = players[p].username;
 				theBoard[players[p].id].x = Math.random()*MAX_X;
 				theBoard[players[p].id].y = Math.random()*MAX_Y;
+				theBoard[players[p].id].xaccel = 0;
+				theBoard[players[p].id].yaccel = 0;
 				numberOfPlayers++;
 			}
 			updateBoard();
@@ -48,6 +49,30 @@ var start = new Date().getTime();
 						theBoard[data.id].y -= 10;
 					} else if (data.dir == "d") {
 						theBoard[data.id].y += 10;
+					} 
+
+					// acceleration particle instead.
+					// convert a value from -90 to +90 into a range of -10 to 10 and move the acceleration towards it
+					if (data.axis == "x") { 
+
+						var val = parseInt(data.accel) / 90 * 10; 
+						var accel = theBoard[data.id].xaccel;
+						var delta = Math.abs(accel - val) * .2; // how fast to move towards the new accel
+						if (val > accel) { theBoard[data.id].xaccel += delta; }
+						else { theBoard[data.id].xaccel -= delta; }
+
+						theBoard[data.id].x += theBoard[data.id].xaccel * 2;
+						document.getElementById("log").innerHTML = "val " + val + " accel " + accel + " delta " + delta + " x " + theBoard[data.id].x;
+
+					} else if (data.axis == "y") {
+						var val = parseInt(data.accel) / 90 * 10; 
+						var accel = theBoard[data.id].yaccel;
+						var delta = Math.abs(accel - val) * .2; // how fast to move towards the new accel
+						if (val > accel) { theBoard[data.id].yaccel += delta; }
+						else { theBoard[data.id].yaccel -= delta; }
+
+						theBoard[data.id].y += theBoard[data.id].yaccel * 2;
+						document.getElementById("log2").innerHTML = "val " + val + " accel " + accel + " delta " + delta + " y " + theBoard[data.id].y;
 					}
 
 					// don't let them go off the board
@@ -78,6 +103,8 @@ times ++;
 			theBoard[data.id] = {};
 			theBoard[data.id].x = Math.random()*MAX_X;
 			theBoard[data.id].y = Math.random()*MAX_Y;
+			theBoard[data.id].xaccel = 0;
+			theBoard[data.id].yaccel = 0;
 			numberOfPlayers++;
 
 			updateBoard();
@@ -138,9 +165,10 @@ times ++;
 	Messages per second: <span id="stats"></span></br>
 	Time to process a packet: <span id="timer">f</span>
 </div>
-
 <canvas id="playfield" width="900" height="600" bgcolor="gold"></canvas>
 <div style="width: 100%; background-color: pink">THE END</div>
+<div id="log"></div>
+<div id="log2"></div>
 <script>
 	stats();
 </script>
