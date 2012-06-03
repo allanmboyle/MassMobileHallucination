@@ -6,8 +6,8 @@
 
 		function addPlayer() {
         	var player = {};
-			player.socket = io.connect('http://localhost/players', {'force new connection': true});
-			player.socket.emit("namechange", "Scaler x");
+			player.socket = io.connect('/players', {'force new connection': true});
+			player.socket.emit("namechange", "Loren Carpenter " + Math.floor(Math.random()*9999));
 			players.push(player);
 		}
 
