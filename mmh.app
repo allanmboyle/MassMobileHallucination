@@ -9,6 +9,7 @@ var server 		= express.createServer(),
 	io			= require('socket.io').listen(server),
 	playfield 	= require('./lib/playfield.js'),
 	players 	= require('./lib/players.js');
+    controller 	= require('./lib/controller.js');
 
 // The currently connected user list
 var playerList = {};
@@ -23,10 +24,12 @@ server.get('/', function (req, res) { res.sendfile(__dirname + '/html/index.html
 server.get('/playfield', function (req, res) { res.sendfile(__dirname + '/html/playfield.html'); });
 server.get('/test', function (req, res) { res.sendfile(__dirname + '/html/scaletest.html'); });
 server.get('/motiontest', function (req, res) { res.sendfile(__dirname + '/html/motiondetector.html'); });
+server.get('/control', function (req, res) { res.sendfile(__dirname + '/html/controller.html'); });
 
 // set up socket handlers (one per namespace)
 var playersConnection = io.of('/players').on('connection', players.playerhandlers);
 var playfieldConnection = io.of('/playfield').on('connection', playfield.playfieldhandlers);
+var controllerConnection = io.of('/control').on('connection', controller.sockethandlers);
 
 // pass the playfield to the players module so they can tell the players where they have moved.
 // pass the player list to both modules as this is the main server state.

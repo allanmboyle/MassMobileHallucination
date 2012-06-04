@@ -1,0 +1,26 @@
+<html>
+<head>
+	<title>Mass Mobile Hallucination</title>
+	<script src="/socket.io/socket.io.js"></script>
+	<script>
+		var socket = io.connect('/control');
+
+		function broadcast() 
+		{
+			var msg = document.getElementById('message').value;
+
+			socket.emit("controllerMessage", msg);
+		}
+	</script>
+</head>
+<body>
+	<h1>Controller</h1>
+	broadcast a message to all clients
+	<input type="text" id="message"/> 
+	<br/>
+	<span>
+		<input type=button value ="Send" onclick="broadcast()" /> 
+	</span>
+</body>
+</html>
+
