@@ -5,6 +5,12 @@
 	<script>
 		var socket = io.connect('/players');
 
+
+
+		 socket.on('admin', function(data){
+		    alert(data);
+		    });
+
 		function left() { socket.emit("left"); }
 		function right() { socket.emit("right"); } 
 

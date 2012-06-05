@@ -38,6 +38,8 @@ players.setPlayers(playerList);
 
 playfield.setPlayers(playerList);
 playfield.setConnection(playfieldConnection);
+//pass players connection to controller
+controller.setConnection(playersConnection);
 
 // start the timer that periodically sends player updates to the playfield
 playfield.startUpdates();
