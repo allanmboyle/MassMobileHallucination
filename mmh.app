@@ -15,6 +15,7 @@ var playerList = {};
 
 // start up the server 
 server.listen(process.env.PORT || 8080);
+io.set('log level', 1); // turn logging down
 
 // serve up static content images, css etc...
 server.use(express.static(__dirname + '/public/images')); 
