@@ -7,12 +7,14 @@
     </style>
     <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.5/jquery.min.js"></script>
   </head>
-
   <body onload="startGame();">
     <canvas id="canvas" width="1000" height="500">
     There is supposed to be an example drawing here, but it's not important.
     </canvas>
-     <script>
+
+
+<script>
+
 var x = 140;
 var y = 150;
 var dx = 2;
@@ -47,6 +49,7 @@ function init() {
   intervalId = setInterval(draw, 10);
   return intervalId;
 }
+
 var paddlex;
 var paddleh;
 var paddlew;
@@ -88,7 +91,6 @@ function startGame()
   init();
   init_paddle();
 }
-
     </script>
   </body>
 </html>
