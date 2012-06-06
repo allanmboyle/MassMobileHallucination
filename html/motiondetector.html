@@ -68,14 +68,19 @@
   	<script src="/socket.io/socket.io.js"></script>
     <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.5/jquery.min.js"></script>
 	<script type="text/javascript">
+
+		//default to 40ms but can get throttled by the controller
+		var MESSAGE_FREQUENCY = 40;
+
 		// connect to the game server as a player
         var socket = io.connect('/players');
 
      		 socket.on('changeSettings', function(data){
 		    document.getElementById("log").innerHTML =  "message from controller " + JSON.stringify(data);
+
+		    MESSAGE_FREQUENCY = data.freq;
+		    
 		    });
-
-
 
 		init3();
 		var count = 0;
@@ -167,6 +172,11 @@
 		var gameTiltLR = 0;	
 		var gameTiltFB = 0;	
 		function sendOrientationToGameServer() {
+
+			//quick visual to see if throttling messages works
+			document.getElementById("logMessageSend").innerHTML =" ";
+			document.getElementById("logMessageSend").innerHTML = "sending message...... ";
+
 			socket.emit("axis", {axis: "x", accel: gameTiltLR});
 			socket.emit("axis", {axis: "y", accel: gameTiltFB});
 			/*
@@ -183,10 +193,11 @@
 			*/
 
 			// do it again in a few millis...
-			setTimeout(sendOrientationToGameServer, 40);
+			setTimeout(sendOrientationToGameServer, MESSAGE_FREQUENCY);
 		}
 	</script> 
 		<div id="log"></div>
+		<div id="logMessageSend"></div>
 
 </body>
 </html>
