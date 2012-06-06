@@ -2,13 +2,13 @@
 <head>
 	<title>Mass Mobile Hallucination</title>
 	<script src="/socket.io/socket.io.js"></script>
+	<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.5/jquery.min.js"></script>
 	<script>
 		var socket = io.connect('/players');
 
 
-
-		 socket.on('admin', function(data){
-		    alert(data);
+		 socket.on('changeSettings', function(data){
+		    document.getElementById("log").innerHTML =  "message from controller " + JSON.stringify(data);
 		    });
 
 		function left() { socket.emit("left"); }
@@ -33,6 +33,7 @@
 		<input type=button class=bigbutton value="LEFT" onclick="left()" /> 
 		<input type=button class=bigbutton value="RIGHT" onclick="right()" /> 
 	</span>
+	<div id="log"></div>
 </body>
 </html>
 

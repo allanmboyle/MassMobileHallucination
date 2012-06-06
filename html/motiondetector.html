@@ -66,9 +66,16 @@
 	</div>
 	
   	<script src="/socket.io/socket.io.js"></script>
+    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.5/jquery.min.js"></script>
 	<script type="text/javascript">
 		// connect to the game server as a player
         var socket = io.connect('/players');
+
+     		 socket.on('changeSettings', function(data){
+		    document.getElementById("log").innerHTML =  "message from controller " + JSON.stringify(data);
+		    });
+
+
 
 		init3();
 		var count = 0;
@@ -178,11 +185,8 @@
 			// do it again in a few millis...
 			setTimeout(sendOrientationToGameServer, 40);
 		}
-//http://www.html5rocks.com/en/tutorials/device/orientation/
-		
-		// Some other fun rotations to try...
-		//var rotation = "rotate3d(0,1,0, "+ (tiltLR*-1)+"deg) rotate3d(1,0,0, "+ (tiltFB*-1)+"deg)";
-		//var rotation = "rotate("+ tiltLR +"deg) rotate3d(0,1,0, "+ (tiltLR*-1)+"deg) rotate3d(1,0,0, "+ (tiltFB*-1)+"deg)";
 	</script> 
+		<div id="log"></div>
+
 </body>
 </html>
