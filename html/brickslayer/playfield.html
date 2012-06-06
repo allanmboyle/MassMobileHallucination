@@ -8,18 +8,19 @@
     <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.5/jquery.min.js"></script>
   </head>
 
-  <body onload="init();">
+  <body onload="startGame();">
     <canvas id="canvas" width="1000" height="500">
     There is supposed to be an example drawing here, but it's not important.
     </canvas>
      <script>
-        var ctx;
-        var x = 150;
-        var y = 150;
-        var dx = 2;
-        var dy = 4;
-        var WIDTH; 
-        var HEIGHT;
+var x = 140;
+var y = 150;
+var dx = 2;
+var dy = 4;
+var ctx;
+var WIDTH;
+var HEIGHT;
+var intervalId = 0;
 
 function circle(x,y,r) {
   ctx.beginPath();
@@ -40,27 +41,50 @@ function clear() {
 }
 
 function init() {
-
   ctx = $('#canvas')[0].getContext("2d");
   WIDTH = $("#canvas").width()
   HEIGHT = $("#canvas").height()
-    return setInterval(draw, 10);
+  intervalId = setInterval(draw, 10);
+  return intervalId;
+}
+var paddlex;
+var paddleh;
+var paddlew;
+
+function init_paddle() {
+  paddlex = WIDTH / 2;
+  paddleh = 10;
+  paddlew = 75;
 }
 
 function draw() {
   clear();
   circle(x, y, 10);
- 
- //da bounce....
+  rect(paddlex, HEIGHT-paddleh, paddlew, paddleh);
  
   if (x + dx > WIDTH || x + dx < 0)
     dx = -dx;
-  if (y + dy > HEIGHT || y + dy < 0)
+
+  if (y + dy < 0)
     dy = -dy;
+  else if (y + dy > HEIGHT) {
+    if (x > paddlex && x < paddlex + paddlew)
+      dy = -dy;
+    else
+      //game over, so stop the animation
+      clearInterval(intervalId);
+  }
  
   x += dx;
   y += dy;
 }
+
+function startGame()
+{
+  init();
+  init_paddle();
+}
+
     </script>
   </body>
 </html>
