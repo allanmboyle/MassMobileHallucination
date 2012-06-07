@@ -35,7 +35,8 @@
 
      function updateSliderValue(event, ui) {
               var foo = $("#sliderValue");
-         foo.html(ui.value);
+              foo.html(ui.value);
+              userInput = ui.value;
       }
 
   </script>
@@ -52,6 +53,7 @@
 
 <script>
 
+var userInput = 0;
 var x = 140;
 var y = 150;
 var dx = 2;
@@ -98,6 +100,8 @@ function init_paddle() {
 }
 
 function draw() {
+
+    paddlex += userInput;
   clear();
   circle(x, y, 10);
   rect(paddlex, HEIGHT-paddleh, paddlew, paddleh);
