@@ -13,8 +13,14 @@
     <style type="text/css">
     #slider { margin: 10px;
             width: 348px;
-            background-color :Teal;
+            color : Green;
+            border-color : Green;
+             
         }
+   #slider-container .ui-widget-content { border: 1px solid #aaaaaa; background: #dfe5e7;}
+   #slider-container .ui-state-default { border: 1px solid #aaaaaa; background: #ffffff; } 
+#slider-container .ui-state-default { background-image: url('slider-button.png'); } 
+
   </style>
   <script>
       $(document).ready(function () {
@@ -28,9 +34,7 @@
       });
 
      function updateSliderValue(event, ui) {
-
-         var foo = $("#sliderValue");
-        // alert(foo);
+              var foo = $("#sliderValue");
          foo.html(ui.value);
       }
 
@@ -40,8 +44,6 @@
   <body onload="startGame();">
     <div><h1>Score </h1></div>
     <div><h1>Highest Score </h1></div>
-    <div><h1>Highest Score </h1></div>
-    
     <canvas id="canvas" width="1000" height="500">
     There is supposed to be an example drawing here, but it's not important.
     </canvas>
