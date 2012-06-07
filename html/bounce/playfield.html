@@ -2,15 +2,15 @@
 <html>
   <head>
     <title>HTML 5 Canvas example</title>
-    <style type="text/css">
-      canvas { border: 2px solid black; }
-    </style>
+   
       <link href="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8/themes/base/jquery-ui.css" rel="stylesheet" type="text/css"/>
       <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.5/jquery.min.js"></script>
       <script src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8/jquery-ui.min.js"></script>
     
     
     <style type="text/css">
+    canvas { border: 2px solid black; }
+
     #slider { margin: 10px;
             width: 348px;
             color : Green;
@@ -19,8 +19,6 @@
         }
    #slider-container .ui-widget-content { border: 1px solid #aaaaaa; background: #dfe5e7;}
    #slider-container .ui-state-default { border: 1px solid #aaaaaa; background: #ffffff; } 
-#slider-container .ui-state-default { background-image: url('slider-button.png'); } 
-
   </style>
   <script>
       $(document).ready(function () {
@@ -45,7 +43,7 @@
   <body onload="startGame();">
     <div><h1>Score </h1></div>
     <div><h1>Highest Score </h1></div>
-    <canvas id="canvas" width="1000" height="500">
+    <canvas id="canvas" width="800" height="500">
     There is supposed to be an example drawing here, but it's not important.
     </canvas>
  <div id="slider"></div> 
@@ -85,7 +83,7 @@ function init() {
   ctx = $('#canvas')[0].getContext("2d");
   WIDTH = $("#canvas").width()
   HEIGHT = $("#canvas").height()
-  intervalId = setInterval(draw, 10);
+  intervalId = setInterval(drawGameBoard, 10);
   return intervalId;
 }
 
@@ -99,14 +97,37 @@ function init_paddle() {
   paddlew = 75;
 }
 
-function draw() {
+function movePaddle()
+{
+  //apply changes to paddle but make sure it stays inside the box !
 
-    paddlex += userInput;
+  var newpaddlex = paddlex +userInput;
+  if (newpaddlex <0)
+  {
+    newpaddlex = 0;
+  }
+  else if (newpaddlex + paddlew > WIDTH)
+  {
+    newpaddlex = WIDTH - paddlew;
+  }
+  paddlex = newpaddlex;
+
+}
+
+function drawGameBoard() {
+
+  movePaddle();  
+
   clear();
   circle(x, y, 10);
   rect(paddlex, HEIGHT-paddleh, paddlew, paddleh);
  
+   bounce();
 
+}
+
+function bounce()
+{
   if (x + dx > WIDTH || x + dx < 0)
     dx = -dx;
 
@@ -119,10 +140,8 @@ function draw() {
     else
       //game over, so stop the animation
     //  clearInterval(intervalId);
-  
       dy = -dy;
   }
- 
   x += dx;
   y += dy;
 }
