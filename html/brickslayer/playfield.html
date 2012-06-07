@@ -5,13 +5,48 @@
     <style type="text/css">
       canvas { border: 2px solid black; }
     </style>
-    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.5/jquery.min.js"></script>
+      <link href="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8/themes/base/jquery-ui.css" rel="stylesheet" type="text/css"/>
+      <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.5/jquery.min.js"></script>
+      <script src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8/jquery-ui.min.js"></script>
+    
+    
+    <style type="text/css">
+    #slider { margin: 10px;
+            width: 348px;
+            background-color :Teal;
+        }
+  </style>
+  <script>
+      $(document).ready(function () {
+          $("#slider").slider({
+              range: "min",
+              value: 0,
+              min: -5,
+              max: +5,
+              slide: updateSliderValue
+          });
+      });
+
+     function updateSliderValue(event, ui) {
+
+         var foo = $("#sliderValue");
+        // alert(foo);
+         foo.html(ui.value);
+      }
+
+  </script>
+
   </head>
   <body onload="startGame();">
+    <div><h1>Score </h1></div>
+    <div><h1>Highest Score </h1></div>
+    <div><h1>Highest Score </h1></div>
+    
     <canvas id="canvas" width="1000" height="500">
     There is supposed to be an example drawing here, but it's not important.
     </canvas>
-
+ <div id="slider"></div> 
+ <div id="sliderValue"></div> 
 
 <script>
 
