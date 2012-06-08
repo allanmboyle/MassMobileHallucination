@@ -19,6 +19,11 @@
         }
    #slider-container .ui-widget-content { border: 1px solid #aaaaaa; background: #dfe5e7;}
    #slider-container .ui-state-default { border: 1px solid #aaaaaa; background: #ffffff; } 
+
+
+  div.inline { float:left; } 
+
+
   </style>
   <script>
       $(document).ready(function () {
@@ -41,8 +46,10 @@
 
   </head>
   <body onload="startGame();">
-    <div><h1>Score </h1></div>
-    <div><h1>Highest Score </h1></div>
+    <div class="inline" id="score1">Score :</div><div class="inline" id="score">0</div>
+    <br>
+    <div class="inline" id="hscore1">Highest Score  :</div><div class="inline" id="highestScore">0</div>
+<br>
     <canvas id="canvas" width="800" height="500">
     There is supposed to be an example drawing here, but it's not important.
     </canvas>
@@ -51,6 +58,7 @@
 
 <script>
 
+var score = 0;
 var userInput = 0;
 var x = 140;
 var y = 150;
@@ -73,6 +81,7 @@ function circle(x,y,r) {
 function rect(x,y,w,h) {
   ctx.beginPath();
   ctx.rect(x,y,w,h);
+
   ctx.closePath();
   ctx.fill();
 }
@@ -124,7 +133,7 @@ function drawGameBoard() {
   circle(x, y, 10);
   rect(paddlex, HEIGHT-paddleh, paddlew, paddleh);
  
-   bounce();
+  bounce();
 
 }
 
@@ -138,14 +147,26 @@ function bounce()
   else if (y + dy > HEIGHT) 
   {
     if (x > paddlex && x < paddlex + paddlew)
+    {
+
+      score++;
+      ("#score").value()=score;
       dy = -dy;
+    }
     else
+    {
       //game over, so stop the animation
-    //  clearInterval(intervalId);
+
+      clearInterval(intervalId);
+      score =0;
+      startGame();
       dy = -dy;
+    }
   }
   x += dx;
   y += dy;
+
+
 }
 
 function startGame()
