@@ -148,9 +148,8 @@ function bounce()
   {
     if (x > paddlex && x < paddlex + paddlew)
     {
-
       score++;
-      ("#score").value()=score;
+      $("#score").html(score);
       dy = -dy;
     }
     else
