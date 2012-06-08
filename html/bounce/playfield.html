@@ -7,23 +7,18 @@
       <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.5/jquery.min.js"></script>
       <script src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8/jquery-ui.min.js"></script>
     
-    
     <style type="text/css">
-    canvas { border: 2px solid black; }
+      canvas { border: 2px solid black; }
 
-    #slider { margin: 10px;
-            width: 348px;
-            color : Green;
-            border-color : Green;
-             
-        }
-   #slider-container .ui-widget-content { border: 1px solid #aaaaaa; background: #dfe5e7;}
-   #slider-container .ui-state-default { border: 1px solid #aaaaaa; background: #ffffff; } 
-
-
-  div.inline { float:left; } 
-
-
+      #slider { margin: 10px;
+                width: 348px;
+                color : Green;
+                border-color : Green;
+              }
+      #slider-container .ui-widget-content { border: 1px solid #aaaaaa; background: #dfe5e7;}
+      #slider-container .ui-state-default { border: 1px solid #aaaaaa; background: #ffffff; } 
+  
+      div.inline { float:left; } 
   </style>
   <script>
       $(document).ready(function () {
@@ -37,13 +32,10 @@
       });
 
      function updateSliderValue(event, ui) {
-              var foo = $("#sliderValue");
-              foo.html(ui.value);
+              $("#sliderValue").html(ui.value);
               userInput = ui.value;
       }
-
   </script>
-
   </head>
   <body onload="startGame();">
     <div class="inline" id="score1">Score :</div><div class="inline" id="score">0</div>
@@ -55,15 +47,12 @@
     </canvas>
  <div id="slider"></div> 
  <div id="sliderValue"></div> 
-
 <script>
 
 var score = 0;
 var userInput = 0;
 var x = 140;
 var y = 150;
-//var dx = 2;
-//var dy = 4;
 var dx = 1;
 var dy = 2;
 var ctx;
@@ -81,7 +70,6 @@ function circle(x,y,r) {
 function rect(x,y,w,h) {
   ctx.beginPath();
   ctx.rect(x,y,w,h);
-
   ctx.closePath();
   ctx.fill();
 }
@@ -111,7 +99,6 @@ function init_paddle() {
 function movePaddle()
 {
   //apply changes to paddle but make sure it stays inside the box !
-
   var newpaddlex = paddlex +userInput;
   if (newpaddlex <0)
   {
@@ -122,23 +109,20 @@ function movePaddle()
     newpaddlex = WIDTH - paddlew;
   }
   paddlex = newpaddlex;
-
 }
 
 function drawGameBoard() {
 
   movePaddle();  
-
   clear();
   circle(x, y, 10);
-  rect(paddlex, HEIGHT-paddleh, paddlew, paddleh);
- 
-  bounce();
+  rect(paddlex, HEIGHT-paddleh, paddlew, paddleh); 
+  checkBounce();
 
 }
 
-function bounce()
-{
+function checkBounce(){
+
   if (x + dx > WIDTH || x + dx < 0)
     dx = -dx;
 
@@ -156,7 +140,6 @@ function bounce()
     else
     {
       //game over, so stop the animation
-
       clearInterval(intervalId);
       score =0;
       startGame();
@@ -165,8 +148,6 @@ function bounce()
   }
   x += dx;
   y += dy;
-
-
 }
 
 function startGame()
