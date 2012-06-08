@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Mass Mobile Hellucination - Bounce!</title>   
+      <link href="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8/themes/base/jquery-ui.css" rel="stylesheet" type="text/css"/>
+      <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.5/jquery.min.js"></script>
+      <script src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8/jquery-ui.min.js"></script>
+    
+    <style type="text/css">
+      canvas { border: 2px solid black; }
+
+      #slider { margin: 10px;
+                width: 348px;
+                color : Green;
+                border-color : Green;
+              }
+      #slider-container .ui-widget-content { border: 1px solid #aaaaaa; background: #dfe5e7;}
+      #slider-container .ui-state-default { border: 1px solid #aaaaaa; background: #ffffff; } 
+  
+      div.inline { float:left; } 
+  </style>
+  <script>
+      $(document).ready(function () {
+          $("#slider").slider({
+              range: "min",
+              value: 0,
+              min: -5,
+              max: +5,
+              slide: updateSliderValue
+          });
+      });
+
+     function updateSliderValue(event, ui) {
+              $("#sliderValue").html(ui.value);
+              userInput = ui.value;
+      }
+  </script>
+  </head>
+  <body onload="startGame();">
+    <div class="inline" id="score1">Score :</div><div class="inline" id="score">0</div>
+    <br>
+    <div class="inline" id="hscore1">Highest Score  :</div><div class="inline" id="highestScore">0</div>
+<br>
+    <canvas id="canvas" width="800" height="500">
+    There is supposed to be an example drawing here, but it's not important.
+    </canvas>
+ <div id="slider"></div> 
+ <div id="sliderValue"></div> 
+<script>
+
+var score = 0;
+var userInput = 0;
+var x = 140;
+var y = 150;
+var dx = 1;
+var dy = 2;
+var ctx;
+var WIDTH;
+var HEIGHT;
+var intervalId = 0;
+
+function circle(x,y,r) {
+  ctx.beginPath();
+  ctx.arc(x, y, r, 0, Math.PI*2, true);
+  ctx.closePath();
+  ctx.fill();
+}
+
+function rect(x,y,w,h) {
+  ctx.beginPath();
+  ctx.rect(x,y,w,h);
+  ctx.closePath();
+  ctx.fill();
+}
+
+function clear() {
+  ctx.clearRect(0, 0, WIDTH, HEIGHT);
+}
+
+function init() {
+  ctx = $('#canvas')[0].getContext("2d");
+  WIDTH = $("#canvas").width()
+  HEIGHT = $("#canvas").height()
+  intervalId = setInterval(drawGameBoard, 10);
+  return intervalId;
+}
+
+var paddlex;
+var paddleh;
+var paddlew;
+
+function init_paddle() {
+  paddlex = WIDTH / 2;
+  paddleh = 25;
+  paddlew = 75;
+}
+
+function movePaddle()
+{
+  //apply changes to paddle but make sure it stays inside the box !
+  var newpaddlex = paddlex +userInput;
+  if (newpaddlex <0)
+  {
+    newpaddlex = 0;
+  }
+  else if (newpaddlex + paddlew > WIDTH)
+  {
+    newpaddlex = WIDTH - paddlew;
+  }
+  paddlex = newpaddlex;
+}
+
+function drawGameBoard() {
+
+  movePaddle();  
+  clear();
+  circle(x, y, 10);
+  rect(paddlex, HEIGHT-paddleh, paddlew, paddleh); 
+  checkBounce();
+
+}
+
+function checkBounce(){
+
+  if (x + dx > WIDTH || x + dx < 0)
+    dx = -dx;
+
+  if (y + dy < 0)
+    dy = -dy;
+  else if (y + dy > HEIGHT) 
+  {
+    if (x > paddlex && x < paddlex + paddlew)
+    {
+      score++;
+      $("#score").html(score);
+      dy = -dy;
+      dx = 8 * ((x-(paddlex+paddlew/2))/paddlew);
+    }
+    else
+    {
+      //game over, so stop the animation
+      clearInterval(intervalId);
+      score =0;
+      startGame();
+      dy = -dy;
+    }
+  }
+  x += dx;
+  y += dy;
+}
+
+function startGame()
+{
+  init();
+  init_paddle();
+}
+    </script>
+  </body>
+</html>

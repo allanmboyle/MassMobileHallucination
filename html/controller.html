@@ -2,21 +2,21 @@
 <head>
 	<title>Mass Mobile Hallucination</title>
 	<script src="/socket.io/socket.io.js"></script>
+	<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.5/jquery.min.js"></script>
 	<script>
 		var socket = io.connect('/control');
 
 		function broadcast() 
 		{
-			var msg = document.getElementById('message').value;
+			var frequency = document.getElementById('frequency').value;
 
-			socket.emit("controllerMessage", msg);
+			socket.emit("controlPanelMsg", { freq: frequency});
 		}
 	</script>
 </head>
 <body>
 	<h1>Controller</h1>
-	broadcast a message to all clients
-	<input type="text" id="message"/> 
+	Message Sending Frequency<input type="text" id="frequency" value="40"/> 
 	<br/>
 	<span>
 		<input type=button value ="Send" onclick="broadcast()" /> 
