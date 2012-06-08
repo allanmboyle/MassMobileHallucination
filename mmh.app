@@ -26,6 +26,7 @@ server.get('/playfield', function (req, res) { res.sendfile(__dirname + '/html/p
 server.get('/test', function (req, res) { res.sendfile(__dirname + '/html/scaletest.html'); });
 server.get('/motiontest', function (req, res) { res.sendfile(__dirname + '/html/motiondetector.html'); });
 server.get('/control', function (req, res) { res.sendfile(__dirname + '/html/controller.html'); });
+server.get('/bounce', function (req, res) { res.sendfile(__dirname + '/html/bounce/playfield.html'); });
 
 // set up socket handlers (one per namespace)
 var playersConnection = io.of('/players').on('connection', players.playerhandlers);

@@ -110,11 +110,12 @@ function movePaddle()
   paddlex = newpaddlex;
 }
 
+BALL_RADIUS = 50;
 function drawGameBoard() {
 
   movePaddle();  
   clear();
-  circle(x, y, 10);
+  circle(x, y, BALL_RADIUS);
   rect(paddlex, HEIGHT-paddleh, paddlew, paddleh); 
   checkBounce();
 
@@ -122,29 +123,33 @@ function drawGameBoard() {
 
 function checkBounce(){
 
-  if (x + dx > WIDTH || x + dx < 0)
+  if (x + dx > WIDTH - BALL_RADIUS || x + dx < BALL_RADIUS)
     dx = -dx;
 
-  if (y + dy < 0)
+  if (y + dy < BALL_RADIUS) {
     dy = -dy;
-  else if (y + dy > HEIGHT) 
+  }
+  else if (
+		y + dy > HEIGHT - paddleh - BALL_RADIUS 
+		&& y+dy < HEIGHT-paddleh
+		&& x > paddlex && x < paddlex + paddlew)	
+	
   {
-    if (x > paddlex && x < paddlex + paddlew)
-    {
-      score++;
-      $("#score").html(score);
-      dy = -dy;
-      dx = 8 * ((x-(paddlex+paddlew/2))/paddlew);
-    }
-    else
-    {
+    score++;
+    $("#score").html(score);
+    dy = -dy;
+    dx = 8 * ((x-(paddlex+paddlew/2))/paddlew);
+	// you've missed the ball, bozo! (the next else-if clause will kick in>
+  }
+  else if (y + dy > HEIGHT - BALL_RADIUS) 
+  {
       //game over, so stop the animation
       clearInterval(intervalId);
       score =0;
       startGame();
       dy = -dy;
-    }
   }
+
   x += dx;
   y += dy;
 }
