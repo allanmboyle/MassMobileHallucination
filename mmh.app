@@ -19,15 +19,15 @@ server.listen(process.env.PORT || 8080);
 io.set('log level', 3); // turn logging down
 
 // serve up static content images, css etc...
+server.use(express.static(__dirname + '/public')); 
 server.use(express.static(__dirname + '/public/images')); 
-server.use(express.static(__dirname + '/html')); 
 
-server.get('/', function (req, res) { res.sendfile(__dirname + '/html/index.html'); });
-server.get('/playfield', function (req, res) { res.sendfile(__dirname + '/html/playfield.html'); });
-server.get('/test', function (req, res) { res.sendfile(__dirname + '/html/scaletest.html'); });
-server.get('/motiontest', function (req, res) { res.sendfile(__dirname + '/html/motiondetector.html'); });
-server.get('/control', function (req, res) { res.sendfile(__dirname + '/html/controller.html'); });
-server.get('/bounce', function (req, res) { res.sendfile(__dirname + '/html/bounce/playfield.html'); });
+server.get('/', function (req, res) { res.sendfile(__dirname + '/public/index.html'); });
+server.get('/playfield', function (req, res) { res.sendfile(__dirname + '/public/playfield.html'); });
+server.get('/test', function (req, res) { res.sendfile(__dirname + '/public/scaletest.html'); });
+server.get('/motiontest', function (req, res) { res.sendfile(__dirname + '/public/motiondetector.html'); });
+server.get('/control', function (req, res) { res.sendfile(__dirname + '/public/controller.html'); });
+server.get('/bounce', function (req, res) { res.sendfile(__dirname + '/public/bounce/playfield.html'); });
 
 // set up socket handlers (one per namespace)
 var playersConnection = io.of('/players').on('connection', players.playerhandlers);
