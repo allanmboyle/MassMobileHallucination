@@ -14,8 +14,10 @@ var MMH = (function () {
 		socket = io.connect('/players');
 
 		// listen to the admin messages
-		socket.on('changeSettings', function(data){
-		   SEND_FREQUENCY = data.freq;
+		socket.on('admin', function(data){
+			if (data.control == "changeSettings") {
+				SEND_FREQUENCY = data.data.freq;
+			}
 		});
 		
 		listenForAccelerometers();

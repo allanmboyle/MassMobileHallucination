@@ -10,7 +10,11 @@
 		{
 			var frequency = document.getElementById('frequency').value;
 
-			socket.emit("controlPanelMsg", { freq: frequency});
+			socket.emit("admin", { control: "changeSettings", data: {freq: frequency}});
+		}
+		
+		function changeGame() {
+			socket.emit("admin", { control: "changeGame", data: {game: document.getElementById("game").value}})	;
 		}
 	</script>
 </head>
@@ -21,6 +25,9 @@
 	<span>
 		<input type=button value ="Send" onclick="broadcast()" /> 
 	</span>
+	
+	<span> Choose a game (e.g., main, next) <input type=text id=game value="next"/> <input type=button onclick="changeGame()" value="change game" />
+	
 </body>
 </html>
 

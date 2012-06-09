@@ -3,21 +3,6 @@
 	<title>Mass Mobile Hallucination</title>
 	<script src="/socket.io/socket.io.js"></script>
 	<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.5/jquery.min.js"></script>
-	<script>
-		var socket = io.connect('/players');
-
-
-		 socket.on('changeSettings', function(data){
-		    document.getElementById("log").innerHTML =  "message from controller " + JSON.stringify(data);
-		    });
-
-		function left() { socket.emit("left"); }
-		function right() { socket.emit("right"); } 
-
-		function changeName() {
-			socket.emit("namechange", document.getElementById('username').value);
-		}
-	</script>
 	<style>
 		.bigbutton { 
 			width: 100px;
@@ -27,13 +12,49 @@
 	</style>
 </head>
 <body>
-	<h1>The Mass Mobie Hallucination Game.</h1>
-	Your name: <input type=text onchange="changeName()" id=username /> <br/>
-	<span>
-		<input type=button class=bigbutton value="LEFT" onclick="left()" /> 
-		<input type=button class=bigbutton value="RIGHT" onclick="right()" /> 
-	</span>
-	<div id="log"></div>
-</body>
+	<div id="content" > Please use the <a href="/control">control</a> panel to change this.</div>
+	
+	<div id="main" style="visibility: hidden">
+		<h1>The Mass Mobie Hallucination Game.</h1>
+		Your name: <input type=text onchange="changeName()" id=username /> <br/>
+		<span>
+			<input type=button class=bigbutton value="LEFT" onclick="left()" /> 
+			<input type=button class=bigbutton value="RIGHT" onclick="right()" /> 
+		</span>
+		<div id="log"></div>
+		<input type="button" value="NEXT" onclick="next()"></input>
+	</div>
+
+	<div id="next" style="visibility: hidden">
+		next page baby
+	</div>
+	
+	<div id="aidan" style="visibility: hidden">
+		<h1>Aidan rocks</h1>
+	</div>
+	
+	<script>
+		var socket = io.connect('/players');
+
+		socket.on('changeSettings', function(data){
+		    document.getElementById("log").innerHTML =  "message from controller " + JSON.stringify(data);
+		});
+
+		socket.on('changeGame', function(data){
+		    setContent(data.game);
+		});
+
+		function left() { socket.emit("left"); }
+		function right() { socket.emit("right"); } 
+
+		function changeName() {
+			socket.emit("namechange", document.getElementById('username').value);
+		}
+		function setContent(div) {
+			document.getElementById("content").innerHTML = document.getElementById(div).innerHTML;
+		}
+	</script>
+
+	</body>
 </html>
 
