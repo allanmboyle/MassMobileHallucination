@@ -87,16 +87,14 @@ function clear() {
 }
 
 function init() {
-  
-  //alert('init');
-  var x = 140;
-  var y = 150;
-  var dx = 1;
-  var dy = 2;
+   x = 140;
+   y = 150;
+   dx = 1;
+   dy = 2;
   ctx = $('#canvas')[0].getContext("2d");
   WIDTH = $("#canvas").width()
   HEIGHT = $("#canvas").height()
-  intervalId = setInterval(drawGameBoard, 10);
+  intervalId = setInterval(drawGameBoard, 20);
   return intervalId;
 }
 
@@ -163,13 +161,13 @@ function checkBounce(){
   }
   else if (y + dy > HEIGHT - BALL_RADIUS) 
   {
-      //game over, so stop the animation
-      clearInterval(intervalId);
+      //game over, I think it would be good to have a bit of a delay before the next game starts...
 
+      clearInterval(intervalId);
       score =0;
       startGame();
       dy = -dy;
-	  y = BALL_RADIUS;
+	   y = BALL_RADIUS;
   }
 
   x += dx;
@@ -202,7 +200,6 @@ function debugStats(){
     </script>
      <div id="log"></div>
      <div id="log1"></div>
-    <input type=button class=bigbutton value="PAUSE" onclick="pause()" />
-    
+    <input type=button class=bigbutton value="PAUSE" onclick="pause()" />    
    </body>
 </html>
