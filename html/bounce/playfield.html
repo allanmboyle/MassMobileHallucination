@@ -5,10 +5,8 @@
       <link href="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8/themes/base/jquery-ui.css" rel="stylesheet" type="text/css"/>
       <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.5/jquery.min.js"></script>
       <script src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8/jquery-ui.min.js"></script>
-    
-    <style type="text/css">
+  <style type="text/css">
       canvas { border: 2px solid black; }
-
       #slider { margin: 10px;
                 width: 348px;
                 color : Green;
@@ -49,9 +47,8 @@
  <div id="slider"></div> 
  <div id="sliderValue"></div> 
 <script>
-
 var score = 0;
-var highScore = 0;
+var highestScore = 0;
 var userInput = 0;
 var x = 140;
 var y = 150;
@@ -66,13 +63,24 @@ function circle(x,y,r) {
   ctx.beginPath();
   ctx.arc(x, y, r, 0, Math.PI*2, true);
   ctx.closePath();
+  //blue ball
+  ctx.fillStyle   = '#00f';
   ctx.fill();
 }
 
 function rect(x,y,w,h) {
+  //left side red
   ctx.beginPath();
-  ctx.rect(x,y,w,h);
+  ctx.rect(x,y,(w/2),h);
   ctx.closePath();
+  ctx.fillStyle   = '#f00';
+  ctx.fill();
+
+  //right side green
+  ctx.beginPath();
+  ctx.rect((x + (w/2)),y,(w/2),h);
+  ctx.closePath();
+  ctx.fillStyle   = '#0f0';
   ctx.fill();
 }
 
@@ -81,16 +89,14 @@ function clear() {
 }
 
 function init() {
-  
-  //alert('init');
-  var x = 140;
-  var y = 150;
-  var dx = 1;
-  var dy = 2;
+   x = 140;
+   y = 150;
+   dx = 1;
+   dy = 2;
   ctx = $('#canvas')[0].getContext("2d");
   WIDTH = $("#canvas").width()
   HEIGHT = $("#canvas").height()
-  intervalId = setInterval(drawGameBoard, 10);
+  intervalId = setInterval(drawGameBoard, 20);
   return intervalId;
 }
 
@@ -128,7 +134,6 @@ function drawGameBoard() {
   circle(x, y, BALL_RADIUS);
   rect(paddlex, HEIGHT-paddleh, paddlew, paddleh); 
   checkBounce();
-
 }
 
 function checkBounce(){
@@ -137,6 +142,7 @@ function checkBounce(){
   if (x + dx > WIDTH - BALL_RADIUS || x + dx < BALL_RADIUS)
     dx = -dx;
 
+  // Hit the roof
   // Hit the roof
   if (y + dy < BALL_RADIUS) {
     dy = -dy;
@@ -151,6 +157,7 @@ function checkBounce(){
 		)
   {
     score++;
+
     dy = -dy;
     dx = 8 * ((x-(paddlex+paddlew/2))/paddlew);
 	// you've missed the ball, bozo! (the next else-if clause will kick in>
@@ -158,28 +165,24 @@ function checkBounce(){
   else if (y + dy > HEIGHT - BALL_RADIUS) 
   {
       //game over, so stop the animation
+      //game over, I think it would be good to have a bit of a delay before the next game starts...
       clearInterval(intervalId);
-	  if (score > highScore) { highScore = score; }
-	  $("#highestScore").html(highScore);
       score =0;
       startGame();
       dy = -dy;
-	  y = BALL_RADIUS;
+      y = BALL_RADIUS;
   }
 
   x += dx;
   y += dy;
 
 
-if (score > highestScore)
-{
-
-  highestScore = score;
-}
+  if (score > highestScore)
+  {
+    highestScore = score;
+	$("#highestScore").html(highestScore);
+  }
   $("#score").html(score);
-  $("#highestScore").html(highestScore);
-
-
 }
 
 function startGame(){
@@ -194,16 +197,12 @@ function debugStats(){
   var values = 
   'X = ' + x + '   y='+y   + ' dx=' +dx + ' dy=' + dy + '  paddlex=' + paddlex;
       $("#log").html(values);
-
-  var consts = 
-  'WIDTH = ' + WIDTH + '   HEIGHT='+HEIGHT;
+  var consts =  'WIDTH = ' + WIDTH + '   HEIGHT='+HEIGHT;
       $("#log1").html(consts);
-
 }
-
     </script>
      <div id="log"></div>
      <div id="log1"></div>
-    <input type=button class=bigbutton value="PAUSE" onclick="pause()" />
-  </body>
+    <input type=button class=bigbutton value="PAUSE" onclick="pause()" />    
+   </body>
 </html>
