@@ -49,6 +49,7 @@
 <script>
 
 var score = 0;
+var highScore = 0;
 var userInput = 0;
 var x = 140;
 var y = 150;
@@ -110,7 +111,7 @@ function movePaddle()
   paddlex = newpaddlex;
 }
 
-BALL_RADIUS = 90;
+BALL_RADIUS = 110;
 function drawGameBoard() {
 
   movePaddle();  
@@ -150,6 +151,8 @@ function checkBounce(){
   {
       //game over, so stop the animation
       clearInterval(intervalId);
+	  if (score > highScore) { highScore = score; }
+	  $("#highestScore").html(highScore);
       score =0;
       startGame();
       dy = -dy;
