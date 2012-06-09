@@ -6,9 +6,8 @@
       <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.5/jquery.min.js"></script>
       <script src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8/jquery-ui.min.js"></script>
     
-    <style type="text/css">
+  <style type="text/css">
       canvas { border: 2px solid black; }
-
       #slider { margin: 10px;
                 width: 348px;
                 color : Green;
@@ -64,14 +63,31 @@ function circle(x,y,r) {
   ctx.beginPath();
   ctx.arc(x, y, r, 0, Math.PI*2, true);
   ctx.closePath();
+  //blue ball
+  ctx.fillStyle   = '#00f';
   ctx.fill();
 }
 
 function rect(x,y,w,h) {
+
+  //paddle should be hald red and hlaf green
+
+//left side red
   ctx.beginPath();
-  ctx.rect(x,y,w,h);
+  ctx.rect(x,y,(w/2),h);
   ctx.closePath();
+  ctx.fillStyle   = '#f00';
   ctx.fill();
+
+//right side green
+ctx.beginPath();
+  ctx.rect((x + (w/2)),y,(w/2),h);
+  ctx.closePath();
+  ctx.fillStyle   = '#0f0';
+  ctx.fill();
+
+
+
 }
 
 function clear() {
@@ -126,7 +142,6 @@ function drawGameBoard() {
   circle(x, y, BALL_RADIUS);
   rect(paddlex, HEIGHT-paddleh, paddlew, paddleh); 
   checkBounce();
-
 }
 
 function checkBounce(){
@@ -170,13 +185,10 @@ function checkBounce(){
 
 if (score > highestScore)
 {
-
   highestScore = score;
 }
   $("#score").html(score);
   $("#highestScore").html(highestScore);
-
-
 }
 
 function startGame(){
@@ -191,13 +203,9 @@ function debugStats(){
   var values = 
   'X = ' + x + '   y='+y   + ' dx=' +dx + ' dy=' + dy + '  paddlex=' + paddlex;
       $("#log").html(values);
-
-  var consts = 
-  'WIDTH = ' + WIDTH + '   HEIGHT='+HEIGHT;
+  var consts =  'WIDTH = ' + WIDTH + '   HEIGHT='+HEIGHT;
       $("#log1").html(consts);
-
 }
-
     </script>
      <div id="log"></div>
      <div id="log1"></div>
