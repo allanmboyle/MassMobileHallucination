@@ -110,7 +110,7 @@ function movePaddle()
   paddlex = newpaddlex;
 }
 
-BALL_RADIUS = 50;
+BALL_RADIUS = 90;
 function drawGameBoard() {
 
   movePaddle();  
@@ -123,17 +123,22 @@ function drawGameBoard() {
 
 function checkBounce(){
 
+  // Hit a left/right wall
   if (x + dx > WIDTH - BALL_RADIUS || x + dx < BALL_RADIUS)
     dx = -dx;
 
+  // Hit the roof
   if (y + dy < BALL_RADIUS) {
     dy = -dy;
   }
   else if (
-		y + dy > HEIGHT - paddleh - BALL_RADIUS 
-		&& y+dy < HEIGHT-paddleh
-		&& x > paddlex && x < paddlex + paddlew)	
-	
+		// hit a paddle?
+			(y + dy >= HEIGHT - paddleh - BALL_RADIUS 		// ball lower edge will be below the paddle surface
+			&& x+dx >= paddlex && x+dx < paddlex + paddlew)
+		|| 
+			(y + dy >= HEIGHT - paddleh - BALL_RADIUS*.8 	// ball 3rd of the way below the top of the paddle
+			&& (x+dx >= paddlex-BALL_RADIUS && x+dx < paddlex + paddlew + BALL_RADIUS))	// touching a paddle corner
+		)
   {
     score++;
     $("#score").html(score);
@@ -148,6 +153,7 @@ function checkBounce(){
       score =0;
       startGame();
       dy = -dy;
+	  y = BALL_RADIUS;
   }
 
   x += dx;
