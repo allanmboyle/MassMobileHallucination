@@ -141,7 +141,6 @@ function checkBounce(){
 		)
   {
     score++;
-    $("#score").html(score);
     dy = -dy;
     dx = 8 * ((x-(paddlex+paddlew/2))/paddlew);
 	// you've missed the ball, bozo! (the next else-if clause will kick in>
@@ -158,6 +157,8 @@ function checkBounce(){
 
   x += dx;
   y += dy;
+
+  $("#score").html(score);
 }
 
 function startGame()
