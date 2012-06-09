@@ -20,6 +20,7 @@ io.set('log level', 3); // turn logging down
 
 // serve up static content images, css etc...
 server.use(express.static(__dirname + '/public/images')); 
+server.use(express.static(__dirname + '/html')); 
 
 server.get('/', function (req, res) { res.sendfile(__dirname + '/html/index.html'); });
 server.get('/playfield', function (req, res) { res.sendfile(__dirname + '/html/playfield.html'); });

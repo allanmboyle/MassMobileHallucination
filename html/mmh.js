@@ -2,42 +2,38 @@
 //
 // Share functions that are needed by many of the MassMobileHallucination clients. Its
 // main responsiblities are to send
-var MMH = (function (io) {
+var MMH = (function () {
 	
 	var me = {};
 	
 	// 
 	// Public methods
 	// 
-	
-	me.init() {
+
+	me.init = function () {
 		socket = io.connect('/players');
-		init();
+
+		// listen to the admin messages
+		socket.on('changeSettings', function(data){
+		   SEND_FREQUENCY = data.freq;
+		});
+		
+		listenForAccelerometers();
 	}
 
-	me.getOrientation() {
+	me.getOrientation = function () {
 		return accel;
 	}
 
 	//
-	// Private variables
+	// Private stuff
 	//
 	var socket = null;
-	// default to 40ms but can get throttled by the controller
-	var SEND_FREQUENCY = 40;
+	var SEND_FREQUENCY = 40; // gets throttled
 	var accel = {};
 
-	//
-	// Private methods
-	//
-	
-	// listen for setting changes from the controller
-	socket.on('changeSettings', function(data){
-		   SEND_FREQUENCY = data.freq;
-	});
-
-	// start listening for accelerometer changes
-	function init() {
+	// Listening for accelerometer changes
+	function listenForAccelerometers() {
 		if (window.DeviceOrientationEvent) {
 			//document.getElementById("doEvent").innerHTML = "DeviceOrientation";
 			// Listen for the deviceorientation event and handle the raw data
@@ -63,6 +59,7 @@ var MMH = (function (io) {
 			socket.emit("namechange", "iPhone Safarai");
 			sendOrientationToGameServer();
 		} else if (window.OrientationEvent) {
+			alert("This browser needs a little work before it will work properly");
 			//document.getElementById("doEvent").innerHTML = "MozOrientation";
 			window.addEventListener('MozOrientation', function(eventData) {
 				// x is the left-to-right tilt from -1 to +1, so we need to convert to degress
@@ -80,33 +77,36 @@ var MMH = (function (io) {
 				var motUD = eventData.z;
 				
 				storeOrientation(tiltLR, tiltFB, dir, motUD);
+				///??????
 				}, false);
 		} else {
 			//document.getElementById("doEvent").innerHTML = "Not supported on your device or browser.  Sorry."
+			alert("Sorry, your browser doesn't support access to acceleromters");
 		}
 	}
 
 	function storeOrientation(tiltLR, tiltFB, dir, motionUD) {
 		accel = {
-			tiltLR: gameTiltLR,
-			tiltFB: gameTiltFB,
-			dir: gameDir,
-			motionUD: gameMotionUD
+			tiltLR: tiltLR,
+			tiltFB: tiltFB,
+			dir: dir,
+			motionUD: motionUD
 		}
 	}
 
-	
 	//
 	// This is a periodic function.
 	//
 	function sendOrientationToGameServer() {
-		socket.emit("axis", {axis: "x", accel: accel.tiltLR});
-		socket.emit("axis", {axis: "y", accel: accel.tiltFB});
-		// TODO: send the others
-		
+		// Only send if the data is not null. Its null on some browsers on laptops.
+		if (accel.tiltLR != null) {
+			socket.emit("axis", {axis: "x", accel: accel.tiltLR});
+			socket.emit("axis", {axis: "y", accel: accel.tiltFB});
+			// TODO: send the others
+		}
 		// do it again in a few millis...
 		setTimeout(sendOrientationToGameServer, SEND_FREQUENCY);
 	}
 
 	return me;
-}(io));
+}());

@@ -39,8 +39,9 @@ var start = new Date().getTime();
 
 			// process the player move			
 			for (update in updates) {
-				data = updates[update];
+				var data = updates[update];
 				if (theBoard[data.id]) { // boundary condition on playfield restart
+					// check for directional button presses
 					if (data.dir == "l") {
 						theBoard[data.id].x -= 10;
 					} else if (data.dir == "r") {
