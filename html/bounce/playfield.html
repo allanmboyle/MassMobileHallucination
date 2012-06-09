@@ -113,6 +113,7 @@ function movePaddle()
 BALL_RADIUS = 90;
 function drawGameBoard() {
 
+  debugStats();
   movePaddle();  
   clear();
   circle(x, y, BALL_RADIUS);
@@ -161,11 +162,27 @@ function checkBounce(){
   $("#score").html(score);
 }
 
-function startGame()
-{
+function startGame(){
   init();
   init_paddle();
 }
+function pause(){
+  alert('paused !!');
+}
+function debugStats(){
+  var values = 
+  'X = ' + x + '   y='+y   + ' dx=' +dx + ' dy=' + dy + '  paddlex=' + paddlex;
+      $("#log").html(values);
+
+  var consts = 
+  'WIDTH = ' + WIDTH + '   HEIGHT='+HEIGHT;
+      $("#log1").html(consts);
+
+}
+
     </script>
+     <div id="log"></div>
+     <div id="log1"></div>
+    <input type=button class=bigbutton value="PAUSE" onclick="pause()" />
   </body>
 </html>
