@@ -164,6 +164,7 @@ function checkBounce(){
 		)
   {
     score++;
+
     dy = -dy;
     dx = 8 * ((x-(paddlex+paddlew/2))/paddlew);
 	// you've missed the ball, bozo! (the next else-if clause will kick in>
@@ -210,5 +211,5 @@ function debugStats(){
      <div id="log"></div>
      <div id="log1"></div>
     <input type=button class=bigbutton value="PAUSE" onclick="pause()" />
-  </body>
+   </body>
 </html>
