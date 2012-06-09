@@ -28,6 +28,8 @@
               max: +5,
               slide: updateSliderValue
           });
+		  
+		  startGame();
       });
 
      function updateSliderValue(event, ui) {
@@ -36,7 +38,7 @@
       }
   </script>
   </head>
-  <body onload="startGame();">
+  <body>
     <div class="inline" id="score1">Score :</div><div class="inline" id="score">0</div>
     <br>
     <div class="inline" id="hscore1">Highest Score  :</div><div class="inline" id="highestScore">0</div>
@@ -79,6 +81,12 @@ function clear() {
 }
 
 function init() {
+  
+  //alert('init');
+  var x = 140;
+  var y = 150;
+  var dx = 1;
+  var dy = 2;
   ctx = $('#canvas')[0].getContext("2d");
   WIDTH = $("#canvas").width()
   HEIGHT = $("#canvas").height()
@@ -114,6 +122,7 @@ function movePaddle()
 BALL_RADIUS = 110;
 function drawGameBoard() {
 
+  debugStats();
   movePaddle();  
   clear();
   circle(x, y, BALL_RADIUS);
@@ -142,7 +151,6 @@ function checkBounce(){
 		)
   {
     score++;
-    $("#score").html(score);
     dy = -dy;
     dx = 8 * ((x-(paddlex+paddlew/2))/paddlew);
 	// you've missed the ball, bozo! (the next else-if clause will kick in>
@@ -161,13 +169,41 @@ function checkBounce(){
 
   x += dx;
   y += dy;
+
+
+if (score > highestScore)
+{
+
+  highestScore = score;
+}
+  $("#score").html(score);
+  $("#highestScore").html(highestScore);
+
+
 }
 
-function startGame()
-{
+function startGame(){
   init();
   init_paddle();
 }
+
+function pause(){
+  alert('paused !!');
+}
+function debugStats(){
+  var values = 
+  'X = ' + x + '   y='+y   + ' dx=' +dx + ' dy=' + dy + '  paddlex=' + paddlex;
+      $("#log").html(values);
+
+  var consts = 
+  'WIDTH = ' + WIDTH + '   HEIGHT='+HEIGHT;
+      $("#log1").html(consts);
+
+}
+
     </script>
+     <div id="log"></div>
+     <div id="log1"></div>
+    <input type=button class=bigbutton value="PAUSE" onclick="pause()" />
   </body>
 </html>
