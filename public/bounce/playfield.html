@@ -5,6 +5,7 @@
       <link href="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8/themes/base/jquery-ui.css" rel="stylesheet" type="text/css"/>
       <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.5/jquery.min.js"></script>
       <script src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8/jquery-ui.min.js"></script>
+      <script src="animation.js"></script>
   <style type="text/css">
       canvas { border: 2px solid black; }
       #slider { margin: 10px;
@@ -47,6 +48,7 @@
  <div id="slider"></div> 
  <div id="sliderValue"></div> 
 <script>
+
 var score = 0;
 var highestScore = 0;
 var userInput = 0;
@@ -59,41 +61,15 @@ var WIDTH;
 var HEIGHT;
 var intervalId = 0;
 
-function circle(x,y,r) {
-  ctx.beginPath();
-  ctx.arc(x, y, r, 0, Math.PI*2, true);
-  ctx.closePath();
-  //blue ball
-  ctx.fillStyle   = '#00f';
-  ctx.fill();
-}
-
-function rect(x,y,w,h) {
-  //left side red
-  ctx.beginPath();
-  ctx.rect(x,y,(w/2),h);
-  ctx.closePath();
-  ctx.fillStyle   = '#f00';
-  ctx.fill();
-
-  //right side green
-  ctx.beginPath();
-  ctx.rect((x + (w/2)),y,(w/2),h);
-  ctx.closePath();
-  ctx.fillStyle   = '#0f0';
-  ctx.fill();
-}
-
-function clear() {
-  ctx.clearRect(0, 0, WIDTH, HEIGHT);
-}
-
 function init() {
    x = 140;
    y = 150;
    dx = 1;
    dy = 2;
+
   ctx = $('#canvas')[0].getContext("2d");
+
+  ANIMATION.setCanvas(ctx);
   WIDTH = $("#canvas").width()
   HEIGHT = $("#canvas").height()
   intervalId = setInterval(drawGameBoard, 20);
@@ -130,9 +106,18 @@ function drawGameBoard() {
 
   debugStats();
   movePaddle();  
-  clear();
-  circle(x, y, BALL_RADIUS);
-  rect(paddlex, HEIGHT-paddleh, paddlew, paddleh); 
+  ANIMATION.clear(0,0,WIDTH,HEIGHT);
+ 
+  ANIMATION.circle(x,y,BALL_RADIUS,'#00f');
+  //red half of paddle
+
+  var padwidth = (paddlew / 2) ;
+  var padheight = HEIGHT-paddleh;
+
+  ANIMATION.rectangle(paddlex, padheight, padwidth, paddleh,'#f00'); 
+  //green half of paddle
+  ANIMATION.rectangle((paddlex + padwidth), padheight, padwidth, paddleh,'#0f0'); 
+
   checkBounce();
 }
 
