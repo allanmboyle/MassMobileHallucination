@@ -19,42 +19,38 @@
   <h1>Detecting Mouse Movements<h1>
   <div id="bigbigbox"></div>
   <p id="msg"></p>
+  <br>
+  <p id="msg1"></p>
 	<script type="text/javascript">
    var lastmousex=-1;
    var lastmousey=-1;
+   
+   var currentmousex =-1;
+   var currentmousey =-1;
 
+//as the mouse moves store the  current position..
 	$('#bigbigbox').mousemove(function(event) {
 
-		var mousex= event.pageX;
-		var mousey= event.pageY;
+		currentmousex= event.pageX;
+		currentmousey= event.pageY;
 
      	var msg = 'mousemove() position - x : ' + event.pageX 
 	  			 + ', y : ' + event.pageY 
 
 	  $('#msg').text(msg);
-
-	  	lastmousex = mousex;
-	  	lastmousey = mousey;
-
-
-
-// distance - speed / time
-
- // var mrefreshinterval = 500; // update display every 500ms
- // var lastmousex=-1; 
- // var lastmousey=-1;
- // var lastmousetime;
- // var mousetravel = 0;
- // $('html').mousemove(function(e) {
- //     var mousex = e.pageX;
- //     var mousey = e.pageY;
- //     if (lastmousex > -1)
- //         mousetravel += Math.max( Math.abs(mousex-lastmousex), Math.abs(mousey-lastmousey) );
- //     lastmousex = mousex;
- //     lastmousey = mousey;
- // });
-
 	});
+
+//periodically calculate the x AND Y velocity
+window.setInterval(calcVelocity, 500); 
+
+var i = 1;
+function calcVelocity()
+{
+
+ $('#msg1').text('velocity is ' + i);
+ i++;
+}
+
 </script>
 </body>
 </html>
