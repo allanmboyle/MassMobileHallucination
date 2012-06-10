@@ -1,0 +1,69 @@
+<html>
+<head>
+	<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.5/jquery.min.js"></script>
+	<style>
+	#bigbigbox{
+		margin:16px 16px 16px 48px;
+		border:1px groove blue;
+		background-color : #BBBBBB;
+		width:300px;
+		height:200px;
+	}
+	#msg{
+		color:#800000;
+	}
+</style>
+ 
+</head>
+<body>
+  <h1>Detecting Mouse Movements<h1>
+  <div id="bigbigbox"></div>
+  <p id="msg"></p>
+  <br>
+  <p id="msg1"></p>
+	<script type="text/javascript">
+   var lastmousex=-1;
+   var lastmousey=-1;
+   
+   var currentmousex =-1;
+   var currentmousey =-1;
+
+//as the mouse moves store the  current position..
+	$('#bigbigbox').mousemove(function(event) {
+
+		currentmousex= event.pageX;
+		currentmousey= event.pageY;
+
+     	var msg = 'mousemove() position - x : ' + event.pageX 
+	  			 + ', y : ' + event.pageY 
+
+	  $('#msg').text(msg);
+	});
+
+//periodically calculate the x AND Y velocity
+window.setInterval(calcVelocity, 500); 
+
+var i = 1;
+function calcVelocity()
+{
+
+   var x= currentmousex;
+   var y = currentmousey;
+
+   var dx = currentmousex - lastmousex;
+   var dy = currentmousey - lastmousey;
+
+   speedx = dx/500;
+   speedy = dy/500;
+
+   lastmousex= currentmousex;
+   lastmousey = currentmousey;
+
+
+ $('#msg1').text('x velocity is ' + speedx + '&&   y velocity is ' + speedy);
+ i++;
+}
+
+</script>
+</body>
+</html>
