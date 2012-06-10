@@ -87,6 +87,8 @@ var MMH = (function () {
 		}
 	}
 
+	// This is just the last change recorded. The last one recorded gets sent
+	// according to the throttle.
 	function storeOrientation(tiltLR, tiltFB, dir, motionUD) {
 		accel = {
 			tiltLR: tiltLR,
@@ -100,12 +102,14 @@ var MMH = (function () {
 	// This is a periodic function.
 	//
 	function sendOrientationToGameServer() {
+		socket.emit("accel", accel);
+		
 		// Only send if the data is not null. Its null on some browsers on laptops.
-		if (accel.tiltLR != null) {
-			socket.emit("axis", {axis: "x", accel: accel.tiltLR});
-			socket.emit("axis", {axis: "y", accel: accel.tiltFB});
-			// TODO: send the others
-		}
+		//if (accel.tiltLR != null) {
+		//	socket.emit("axis", {axis: "x", accel: accel.tiltLR});
+		//	socket.emit("axis", {axis: "y", accel: accel.tiltFB});
+		//	// TODO: send the others
+		//}
 		// do it again in a few millis...
 		setTimeout(sendOrientationToGameServer, SEND_FREQUENCY);
 	}

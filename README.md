@@ -11,6 +11,8 @@ regular client pointed http://localhost:8080... and have a play around!
 
 TODOs
 =====
+o collate different update types
+o use a smaller socket.id to save bandwidth
 x group updates and send periodically to playfield.
 o write the REAL game
 x Fix the type in the repo name.
@@ -18,22 +20,26 @@ x get a basic socket.io example working so I know how it works
 x static file server for the mobile page and graphics - USED EXPRESS
 x set up game viewing page
 x socket commands for receving updated screen positions for online viewer
-o set up server on Heroku
-- game engine to play the game - MOVING TO CLIENT
+x set up server on Heroku
+x game engine to play the game - moved to client
 x and update based on input and actions.
 x sign up page to put in your name.
 x Test controls with two buttons Left Right
 o Gets accelerometer detection working for iphone/android and windows mobile
 x sockets for receiving telematray data from mobiles
-o give a diffent page for each mobile controller
+x give a diffent page for each mobile controller
 
 Games
 =====
 o flying stars
 o tetris
 o tug of war?
-o capture the bricks
-o 
+o capture the bricks - run, get bricks, bring back to home base.
+o debate with worm
+o real helicopter
+o capture the flag - someone has the flag
+o rowers rowing
+o choose your own adventure
 
 The Model
 =========

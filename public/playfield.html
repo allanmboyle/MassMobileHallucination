@@ -30,6 +30,16 @@
 			updateBoard();
         });
 
+		// tell playfield server we don't want totals to be sent
+		socket.emit("admin", "no_totals");
+		
+		/*
+		 * Getting just the totals
+		 */
+		socket.on('totals', function (totals) {
+			alert("got the totals");
+		});
+		
         socket.on('updates', function (updates) {
 			// record the change for stats
 			numberOfCalls += updates.length;
@@ -40,48 +50,41 @@ var start = new Date().getTime();
 			// process the player move			
 			for (update in updates) {
 				var data = updates[update];
-				if (theBoard[data.id]) { // boundary condition on playfield restart
-					// check for directional button presses
-					if (data.dir == "l") {
-						theBoard[data.id].x -= 10;
-					} else if (data.dir == "r") {
-						theBoard[data.id].x += 10;
-					} else if (data.dir == "u") {
-						theBoard[data.id].y -= 10;
-					} else if (data.dir == "d") {
-						theBoard[data.id].y += 10;
-					} 
 
-					// acceleration particle instead.
-					// convert a value from -90 to +90 into a range of -10 to 10 and move the acceleration towards it
-					if (data.axis == "x") { 
-
-						var val = parseInt(data.accel) / 90 * 10; 
-						var accel = theBoard[data.id].xaccel;
-						var delta = Math.abs(accel - val) * .2; // how fast to move towards the new accel
-						if (val > accel) { theBoard[data.id].xaccel += delta; }
-						else { theBoard[data.id].xaccel -= delta; }
-
-						theBoard[data.id].x += theBoard[data.id].xaccel * 2;
-						document.getElementById("log").innerHTML = "val " + val + " accel " + accel + " delta " + delta + " x " + theBoard[data.id].x;
-
-					} else if (data.axis == "y") {
-						var val = parseInt(data.accel) / 90 * 10; 
-						var accel = theBoard[data.id].yaccel;
-						var delta = Math.abs(accel - val) * .2; // how fast to move towards the new accel
-						if (val > accel) { theBoard[data.id].yaccel += delta; }
-						else { theBoard[data.id].yaccel -= delta; }
-
-						theBoard[data.id].y += theBoard[data.id].yaccel * 2;
-						document.getElementById("log2").innerHTML = "val " + val + " accel " + accel + " delta " + delta + " y " + theBoard[data.id].y;
-					}
-
-					// don't let them go off the board
-					if (theBoard[data.id].y > MAX_Y) { theBoard[data.id].y = MAX_Y; } 
-					if (theBoard[data.id].x > MAX_X) { theBoard[data.id].x = MAX_X; } 
-					if (theBoard[data.id].y < 0) { theBoard[data.id].y = 0; } 
-					if (theBoard[data.id].x < 0) { theBoard[data.id].x = 0; } 
+				if (!theBoard[data.id]) { // boundary condition on playfield restart
+					continue;
 				}
+				
+				//
+				// Algorithm: convert a value from -90 to +90 into a range of -10 to 10 and 
+				// 			  move the acceleration towards it.
+				//
+				
+				// left right tilt acceleration
+				var val = parseInt(data.accel.tiltLR) / 90 * 10; 
+				var accel = theBoard[data.id].xaccel;
+				var delta = Math.abs(accel - val) * .2; // how fast to move towards the new accel
+				if (val > accel) { theBoard[data.id].xaccel += delta; }
+				else { theBoard[data.id].xaccel -= delta; }
+
+				theBoard[data.id].x += theBoard[data.id].xaccel * 2;
+				document.getElementById("log").innerHTML = "val " + val + " accel " + accel + " delta " + delta + " x " + theBoard[data.id].x;
+
+				// Forward back tilt acceleration
+				var val = parseInt(data.accel.tiltFB) / 90 * 10; 
+				var accel = theBoard[data.id].yaccel;
+				var delta = Math.abs(accel - val) * .2; // how fast to move towards the new accel
+				if (val > accel) { theBoard[data.id].yaccel += delta; }
+				else { theBoard[data.id].yaccel -= delta; }
+
+				theBoard[data.id].y += theBoard[data.id].yaccel * 2;
+				document.getElementById("log2").innerHTML = "val " + val + " accel " + accel + " delta " + delta + " y " + theBoard[data.id].y;
+
+				// don't let them go off the board
+				if (theBoard[data.id].y > MAX_Y) { theBoard[data.id].y = MAX_Y; } 
+				if (theBoard[data.id].x > MAX_X) { theBoard[data.id].x = MAX_X; } 
+				if (theBoard[data.id].y < 0) { theBoard[data.id].y = 0; } 
+				if (theBoard[data.id].x < 0) { theBoard[data.id].x = 0; } 
 			}
 
 			updateBoard();
@@ -147,6 +150,7 @@ times ++;
 
 		// every second see how many user updates were received		
 		var lastCount = 0;
+		
 		function stats() {
 			callsInThisPeriod = numberOfCalls - lastCount;
 			document.getElementById("stats").innerHTML = callsInThisPeriod;
@@ -173,6 +177,7 @@ times ++;
 <div id="log2"></div>
 <script>
 	stats();
+	
 </script>
 </body>
 </html>
