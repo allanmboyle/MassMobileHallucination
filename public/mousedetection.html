@@ -47,7 +47,20 @@ var i = 1;
 function calcVelocity()
 {
 
- $('#msg1').text('velocity is ' + i);
+   var x= currentmousex;
+   var y = currentmousey;
+
+   var dx = currentmousex - lastmousex;
+   var dy = currentmousey - lastmousey;
+
+   speedx = dx/500;
+   speedy = dy/500;
+
+   lastmousex= currentmousex;
+   lastmousey = currentmousey;
+
+
+ $('#msg1').text('x velocity is ' + speedx + '&&   y velocity is ' + speedy);
  i++;
 }
 
