@@ -1,0 +1,60 @@
+<html>
+<head>
+	<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.5/jquery.min.js"></script>
+	<style>
+	#bigbigbox{
+		margin:16px 16px 16px 48px;
+		border:1px groove blue;
+		background-color : #BBBBBB;
+		width:300px;
+		height:200px;
+	}
+	#msg{
+		color:#800000;
+	}
+</style>
+ 
+</head>
+<body>
+  <h1>Detecting Mouse Movements<h1>
+  <div id="bigbigbox"></div>
+  <p id="msg"></p>
+	<script type="text/javascript">
+   var lastmousex=-1;
+   var lastmousey=-1;
+
+	$('#bigbigbox').mousemove(function(event) {
+
+		var mousex= event.pageX;
+		var mousey= event.pageY;
+
+     	var msg = 'mousemove() position - x : ' + event.pageX 
+	  			 + ', y : ' + event.pageY 
+
+	  $('#msg').text(msg);
+
+	  	lastmousex = mousex;
+	  	lastmousey = mousey;
+
+
+
+// distance - speed / time
+
+ // var mrefreshinterval = 500; // update display every 500ms
+ // var lastmousex=-1; 
+ // var lastmousey=-1;
+ // var lastmousetime;
+ // var mousetravel = 0;
+ // $('html').mousemove(function(e) {
+ //     var mousex = e.pageX;
+ //     var mousey = e.pageY;
+ //     if (lastmousex > -1)
+ //         mousetravel += Math.max( Math.abs(mousex-lastmousex), Math.abs(mousey-lastmousey) );
+ //     lastmousex = mousex;
+ //     lastmousey = mousey;
+ // });
+
+	});
+</script>
+</body>
+</html>
