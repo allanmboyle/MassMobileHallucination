@@ -19,12 +19,10 @@
 	// Canvas center points.
 	var canvasCenterX = CANVAS_WIDTH / 2;
 	var canvasCenterY = CANVAS_HEIGHT / 2;
-	// Object to hold mouse information.
     
     var mouseArrow = new MouseArrow();
 
-    //alert('test');
-	//
+	// Object to hold mouse information.
 	var mouse = 
 	{
 		x:0,
@@ -86,12 +84,8 @@
 	}
 	// JQuery ready - start here
 	$(function() 
-	{
-		// Initialization. Since arrow is a singleton, need to set initalization values.
-		mouseArrow.setCanvas(canvas);
-      	mouseArrow.centerX = canvasCenterX;
-		mouseArrow.centerY = canvasCenterY;
-		mouseArrow.mouse = mouse;
+	{		
+		mouseArrow.init(canvas,canvasCenterX,canvasCenterY,mouse);
 		// Timer for animation.
 		setInterval(function() 
 		{
