@@ -6,16 +6,18 @@
 	<script>
 		var socket = io.connect('/control');
 
-		function throttle() 
-		{
+		// An admin function that goes to the players
+		function throttle() {
 			var frequency = document.getElementById('frequency').value;
-
 			socket.emit("admin", { control: "changeSettings", data: {freq: frequency}});
 		}
 		
+		// Tells the whole system to change the game to a different one. Effects the 
+		// playfield and the player
 		function changeGame(theGame) {
-			socket.emit("admin", { control: "changeGame", data: {game: theGame}});
+			socket.emit("changeGame", theGame);
 		}
+		
 	</script>
 </head>
 <body bgcolor="#ffccee">
