@@ -1,5 +1,5 @@
 
-var ARROW = (function () {
+function MouseArrow () {
 
 	// The arrow drawing we are rotating.
 	var arrow = 
@@ -62,6 +62,5 @@ var ARROW = (function () {
 			_canvas.restore();
 	  	}
 	}	// end arrow		
-
 	return arrow;
-}());
+}
