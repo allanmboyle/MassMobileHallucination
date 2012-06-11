@@ -23,13 +23,16 @@
 			document.getElementById("doTiltLR").innerHTML = Math.round(accel.tiltLR);
 		}
 		</script>
-		
+		<div style="background-color: hotpink; height: 100%; width: 100%">
 		COLOR HERE.
+		</div>
 	</section>
 
 	<section id="brickout" style="display: none">
+		<div style="background-color: lime; height: 100%; width: 100%">
 		<h1>The brickout game</h1>
 		Most of these games will actually have the same controller. So it won't change anything... 
+		</div>
 	</section>
 
 	<section id="tilt" style="display: none">
@@ -55,9 +58,6 @@
 		socket.on('changeGame', function (game){
 		    changeGame(game);
 		});
-
-		//	function left() { socket.emit("left"); }
-		//	function right() { socket.emit("right"); } 
 	
 		// Change the game on request of the controller and initialize the screens and data
 		function changeGame(gameName) {
@@ -72,7 +72,6 @@
 		}
 		
 		function changeName() {
-			alert("game change");
 			socket.emit("namechange", document.getElementById('username').value);
 		}
 

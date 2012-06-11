@@ -39,16 +39,9 @@ connections = {
 	controller:	io.of('/control').on('connection', controller.sockethandlers)
 }
 
-// pass the playfield to the players module so they can tell the players where they have moved.
-// THIS JUST IN: I don't think this is necessary anymore. They just need to be "required" in those modules
-// players.setPlayfield(playfield);
-
 // pass the player list to both modules as this is the main server state.
 players.setPlayers(playerList);
 playfield.setPlayers(playerList);
-
-//controller.setConnection(playersConnection);
-//playfield.setConnection(playfieldConnection);
 
 // start the timer that periodically sends player updates to the playfield
 playfield.startUpdates();
