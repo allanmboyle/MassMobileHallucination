@@ -69,9 +69,10 @@
 			var section = gameConfig[gameName].section;
 			var initFunction = gameConfig[gameName].func;
 			
+			// change in the new section content
 			document.getElementById("main").innerHTML = document.getElementById(section).innerHTML;
-			//if (window[initFunction]) window[initFunction]();
-			initFunction(); // 
+			// call the init function (as specified)
+			initFunction(); 
 		}
 		
 		function initTilt() {
