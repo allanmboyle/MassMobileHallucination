@@ -17,10 +17,14 @@
 		function emit() {
 			for (p in players) {
 				// move them both up and down
-				if (Math.round(Math.random()) == 0) { players[p].socket.emit("left"); } else { players[p].socket.emit("right"); }
-				if (Math.round(Math.random()) == 0) { players[p].socket.emit("up"); } else { players[p].socket.emit("down"); }	
+				accel = {
+					tiltLR: Math.random()*180-90,
+					tiltFB: Math.random()*180-90,
+					dir: Math.random()*180,
+					motionUD: Math.random()*90
+				}
+				players[p].socket.emit("accel", accel);
 			}
-
 			setTimeout(emit, 200);
 		}
 

@@ -41,9 +41,8 @@
 	</section>
 
 	<section id="redgreen" style="display: none">
-		<div style="background-color: gold; height: 100%; width: 100%">
-			<span style="background-color: red; width: 50%">red</span><span style="background-color: green; width: 50%">green</span>
-		</div>
+		<div style="background-color: green; height: 100%; width: 50%; float: right"></div>
+		<div style="background-color: red; height: 100%; width: 50%; float: left"></div>
 	</section>
 	
 	<script>
@@ -72,7 +71,7 @@
 			
 			document.getElementById("main").innerHTML = document.getElementById(section).innerHTML;
 			//if (window[initFunction]) window[initFunction]();
-			initFunction();
+			initFunction(); // 
 		}
 		
 		function initTilt() {
