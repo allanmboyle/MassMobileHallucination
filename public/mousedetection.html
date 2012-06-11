@@ -19,9 +19,10 @@
 	// Canvas center points.
 	var canvasCenterX = CANVAS_WIDTH / 2;
 	var canvasCenterY = CANVAS_HEIGHT / 2;
-	// Object to hold mouse information.
+    
+    var mouseArrow = new MouseArrow();
 
-	//
+	// Object to hold mouse information.
 	var mouse = 
 	{
 		x:0,
@@ -68,7 +69,7 @@
 	{
 		if (trackMouse)
 		{
-			ARROW.update();
+			mouseArrow.update();
 		}
 	}
 	// Draw the views
@@ -79,16 +80,12 @@
 		canvas.strokeRect(0, 0, CANVAS_WIDTH, CANVAS_HEIGHT);
 		canvas.fillStyle = "#ccc";
 		canvas.fillRect(.5, .5, CANVAS_WIDTH-1, CANVAS_HEIGHT-1);
-      	ARROW.draw();
+      	mouseArrow.draw();
 	}
 	// JQuery ready - start here
 	$(function() 
-	{
-		// Initialization. Since arrow is a singleton, need to set initalization values.
-		ARROW.setCanvas(canvas);
-      	ARROW.centerX = canvasCenterX;
-		ARROW.centerY = canvasCenterY;
-		ARROW.mouse = mouse;
+	{		
+		mouseArrow.init(canvas,canvasCenterX,canvasCenterY,mouse);
 		// Timer for animation.
 		setInterval(function() 
 		{

@@ -1,5 +1,5 @@
 
-var ARROW = (function () {
+function MouseArrow () {
 
 	// The arrow drawing we are rotating.
 	var arrow = 
@@ -16,6 +16,14 @@ var ARROW = (function () {
 		_dy:0,
 		_canvas:null,
 
+		init: function(canvas,centerX,centerY,m)
+		{
+			mouse = m;
+			_canvas = canvas;
+			this.centerX = centerX;
+			this.centerY = centerY;
+		},
+
 		update: function()
 		{
 			// Distance from mouse x and center of canvas.
@@ -24,11 +32,6 @@ var ARROW = (function () {
 			this._dy = mouse.y - this.centerY; 
 			// Radians for the canvas rotate method.
 			this._radians = Math.atan2(this._dy,this._dx);
-		},
-
-		setCanvas: function(c)
-		{
-			_canvas = c;
 		},
 
 		draw: function() // Draw.
@@ -62,6 +65,5 @@ var ARROW = (function () {
 			_canvas.restore();
 	  	}
 	}	// end arrow		
-
 	return arrow;
-}());
+}
