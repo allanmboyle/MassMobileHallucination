@@ -1,98 +1,40 @@
 <!DOCTYPE HTML>
-<html>
-<head>
-<meta charset="UTF-8">
-<script language="javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.6.4/jquery.min.js" type="text/javascript"></script>
-<script src="mousemotion.js" type="text/javascript"></script>
-<title>HTML5 Canvas Based Animation Rotate Arrow To Mouse Position</title>
-</head>
-<body>
-<div>
-<p>Click canvas to start and stop. Move mouse to rotate arrow.</div>
-<canvas id="canvas" width=200 height=200></canvas>
-<script type='text/javascript'>
-    var canvas=$('#canvas')[0].getContext("2d");
-	var canvasElement=$('#canvas')[0];
-    var CANVAS_WIDTH = $("#canvas").width()
-    var CANVAS_HEIGHT = $("#canvas").height()
-	var FPS = 30;	// Frames per second
-	// Canvas center points.
-	var canvasCenterX = CANVAS_WIDTH / 2;
-	var canvasCenterY = CANVAS_HEIGHT / 2;
+<html>    
+    <head>
+        <meta charset="UTF-8">
+        <script language="javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.6.4/jquery.min.js"
+        type="text/javascript"></script>
+        <script src="mousemotioncontrol.js" type="text/javascript"></script>
+        <title>HTML5 Canvas Based Animation Rotate Arrow To Mouse Position</title>
+    </head>
     
-    var mouseArrow = new MouseArrow();
+    <body>
+        <div>
+            <p>Click canvas to start and stop. Move mouse to rotate arrow.</div>
+        <canvas
+        id="canvas" width=200 height=200></canvas>
+            <script type='text/javascript'>
+                var canvas = $('#canvas')[0].getContext("2d");
+                var canvasElement = $('#canvas')[0];
+                var CANVAS_WIDTH = $("#canvas").width()
+                 var CANVAS_HEIGHT = $("#canvas").height()
+                //frames per second
+                var FPS = 30;
+                // Canvas center points.
+                var canvasCenterX = CANVAS_WIDTH / 2;
+                var canvasCenterY = CANVAS_HEIGHT / 2;
+                var mouseArrow = new MouseArrow();
 
-	// Object to hold mouse information.
-	var mouse = 
-	{
-		x:0,
-		y:0
-	};
-	// State for playing or not playing the animations.
-	var trackMouse = false;
+                // JQuery ready - start here
+                $(function () {
+                    mouseArrow.init(canvas, canvasCenterX, canvasCenterY, canvasElement);
+                    // Timer for animation.
+                    setInterval(function () {
+                        mouseArrow.updatePosition();
+                        mouseArrow.drawArrow();
+                    }, 1000 / FPS);
+                });
+            </script>
+    </body>
 
-	canvasElement.addEventListener("mousemove", mouseMove, false);
-	canvasElement.addEventListener("mouseup", mouseUp, false);
-
-	// Handler for mouseMove events. Computes mouseX and mouseY properties.
-	function mouseUp(e)
-	{
-		trackMouse  = !trackMouse;
-	}
-	// Handler for mouseMove events. Computes mouseX and mouseY properties.
-	function mouseMove(e)
-	{
-		if (e.pageX)   
-		{
-			mouse.x = e.pageX;
-		} 
-			else if (e.clientX)   
-		{
-			mouse.x = e.clientX + document.body.scrollLeft
-		  		+ document.documentElement.scrollLeft;
-		}
-		mouse.x = mouse.x - canvasElement.offsetLeft;
-		if (e.pageY)   
-		{
-			mouse.y = e.pageY;
-		} 
-		else if (e.clientY)   
-		{
-			mouse.y = e.clientY + document.body.scrollTop
-		  		+ document.documentElement.scrollTop;
-		}
-		mouse.y = mouse.y - canvasElement.offsetTop;
-	}
-	
-	// Update the model data.
-	function update() 
-	{
-		if (trackMouse)
-		{
-			mouseArrow.update();
-		}
-	}
-	// Draw the views
-	function draw() 
-	{
-		canvas.clearRect(0, 0, CANVAS_WIDTH, CANVAS_HEIGHT);
-		canvas.strokeStyle = "red";
-		canvas.strokeRect(0, 0, CANVAS_WIDTH, CANVAS_HEIGHT);
-		canvas.fillStyle = "#ccc";
-		canvas.fillRect(.5, .5, CANVAS_WIDTH-1, CANVAS_HEIGHT-1);
-      	mouseArrow.draw();
-	}
-	// JQuery ready - start here
-	$(function() 
-	{		
-		mouseArrow.init(canvas,canvasCenterX,canvasCenterY,mouse);
-		// Timer for animation.
-		setInterval(function() 
-		{
-			update();
-			draw();
-		}, 1000/FPS);
-	});
-</script>
-</body>
 </html>

@@ -73,7 +73,6 @@ function MouseArrow() {
             _canvas.strokeRect(0, 0, CANVAS_WIDTH, CANVAS_HEIGHT);
             _canvas.fillStyle = "#ccc";
             _canvas.fillRect(.5, .5, CANVAS_WIDTH - 1, CANVAS_HEIGHT - 1);
-
             // Draw off canvas
             _canvas.save();
             //Translate canvas to center
