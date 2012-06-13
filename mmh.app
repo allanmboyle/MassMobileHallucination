@@ -21,6 +21,7 @@ io.set('log level', 3); // turn logging down
 // serve up static content images, css etc...
 server.use(express.static(__dirname + '/public')); 
 server.use(express.static(__dirname + '/public/images')); 
+server.use(express.static(__dirname + '/public/lib')); 
 
 // Give some things nice names
 server.get('/', function (req, res) { res.sendfile(__dirname + '/public/index.html'); });
