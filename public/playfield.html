@@ -37,28 +37,26 @@
 		// default starting game
 		changeGame("fairy");
 
-		// 
 		// Generic playfield functions
-		//
 		socket.on("changeGame", function (newGame) { changeGame(newGame); });
+		
+		// Pass these on to the game
+		socket.on('updates', function (updates) { currentGame.processPositionUpdates(updates); });
+        socket.on('newuser', function (data) 	{ currentGame.newUser(data); });
+        socket.on('woosout', function (data) 	{ currentGame.woosOut(data); });
+		socket.on('players', function (players) { currentGame.initPlayers(players);	});
+		socket.on("admin", function (message) 	{ currentGame.admin(message);
+		});
 
+		//socket.on('namechange', function (data) { nameChange(data); });
+		
 		function changeGame(newGame) {
-			alert("changing the game??");
 			// change the currentGame to new game and shutdown the old one.
 			if (currentGame) currentGame.shutdown();
 			currentGame = gameConfig[newGame].module;
 			document.getElementById("main").innerHTML = document.getElementById(gameConfig[newGame].section).innerHTML;
 			currentGame.init(socket);
 		}
-
-		socket.on('players', function (players) {
-			currentGame.initPlayers(players);
-		});
-
-		socket.on("admin", function (message) {
-			// dispatch the admin message to the game
-			currentGame.admin(message);
-		});
     </script>
 </body>
 </html>
