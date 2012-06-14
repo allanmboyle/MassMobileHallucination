@@ -33,6 +33,7 @@
 		var gameConfig = {}
 		gameConfig.fairy = {section: "fairy", module: FairyPlayfield};
 		gameConfig.worm =  {section: "worm", module: WormPlayfield};
+		gameConfig.maze =  {section: "maze", module: null};
 
 		// default starting game
 		changeGame("fairy");
@@ -53,9 +54,9 @@
 		function changeGame(newGame) {
 			// change the currentGame to new game and shutdown the old one.
 			if (currentGame) currentGame.shutdown();
-			currentGame = gameConfig[newGame].module;
 			document.getElementById("main").innerHTML = document.getElementById(gameConfig[newGame].section).innerHTML;
-			currentGame.init(socket);
+			currentGame = gameConfig[newGame].module;
+			if (currentGame) currentGame.init(socket);
 		}
     </script>
 </body>

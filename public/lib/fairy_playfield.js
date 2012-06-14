@@ -16,7 +16,6 @@ var FairyPlayfield = (function () {
 	me.woosOut = function (data) 	{ woosOut(data) }
 	me.players = function (players) { players(data) }
 	me.updates = function (updates) { processPositionUpdates(updates) }
-	me.shutdown = function () { }
 	me.admin = function(message) { alert("Fairy playfield got an admin message: " + messages); 	}
 	
 	me.init = function (theSocket) {
@@ -24,8 +23,17 @@ var FairyPlayfield = (function () {
 		
 		// tell the server we don't want totals (only real time updates)
 		socket.emit("admin", "no_totals");
-		
+
+		// Start the timer that measures timing statistics
 		stats();
+		
+		// redraw the board when we come back here. On the first time it might do nothing.
+		updateBoard(); 
+	}
+
+	me.shutdown = function () { 
+		// stop the stats timer
+		clearTimeout(timer);
 	}
 	
 	// place players randomly on the screen
@@ -170,6 +178,7 @@ var FairyPlayfield = (function () {
 
 	// every second see how many user updates were received		
 	var lastCount = 0;
+	var timer = null;
 	
 	// write the stats to the playfield
 	function stats() {
@@ -180,7 +189,7 @@ var FairyPlayfield = (function () {
 		document.getElementById("timer").innerHTML = totalTime/times;
 		totalTime=0;times=0;
 
-		setTimeout(stats, 1000);
+		timer = setTimeout(stats, 1000);
 	}
 	
 	return me;
