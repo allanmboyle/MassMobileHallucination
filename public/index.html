@@ -9,10 +9,15 @@
 		<h1>The Mass Mobie Hallucination Game.</h1>
 		Your name: <input type=text onchange="changeName()" id=username /> <br/>
 		<span>
-			<input type=button class=bigbutton value="LEFT" onclick="left()" /> 
-			<input type=button class=bigbutton value="RIGHT" onclick="right()" /> 
+			<input type=button class=bigbutton value="LEFT" onclick="MMH.left()" /> 
+			<input type=button class=bigbutton value="RIGHT" onclick="MMH.right()" /> 
 		</span>
 		<div id="log"></div>
+		<script type="text/javascript">
+		// temp  measure i'll be swapping in the mouse control here...
+		MMH.init(io);
+		MMH.tempInitKeyboardUser();
+		</script>
 	</div>
 
 	<section id="color" style="display:none">

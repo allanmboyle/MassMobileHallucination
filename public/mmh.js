@@ -27,6 +27,18 @@ var MMH = (function () {
 		return accel;
 	}
 
+	me.left = function() {
+     	storeOrientation(-90, 0, 0, 0);
+ 	}
+
+    me.right =function () {
+     	storeOrientation(90, 0, 0, 0);
+ 	}
+
+    me.tempInitKeyboardUser =function () {
+     	sendOrientationToGameServer;
+ 	}
+
 	//
 	// Private stuff
 	//
