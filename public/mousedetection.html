@@ -13,6 +13,7 @@
             <p>Click canvas to start and stop. Move mouse to rotate arrow.</div>
         <canvas
         id="canvas" width=200 height=200></canvas>
+        <div id="log">
             <script type='text/javascript'>
                 var canvas = $('#canvas')[0].getContext("2d");
                 var canvasElement = $('#canvas')[0];
@@ -32,6 +33,10 @@
                     setInterval(function () {
                         mouseArrow.updatePosition();
                         mouseArrow.drawArrow();
+                        var pos = mouseArrow.position();
+                        var radians = mouseArrow.radians();
+                         var angle = mouseArrow.angle();
+                        $("#log").html('X: ' +pos.x + ' Y:' +pos.y + ' radians: '+radians + ' angle: ' + angle);
                     }, 1000 / FPS);
                 });
             </script>

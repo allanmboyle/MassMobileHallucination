@@ -66,6 +66,11 @@ function MouseArrow() {
             }
         },
 
+        position: function() {
+            return this.mouse;
+        },
+
+
         drawArrow: function () // Draw.
         {
             _canvas.clearRect(0, 0, CANVAS_WIDTH, CANVAS_HEIGHT);

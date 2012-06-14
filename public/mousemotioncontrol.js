@@ -9,6 +9,7 @@ function MouseArrow() {
         y: -25,
         // Starting y
         _radians: 0,
+        _angle :0,
         // Rotation value required for the canvas rotate method.
         centerX: 0,
         // Center x point on canvas to draw
@@ -25,6 +26,15 @@ function MouseArrow() {
 
         mouseUp: function (e) {
             trackMouse = !trackMouse;
+        },
+        position: function () {
+            return mouse;
+        },
+        radians: function () {
+            return this._radians;
+        },
+        angle: function () {
+            return this._angle;
         },
         mouseMove: function (e) {
             if (e.pageX) {
@@ -63,6 +73,8 @@ function MouseArrow() {
                 this._dy = mouse.y - this.centerY;
                 // Radians for the canvas rotate method.
                 this._radians = Math.atan2(this._dy, this._dx);
+
+                this._angle = this._radians * (180/Math.PI);
             }
         },
 
