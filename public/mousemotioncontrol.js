@@ -27,11 +27,24 @@ function MouseArrow() {
         mouseUp: function (e) {
             trackMouse = !trackMouse;
         },
-        position: function () {
-            return mouse;
-        },
-        radians: function () {
-            return this._radians;
+        direction: function () {
+
+            x = this._angle;
+
+            if (x >= -45 && x <= 45) { 
+              return 'RIGHT' ;
+            } 
+            else if (x <= -45 && x >= -135) { 
+              return 'UP' ;
+            } 
+            else if (x <= 180 && x >= 135) { 
+              return 'LEFT' ;
+            } 
+            else if (x >= -180 && x <= -135) { 
+              return 'LEFT' ;
+            } 
+            return 'DOWN';
+
         },
         angle: function () {
             return this._angle;
