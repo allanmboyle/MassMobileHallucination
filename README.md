@@ -33,13 +33,16 @@ Games
 =====
 o flying stars
 o tetris
-o tug of war?
+o guess the color - collectively
+o tug of war - a pull only lasts for 2 seconds, so must be coordinated. Two halfs of the auditorium
 o capture the bricks - run, get bricks, bring back to home base.
 o debate with worm
 o real helicopter
 o capture the flag - someone has the flag
 o rowers rowing
 o choose your own adventure
+o a grid of 100 iPhones that become a big screen - touchable!
+o maze - small section on your phone, big picture on screen. Race to the end.
 
 The Model
 =========
