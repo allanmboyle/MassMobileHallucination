@@ -33,9 +33,9 @@
                     setInterval(function () {
                         mouseArrow.updatePosition();
                         mouseArrow.drawArrow();
-                        var direction = mouseArrow.direction();
-                         var angle = mouseArrow.angle();
-                        $("#log").html(' direction: '+direction + ' angle: ' + angle);
+                        var angle = mouseArrow.angle();
+                        var orientation = mouseArrow.getOrientation();
+                        $("#log").html(' tiltLR: ' + orientation.tiltLR + ' tiltFB: ' + orientation.tiltFB);
                     }, 1000 / FPS);
                 });
             </script>
