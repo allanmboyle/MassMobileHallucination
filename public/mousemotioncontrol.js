@@ -9,12 +9,15 @@ function MouseArrow() {
         y: -25,
         // Starting y
         _radians: 0,
+        _angle :0,
         // Rotation value required for the canvas rotate method.
         centerX: 0,
         // Center x point on canvas to draw
         centerY: 0,
         // Center y point on canvas to draw.
         mouse: {},
+
+        _orientation :{},
         // Mouse object
         _dx: 0,
         _dy: 0,
@@ -23,8 +26,46 @@ function MouseArrow() {
         // State for playing or not playing the animations.
         trackMouse: null,
 
+
+        getOrientation: function () {
+             x = this._angle;
+
+            if (x >= -45 && x <= 45){ 
+                //right
+              _orientation.tiltLR=90;
+              _orientation.tiltFB=0;
+              return _orientation;
+            } 
+            else if (x <= -45 && x >= -135) { 
+              //up
+              _orientation.tiltLR=0;
+              _orientation.tiltFB=90;
+              return _orientation;
+            } 
+            //left
+            else if (x <= 180 && x >= 135) { 
+              _orientation.tiltLR=-90;
+              _orientation.tiltFB=0;
+              return _orientation;
+            } 
+            else if (x >= -180 && x <= -135) { 
+            //left
+              _orientation.tiltLR=-90;
+              _orientation.tiltFB=0;
+              return _orientation;
+            } 
+              //down
+              _orientation.tiltLR=0;
+              _orientation.tiltFB=-90;
+              return _orientation;
+
+        },
         mouseUp: function (e) {
             trackMouse = !trackMouse;
+        },
+
+        angle: function () {
+            return this._angle;
         },
         mouseMove: function (e) {
             if (e.pageX) {
@@ -46,6 +87,11 @@ function MouseArrow() {
                 x: 0,
                 y: 0
             };
+            _orientation ={ 
+                tiltLR:0,
+                tiltFB:0
+            };
+
             trackMouse = false;
             _canvas = canvas;
             this.centerX = centerX;
@@ -63,6 +109,8 @@ function MouseArrow() {
                 this._dy = mouse.y - this.centerY;
                 // Radians for the canvas rotate method.
                 this._radians = Math.atan2(this._dy, this._dx);
+
+                this._angle = this._radians * (180/Math.PI);
             }
         },
 
