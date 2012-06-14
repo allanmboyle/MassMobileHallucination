@@ -22,7 +22,7 @@ x set up game viewing page
 x socket commands for receving updated screen positions for online viewer
 x set up server on Heroku
 x game engine to play the game - moved to client
-x and update based on input and actions.
+x and update based on inpnceut and actions.
 x sign up page to put in your name.
 x Test controls with two buttons Left Right
 o Gets accelerometer detection working for iphone/android and windows mobile
@@ -43,6 +43,10 @@ o rowers rowing
 o choose your own adventure
 o a grid of 100 iPhones that become a big screen - touchable!
 o maze - small section on your phone, big picture on screen. Race to the end.
+o bounce
+o who wants to be a millionaire - as people get the answers they are kicked out
+o mexican wave
+o memory game - you need to find the matching tiles and you can only turn over one tile at a time
 
 The Model
 =========
