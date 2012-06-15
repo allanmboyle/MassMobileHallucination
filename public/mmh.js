@@ -1,7 +1,8 @@
 // mmh.js
 //
-// Share functions that are needed by many of the MassMobileHallucination clients. Its
-// main responsiblities are to send
+// Share functions that are needed by many of the MassMobileHallucination clients.
+//
+// TODO stop sending movements to server on request. Ie. some games don't need it.
 var MMH = (function () {
 	
 	var me = {};
@@ -20,9 +21,20 @@ var MMH = (function () {
 			}
 		});
 		
-		listenForAccelerometers();
+		if (clientHasAcceleromters()) {
+			listenForAccelerometers();
+		} else {
+			listenForMouseMovements();
+		}
+		
 	}
 
+	// TODO stop sending orientation data. This needs to be called
+	// from the start stop game stuff.
+	me.shutdown = function () {
+		clearTimeout(orientationTimer);
+	}
+	
 	me.getOrientation = function () {
 		return accel;
 	}
@@ -43,8 +55,9 @@ var MMH = (function () {
 	// Private stuff
 	//
 	var socket = null;
-	var SEND_FREQUENCY = 40; // gets throttled
+	var SEND_FREQUENCY = 100; // can get throttled
 	var accel = {};
+	var orientationTimer = null;
 
 	// Listening for accelerometer changes
 	function listenForAccelerometers() {
@@ -99,6 +112,24 @@ var MMH = (function () {
 		}
 	}
 
+	function listenForMouseMovements() {
+		window.onmousemove = function(e) {
+			e = e || window.event;
+			storeOrientation(
+				(e.x / window.innerWidth ) * 180 - 90,
+				(e.y / window.innerHeight ) * 180 - 90,
+				0,
+				0
+			);
+		};
+		
+		sendOrientationToGameServer();
+	}
+	
+	function stopListeningForMouseMove() {
+		document.onmousemove = null;
+	}
+	
 	// This is just the last change recorded. The last one recorded gets sent
 	// according to the throttle.
 	function storeOrientation(tiltLR, tiltFB, dir, motionUD) {
@@ -114,16 +145,27 @@ var MMH = (function () {
 	// This is a periodic function.
 	//
 	function sendOrientationToGameServer() {
+		// send the current data we have
 		socket.emit("accel", accel);
 		
-		// Only send if the data is not null. Its null on some browsers on laptops.
-		//if (accel.tiltLR != null) {
-		//	socket.emit("axis", {axis: "x", accel: accel.tiltLR});
-		//	socket.emit("axis", {axis: "y", accel: accel.tiltFB});
-		//	// TODO: send the others
-		//}
 		// do it again in a few millis...
-		setTimeout(sendOrientationToGameServer, SEND_FREQUENCY);
+		orientationTimer = setTimeout(sendOrientationToGameServer, SEND_FREQUENCY);
+	}
+	
+	/*
+	 * Here we must list all the possible user agents that contain accelerometers.
+	 */
+	function clientHasAcceleromters() {
+		var accelerometerDevices = [
+			"iPhone",
+			"iPod",
+			"iPad"];
+		
+		// TODO support the above array
+		if (navigator.userAgent.indexOf("iPhone") != -1) {
+			return true;
+		}
+		return false;
 	}
 
 	return me;

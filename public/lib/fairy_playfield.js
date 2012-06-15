@@ -2,7 +2,7 @@
  * Mass Mobile Hallucination.
  * Copyright (c) 2012 MYOB Australia Ltd.
  * 
- * Fairy.js - implementation of the fairy game.
+ * Fairy.js - implementation of the fairy game. Client side playfield.
  */
 
 var FairyPlayfield = (function () {
@@ -16,7 +16,7 @@ var FairyPlayfield = (function () {
 	me.woosOut = function (data) 	{ woosOut(data) }
 	me.players = function (players) { players(data) }
 	me.updates = function (updates) { processPositionUpdates(updates) }
-	me.admin = function(message) { alert("Fairy playfield got an admin message: " + messages); 	}
+	me.admin = function(message) 	{ alert("Fairy playfield got an admin message: " + messages); }
 	
 	me.init = function (theSocket) {
 		socket = theSocket;
@@ -66,9 +66,7 @@ var FairyPlayfield = (function () {
 	MAX_X = 900;
 	MAX_Y = 600;
 
-	// tell playfield server we don't want totals to be sent
-	
-	function processPositionUpdates(updates) {
+	me.processPositionUpdates = function (updates) {
 		// record the change for stats
 		numberOfCalls += updates.length;
 
