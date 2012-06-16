@@ -22,7 +22,6 @@ var BouncePlayfield = (function () {
 	
 	me.init = function (theSocket) {
 	
-		alert('bounce init!!');
 		socket = theSocket;
 		
 		// tell the server we don't want totals (only real time updates)
@@ -31,6 +30,14 @@ var BouncePlayfield = (function () {
 		// Start the timer that measures timing statistics
 		stats();
 		
+  		ctx = $('#bouncecanvas')[0].getContext("2d");
+
+		ANIMATION.setCanvas(ctx);
+  		WIDTH = $("#bouncecanvas").width()
+  		HEIGHT = $("#bouncecanvas").height()
+
+  		alert('width is ' + WIDTH);
+
 		// redraw the board when we come back here. On the first time it might do nothing.
 		updateBoard(); 
 	}
@@ -48,6 +55,10 @@ var BouncePlayfield = (function () {
 	//
 	// Privates 
 	//
+
+	var ctx;
+	var WIDTH;
+	var HEIGHT;
 
 	// var theBoard = {};
 	// var numberOfPlayers = 0;

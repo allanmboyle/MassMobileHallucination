@@ -2,9 +2,12 @@
 <head>
 	<title>Playfield</title>
 	<script src="/socket.io/socket.io.js"></script>
+    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.5/jquery.min.js"></script>
+    <script src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8/jquery-ui.min.js"></script>
 	<script src="/lib/fairy_playfield.js"></script>
 	<script src="/lib/worm_playfield.js"></script>
     <script src="/lib/bounce_playfield.js"></script>
+	<script src="/lib/animation.js"></script>
 </head>
 
 <body bgcolor="lightblue">
@@ -33,7 +36,7 @@
 		</div>
 		<div  id="score1">Score :</div><div id="score">0</div><br>
     	<div  id="hscore1">Highest Score  :</div><div  id="highestScore">0</div><br>
-		<canvas id="bounceplayfield" width="900" height="600" bgcolor="gold"></canvas>
+		<canvas id="bouncecanvas" width="900" height="600" bgcolor="gold"></canvas>
 		<div style="width: 100%; background-color: pink">THE END</div>
 		<div id="bouncelog"></div>
 	</section>
