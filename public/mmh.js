@@ -51,6 +51,22 @@ var MMH = (function () {
      	sendOrientationToGameServer;
  	}
 
+	/*
+	 * Here we must list all the possible user agents that contain accelerometers.
+	 */
+	me.clientHasAcceleromters = function() {
+		var accelerometerDevices = [
+			"iPhone",
+			"iPod",
+			"iPad"];
+		
+		// TODO support the above array
+		if (navigator.userAgent.indexOf("iPhone") != -1) {
+			return true;
+		}
+		return false;
+	}
+
 	//
 	// Private stuff
 	//
@@ -152,21 +168,7 @@ var MMH = (function () {
 		orientationTimer = setTimeout(sendOrientationToGameServer, SEND_FREQUENCY);
 	}
 	
-	/*
-	 * Here we must list all the possible user agents that contain accelerometers.
-	 */
-	function clientHasAcceleromters() {
-		var accelerometerDevices = [
-			"iPhone",
-			"iPod",
-			"iPad"];
-		
-		// TODO support the above array
-		if (navigator.userAgent.indexOf("iPhone") != -1) {
-			return true;
-		}
-		return false;
-	}
+
 
 	return me;
 }());

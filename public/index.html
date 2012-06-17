@@ -1,32 +1,76 @@
 <html>
-<head>
-	<title>Mass Mobile Hallucination</title>
-	<script src="/socket.io/socket.io.js"></script>
-	<script src="mmh.js"></script>
-	<script src="mousemotioncontrol.js" type="text/javascript"></script>
-	<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.5/jquery.min.js"></script>
-</head>
-<body>
-	<div id="main" >
-		<h1>The Mass Mobie Hallucination Game.</h1>
-		Your name: <input type=text onchange="changeName()" id=username /> <br/>
-		<span>
-			<input type=button class=bigbutton value="LEFT" onclick="MMH.left()" /> 
-			<input type=button class=bigbutton value="RIGHT" onclick="MMH.right()" /> 
-		</span>
-		<div id="log"></div>
-		<script type="text/javascript">
-		// temp  measure i'll be swapping in the mouse control here...
-		MMH.init(io);
-		MMH.tempInitKeyboardUser();
-		</script>
-            <p>Click canvas to start and stop. Move mouse to rotate arrow.</div>
-        <canvas id="mousecanvas" width=200 height=200></canvas>
-        <div id="log1">
-            <script type='text/javascript'>
-                var mouseArrow = new MouseArrow();
-                // JQuery ready - start here
-                $(function () {
+    
+    <head>
+        <title>Mass Mobile Hallucination</title>
+        <script src="/socket.io/socket.io.js"></script>
+        <script src="mmh.js"></script>
+        <script src="mousemotioncontrol.js" type="text/javascript"></script>
+        <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.5/jquery.min.js"></script>
+    </head>
+    
+    <body>
+        <div id="main">
+            <h1>The Mass Mobie Hallucination Game.</h1>Your name:
+            <input type=text onchange="changeName()"
+            id=username />
+            <br/>
+            <span>
+                <input type=button class=bigbutton value="LEFT" onclick="MMH.left()" />
+                <input type=button class=bigbutton value="RIGHT" onclick="MMH.right()"
+                />
+            </span>
+            <div id="log"></div>
+        </div>
+        <div id="mousecontroller" style="display:none">
+            <p>No accelerometer detected use the mouse instead. Click canvas to start
+                and stop. Move mouse to rotate arrow.
+                <canvas id="mousecanvas" width=200
+                height=200></canvas>
+                <div id="arrowlog"></div>
+        </div>
+        <section id="color" style="display:none">
+            <script type="text/javascript">
+                function drawValues() {
+                    accel = MMH.getOrientation();
+                    document.getElementById("doTiltLR").innerHTML = Math.round(accel.tiltLR);
+                }
+            </script>
+            <div style="background-color: hotpink; height: 100%; width: 100%">COLOR HERE.</div>
+        </section>
+        <section id="brickout" style="display: none">
+            <div style="background-color: lime; height: 100%; width: 100%">
+                <h1>The brickout game</h1>Most of these games will actually have the same
+                controller. So it won't change anything...</div>
+        </section>
+        <section id="tilt" style="display: none">
+            <div style="background-color: gold; height: 100%; width: 100%">BASIC TILT SCREEN. Used for a number of games. (should there be a ball
+                rolling around) or something else to indicate that we are interested in
+                your tilt. Maybe... sometimes mystery is better.</div>
+        </section>
+        <section id="redgreen" style="display: none">
+            <div style="background-color: green; height: 100%; width: 50%; float: right"></div>
+            <div style="background-color: red; height: 100%; width: 50%; float: left"></div>
+        </section>
+        <script>
+            var socket = io.connect('/players');
+
+            socket.on('changeSettings', function (data) {
+                document.getElementById("log").innerHTML = "message from controller " + JSON.stringify(data);
+            });
+
+            socket.on('changeGame', function (game) {
+                changeGame(game);
+            });
+
+
+            CheckForAccelorometer();
+
+            //check for accelerometer support and display mouse arrow if not present
+            function CheckForAccelorometer() {
+                if (!MMH.clientHasAcceleromters()) {
+                    $("#mousecontroller").css('display', 'block');
+
+                    var mouseArrow = new MouseArrow();
                     mouseArrow.init("#mousecanvas");
                     // Timer for animation.
                     setInterval(function () {
@@ -34,96 +78,66 @@
                         mouseArrow.drawArrow();
                         var angle = mouseArrow.angle();
                         var orientation = mouseArrow.getOrientation();
-                        $("#log1").html(' tiltLR: ' + orientation.tiltLR + ' tiltFB: ' + orientation.tiltFB);
+                        $("#arrowlog").html(' tiltLR: ' + orientation.tiltLR + ' tiltFB: ' + orientation.tiltFB);
                     }, 30);
-                });
-            </script>
-	</div>
+                }
+            
+                //TO DO
+                //1. make mousearrow send changes in direction to MMH through an event handler...
+                //2. remove simons mouse detection in MMH once its working....
+            }
 
-	<section id="color" style="display:none">
-		<script type="text/javascript">
 
-		function drawValues() {
-			accel = MMH.getOrientation();
-			document.getElementById("doTiltLR").innerHTML = Math.round(accel.tiltLR);
-		}
-		</script>
-		<div style="background-color: hotpink; height: 100%; width: 100%">
-		COLOR HERE.
-		</div>
-	</section>
+            // Change the game on request of the controller and initialize the screens and data
+            function changeGame(gameName) {
+                // Change the screen and call ainitialization routine;
+                var section = gameConfig[gameName].section;
+                var initFunction = gameConfig[gameName].func;
 
-	<section id="brickout" style="display: none">
-		<div style="background-color: lime; height: 100%; width: 100%">
-		<h1>The brickout game</h1>
-		Most of these games will actually have the same controller. So it won't change anything... 
-		</div>
-	</section>
+                // change in the new section content
+                document.getElementById("main").innerHTML = document.getElementById(section).innerHTML;
+                // call the init function (as specified)
+                initFunction();
+            }
 
-	<section id="tilt" style="display: none">
-		<div style="background-color: gold; height: 100%; width: 100%">
-		BASIC TILT SCREEN. Used for a number of games.
-		(should there be a ball rolling around) or something else to indicate that we
-		are interested in your tilt. Maybe... sometimes mystery is better.
-		</div>
-	</section>
+            function changeName() {
+                socket.emit("namechange", document.getElementById('username').value);
+            }
 
-	<section id="redgreen" style="display: none">
-		<div style="background-color: green; height: 100%; width: 50%; float: right"></div>
-		<div style="background-color: red; height: 100%; width: 50%; float: left"></div>
-	</section>
-	
-	<script>
-		var socket = io.connect('/players');
+            function initTilt() {
+                // start the acceleromters sending
+                MMH.init(io);
+            }
 
-		socket.on('changeSettings', function(data){
-		    document.getElementById("log").innerHTML =  "message from controller " + JSON.stringify(data);
-		});
+            function initColor() {
+                // start the acceleromters sending
+                MMH.init(io);
+            }
 
-		socket.on('changeGame', function (game){
-		    changeGame(game);
-		});
-	
-		// Change the game on request of the controller and initialize the screens and data
-		function changeGame(gameName) {
-			// Change the screen and call ainitialization routine;
-			var section = gameConfig[gameName].section;
-			var initFunction = gameConfig[gameName].func;
-			
-			// change in the new section content
-			document.getElementById("main").innerHTML = document.getElementById(section).innerHTML;
-			// call the init function (as specified)
-			initFunction(); 
-		}
-		
-		function changeName() {
-			socket.emit("namechange", document.getElementById('username').value);
-		}
+            function initRedGreen() {
+                // ask the server what color we are and set the background accordingly.
+            }
 
-		function initTilt() {
-			// start the acceleromters sending
-			MMH.init(io);
-		}
-		
-		function initColor() {
-			// start the acceleromters sending
-			MMH.init(io);
-		}
-		
-		function initRedGreen() {
-			// ask the server what color we are and set the background accordingly.
-			
-		}
+            // What game controllers this file supports. The <div> to show and
+            // any initialization function to call to get it going.
+            var gameConfig = {};
+            gameConfig.worm = {
+                section: "redgreen",
+                func: initTilt
+            };
+            gameConfig.color = {
+                section: "color",
+                func: initColor
+            };
+            gameConfig.fairy = {
+                section: "tilt",
+                func: initTilt
+            };
+            gameConfig.brickout = {
+                section: "redgreen",
+                func: initRedGreen
+            };
+        </script>
+    </body>
 
-		// What game controllers this file supports. The <div> to show and
-		// any initialization function to call to get it going.
-		var gameConfig = {};
-		gameConfig.worm 	= {section: "redgreen", 	func: initTilt};
-		gameConfig.color 	= {section: "color", 	func: initColor};
-		gameConfig.fairy 	= {section: "tilt", 	func: initTilt};
-		gameConfig.brickout = {section: "redgreen",	func: initRedGreen};
-
-	</script>
-	</body>
 </html>
-
