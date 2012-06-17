@@ -26,7 +26,6 @@ var MMH = (function () {
 		} else {
 			listenForMouseMovements();
 		}
-		
 	}
 
 	// temporary way to initialise using without hooking up the default mouse event handler

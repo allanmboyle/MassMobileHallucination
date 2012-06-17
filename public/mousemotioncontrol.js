@@ -1,5 +1,4 @@
 function MouseArrow() {
-
     // The arrow drawing we are rotating.
     var obj = {
         strokeColor: "#8ED6FF",
