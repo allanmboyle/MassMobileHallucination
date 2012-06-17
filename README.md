@@ -11,10 +11,11 @@ regular client pointed http://localhost:8080... and have a play around!
 
 TODOs
 =====
-o collate different update types
+x collate different update types
+o move the players to their own module
 o use a smaller socket.id to save bandwidth
 x group updates and send periodically to playfield.
-o write the REAL game
+x write the REAL game
 x Fix the type in the repo name.
 x get a basic socket.io example working so I know how it works
 x static file server for the mobile page and graphics - USED EXPRESS
@@ -25,7 +26,7 @@ x game engine to play the game - moved to client
 x and update based on inpnceut and actions.
 x sign up page to put in your name.
 x Test controls with two buttons Left Right
-o Gets accelerometer detection working for iphone/android and windows mobile
+x Gets accelerometer detection working for iphone/android and windows mobile
 x sockets for receiving telematray data from mobiles
 x give a diffent page for each mobile controller
 
