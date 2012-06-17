@@ -15,9 +15,8 @@
             id=username />
             <br/>
             <span>
-                <input type=button class=bigbutton value="LEFT" onclick="MMH.left()" />
-                <input type=button class=bigbutton value="RIGHT" onclick="MMH.right()"
-                />
+                <input type=button class=bigbutton value="LEFT"/>
+                <input type=button class=bigbutton value="RIGHT"/>
             </span>
             <div id="log"></div>
         </div>
@@ -74,12 +73,14 @@
             });
 
             //check for accelerometer support and display mouse arrow if not present
-            function checkforAccelerometer() {
+            function initmousedetection() {
 
-                if (!MMH.clientHasAcceleromters()) {
                     $("#mousecontroller").css('display', 'block');
                     var mouseArrow = new MouseArrow();
                     mouseArrow.init("#mousecanvas");
+                    
+                    //send mouse movements to MMH to be processed
+                    mouseArrow.subscribeorientationchanged(MMH.sendMovement);
                     // Timer for animation.
                     setInterval(function () {
                         mouseArrow.updatePosition();
@@ -87,12 +88,8 @@
                         var angle = mouseArrow.angle();
                         var orientation = mouseArrow.getOrientation();
                         $("#arrowlog").html(' tiltLR: ' + orientation.tiltLR + ' tiltFB: ' + orientation.tiltFB);
-                    }, 30);
-                }
+                    }, 20);
             
-                //TO DO
-                //1. make mousearrow send changes in direction to MMH through an event handler...
-                //2. remove simons mouse detection in MMH once its working....
             }
 
             // Change the game on request of the controller and initialize the screens and data
@@ -113,8 +110,16 @@
 
             function initTilt() {
                 // start the acceleromters sending
+            if (MMH.clientHasAcceleromters()) {
                 MMH.init(io);
-                checkforAccelerometer();
+            }
+            else
+            {
+                initmousedetection();
+                MMH.init1(io);
+            }
+
+                
             }
 
             function initColor() {
@@ -127,7 +132,6 @@
             }
 
             changeGame("bounce");
-
 
         </script>
     </body>

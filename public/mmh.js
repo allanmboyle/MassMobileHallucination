@@ -29,6 +29,20 @@ var MMH = (function () {
 		
 	}
 
+	// temporary way to initialise using without hooking up the default mouse event handler
+	// use this method in conjunction with subscribing sendMovement method to the mousemotioncontrol
+	me.init1 = function () {
+		socket = io.connect('/players');
+
+		// listen to the admin messages
+		socket.on('admin', function(data){
+			if (data.control == "changeSettings") {
+				SEND_FREQUENCY = data.data.freq;
+			}
+		});
+				
+	}
+
 	// TODO stop sending orientation data. This needs to be called
 	// from the start stop game stuff.
 	me.shutdown = function () {
@@ -39,16 +53,8 @@ var MMH = (function () {
 		return accel;
 	}
 
-	me.left = function() {
-     	storeOrientation(-90, 0, 0, 0);
- 	}
-
-    me.right =function () {
-     	storeOrientation(90, 0, 0, 0);
- 	}
-
-    me.tempInitKeyboardUser =function () {
-     	sendOrientationToGameServer;
+ 	me.sendMovement= function (tiltLR, tiltFB, dir, motionUD){
+ 		storeOrientation(tiltLR, tiltFB, dir, motionUD) 
  	}
 
 	/*
@@ -168,7 +174,5 @@ var MMH = (function () {
 		orientationTimer = setTimeout(sendOrientationToGameServer, SEND_FREQUENCY);
 	}
 	
-
-
 	return me;
 }());

@@ -9,7 +9,7 @@ function MouseArrow() {
         y: -25,
         // Starting y
         _radians: 0,
-        _angle :0,
+        _angle: 0,
         // Rotation value required for the canvas rotate method.
         centerX: 0,
         // Center x point on canvas to draw
@@ -17,49 +17,47 @@ function MouseArrow() {
         // Center y point on canvas to draw.
         mouse: {},
 
-        _orientation :{},
+        _orientation: {},
         // Mouse object
         _dx: 0,
         _dy: 0,
-        _width:0,
-        _height:0,
+        _width: 0,
+        _height: 0,
         _canvas: null,
         _canvasElement: null,
         // State for playing or not playing the animations.
         trackMouse: null,
-
+        eventAction: null,
 
         getOrientation: function () {
-             x = this._angle;
+            x = this._angle;
 
-            if (x >= -45 && x <= 45){ 
+            if (x >= -45 && x <= 45) {
                 //right
-              _orientation.tiltLR=90;
-              _orientation.tiltFB=0;
-              return _orientation;
-            } 
-            else if (x <= -45 && x >= -135) { 
-              //up
-              _orientation.tiltLR=0;
-              _orientation.tiltFB=90;
-              return _orientation;
-            } 
+                _orientation.tiltLR = 90;
+                _orientation.tiltFB = 0;
+                return _orientation;
+            } else if (x <= -45 && x >= -135) {
+                //up
+                _orientation.tiltLR = 0;
+                _orientation.tiltFB = 90;
+                return _orientation;
+            }
             //left
-            else if (x <= 180 && x >= 135) { 
-              _orientation.tiltLR=-90;
-              _orientation.tiltFB=0;
-              return _orientation;
-            } 
-            else if (x >= -180 && x <= -135) { 
-            //left
-              _orientation.tiltLR=-90;
-              _orientation.tiltFB=0;
-              return _orientation;
-            } 
-              //down
-              _orientation.tiltLR=0;
-              _orientation.tiltFB=-90;
-              return _orientation;
+            else if (x <= 180 && x >= 135) {
+                _orientation.tiltLR = -90;
+                _orientation.tiltFB = 0;
+                return _orientation;
+            } else if (x >= -180 && x <= -135) {
+                //left
+                _orientation.tiltLR = -90;
+                _orientation.tiltFB = 0;
+                return _orientation;
+            }
+            //down
+            _orientation.tiltLR = 0;
+            _orientation.tiltFB = -90;
+            return _orientation;
 
         },
         mouseUp: function (e) {
@@ -84,23 +82,26 @@ function MouseArrow() {
             mouse.y = mouse.y - _canvasElement.offsetTop;
         },
 
+        subscribeorientationchanged: function (fn) {
+            this.eventAction = fn;
+        },
         init: function (name) {
             mouse = {
                 x: 0,
                 y: 0
             };
-            _orientation ={ 
-                tiltLR:0,
-                tiltFB:0
+            _orientation = {
+                tiltLR: 0,
+                tiltFB: 0
             };
 
             trackMouse = false;
-            _canvas =$(name)[0].getContext("2d");;
+            _canvas = $(name)[0].getContext("2d");;
             _canvasElement = $(name)[0];
             _width = $(name).width();
             _height = $(name).height();
-            this.centerX = _width/2;
-            this.centerY = _height/2;
+            this.centerX = _width / 2;
+            this.centerY = _height / 2;
 
 
             _canvasElement.addEventListener("mousemove", this.mouseMove, false);
@@ -116,7 +117,14 @@ function MouseArrow() {
                 // Radians for the canvas rotate method.
                 this._radians = Math.atan2(this._dy, this._dx);
 
-                this._angle = this._radians * (180/Math.PI);
+                this._angle = this._radians * (180 / Math.PI);
+
+                //raise event that orientation has changed
+                if (this.eventAction != null) {
+                    this.getOrientation();
+                    this.eventAction(_orientation.tiltLR, _orientation.tiltFB, 0, 0);
+                }
+
             }
         },
 
@@ -137,7 +145,7 @@ function MouseArrow() {
             _canvas.beginPath();
             // Start point top left of arrow shaft.
             _canvas.moveTo(this.x, this.y);
-            // Top left of arrow shaft plus top left of arrow head.			
+            // Top left of arrow shaft plus top left of arrow head.         
             _canvas.lineTo(this.x + 50, this.y);
             _canvas.lineTo(this.x + 50, this.y - 25);
             // Arrow point.
@@ -146,7 +154,7 @@ function MouseArrow() {
             // Bottom left of arrow head and bottom left of arrow shaft.
             _canvas.lineTo(this.x + 50, this.y + 50);
             _canvas.lineTo(this.x, this.y + 50);
-            // Close the bottom of arrow shaft.			
+            // Close the bottom of arrow shaft.         
             _canvas.lineTo(this.x, this.y);
             _canvas.fillStyle = this.strokeColor;
             _canvas.fill();
