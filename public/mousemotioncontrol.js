@@ -21,6 +21,8 @@ function MouseArrow() {
         // Mouse object
         _dx: 0,
         _dy: 0,
+        _width:0,
+        _height:0,
         _canvas: null,
         _canvasElement: null,
         // State for playing or not playing the animations.
@@ -73,16 +75,16 @@ function MouseArrow() {
             } else if (e.clientX) {
                 mouse.x = e.clientX + document.body.scrollLeft + document.documentElement.scrollLeft;
             }
-            mouse.x = mouse.x - canvasElement.offsetLeft;
+            mouse.x = mouse.x - _canvasElement.offsetLeft;
             if (e.pageY) {
                 mouse.y = e.pageY;
             } else if (e.clientY) {
                 mouse.y = e.clientY + document.body.scrollTop + document.documentElement.scrollTop;
             }
-            mouse.y = mouse.y - canvasElement.offsetTop;
+            mouse.y = mouse.y - _canvasElement.offsetTop;
         },
 
-        init: function (canvas, centerX, centerY, container) {
+        init: function (name) {
             mouse = {
                 x: 0,
                 y: 0
@@ -93,10 +95,14 @@ function MouseArrow() {
             };
 
             trackMouse = false;
-            _canvas = canvas;
-            this.centerX = centerX;
-            this.centerY = centerY;
-            _canvasElement = container;
+            _canvas =$(name)[0].getContext("2d");;
+            _canvasElement = $(name)[0];
+            _width = $(name).width();
+            _height = $(name).height();
+            this.centerX = _width/2;
+            this.centerY = _height/2;
+
+
             _canvasElement.addEventListener("mousemove", this.mouseMove, false);
             _canvasElement.addEventListener("mouseup", this.mouseUp, false);
         },
@@ -116,11 +122,11 @@ function MouseArrow() {
 
         drawArrow: function () // Draw.
         {
-            _canvas.clearRect(0, 0, CANVAS_WIDTH, CANVAS_HEIGHT);
+            _canvas.clearRect(0, 0, _width, _height);
             _canvas.strokeStyle = "red";
-            _canvas.strokeRect(0, 0, CANVAS_WIDTH, CANVAS_HEIGHT);
+            _canvas.strokeRect(0, 0, _width, _height);
             _canvas.fillStyle = "#ccc";
-            _canvas.fillRect(.5, .5, CANVAS_WIDTH - 1, CANVAS_HEIGHT - 1);
+            _canvas.fillRect(.5, .5, _width - 1, _height - 1);
             // Draw off canvas
             _canvas.save();
             //Translate canvas to center
