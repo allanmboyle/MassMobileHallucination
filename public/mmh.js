@@ -21,7 +21,7 @@ var MMH = (function () {
 			}
 		});
 		
-		if (clientHasAcceleromters()) {
+		if (me.clientHasAcceleromters()) {
 			listenForAccelerometers();
 		} else {
 			listenForMouseMovements();

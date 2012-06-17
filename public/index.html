@@ -21,13 +21,7 @@
             </span>
             <div id="log"></div>
         </div>
-        <div id="mousecontroller" style="display:none">
-            <p>No accelerometer detected use the mouse instead. Click canvas to start
-                and stop. Move mouse to rotate arrow.
-                <canvas id="mousecanvas" width=200
-                height=200></canvas>
-                <div id="arrowlog"></div>
-        </div>
+        
         <section id="color" style="display:none">
             <script type="text/javascript">
                 function drawValues() {
@@ -43,15 +37,32 @@
                 controller. So it won't change anything...</div>
         </section>
         <section id="tilt" style="display: none">
-            <div style="background-color: gold; height: 100%; width: 100%">BASIC TILT SCREEN. Used for a number of games. (should there be a ball
+            <div style="background-color: gold; height: 50%; width: 100%">BASIC TILT SCREEN. Used for a number of games. (should there be a ball
                 rolling around) or something else to indicate that we are interested in
                 your tilt. Maybe... sometimes mystery is better.</div>
+            
+                <div id="mousecontroller" style="display:none"> <p>No accelerometer detected use the mouse instead. Click canvas to start
+                and stop. Move mouse to rotate arrow.
+                <canvas id="mousecanvas" width=200
+                height=200></canvas>
+                <div id="arrowlog"></div>
+        </div>
         </section>
         <section id="redgreen" style="display: none">
             <div style="background-color: green; height: 100%; width: 50%; float: right"></div>
             <div style="background-color: red; height: 100%; width: 50%; float: left"></div>
         </section>
         <script>
+            // What game controllers this file supports. The <div> to show and
+            // any initialization function to call to get it going.
+            var gameConfig = {}
+            gameConfig.worm = {section: "redgreen", func: initTilt};
+            gameConfig.color = {section: "color", func: initColor };
+            gameConfig.fairy = {section: "tilt", func: initTilt};
+            gameConfig.bounce = {section: "tilt", func: initTilt};
+            gameConfig.brickout = { section: "redgreen",func: initRedGreen};
+
+
             var socket = io.connect('/players');
 
             socket.on('changeSettings', function (data) {
@@ -62,14 +73,11 @@
                 changeGame(game);
             });
 
-
-            CheckForAccelorometer();
-
             //check for accelerometer support and display mouse arrow if not present
-            function CheckForAccelorometer() {
+            function checkforAccelerometer() {
+
                 if (!MMH.clientHasAcceleromters()) {
                     $("#mousecontroller").css('display', 'block');
-
                     var mouseArrow = new MouseArrow();
                     mouseArrow.init("#mousecanvas");
                     // Timer for animation.
@@ -86,7 +94,6 @@
                 //1. make mousearrow send changes in direction to MMH through an event handler...
                 //2. remove simons mouse detection in MMH once its working....
             }
-
 
             // Change the game on request of the controller and initialize the screens and data
             function changeGame(gameName) {
@@ -107,6 +114,7 @@
             function initTilt() {
                 // start the acceleromters sending
                 MMH.init(io);
+                checkforAccelerometer();
             }
 
             function initColor() {
@@ -118,25 +126,9 @@
                 // ask the server what color we are and set the background accordingly.
             }
 
-            // What game controllers this file supports. The <div> to show and
-            // any initialization function to call to get it going.
-            var gameConfig = {};
-            gameConfig.worm = {
-                section: "redgreen",
-                func: initTilt
-            };
-            gameConfig.color = {
-                section: "color",
-                func: initColor
-            };
-            gameConfig.fairy = {
-                section: "tilt",
-                func: initTilt
-            };
-            gameConfig.brickout = {
-                section: "redgreen",
-                func: initRedGreen
-            };
+            changeGame("bounce");
+
+
         </script>
     </body>
 
