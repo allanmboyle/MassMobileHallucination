@@ -23,7 +23,9 @@ var MMH = (function () {
 		});
 	}
 
-	me.listenForMovements = function () {
+	// listen for movements and start sending them to the server. Optionally
+	// send them to a callback as well.
+	me.listenForMovements = function (clientCallback) {
 		if (me.clientHasAcceleromters()) {
 			startListeningForAccelerometers();
 		} else {
@@ -31,6 +33,9 @@ var MMH = (function () {
 		}
 		
 		me.startSendingOrientationToServer();
+		
+		// save the client callback if they have passed in one.
+		if (clientCallback) clientCallbackFunction = clientCallback; 
 	}
 	
 	// from the start stop game stuff.
@@ -48,13 +53,16 @@ var MMH = (function () {
 		clearTimeout(orientationTimer);
 	}
 	
-		me.getOrientation = function () {
+	me.getOrientation = function () {
 		return accel;
 	}
 
- 	me.sendMovement = function (tiltLR, tiltFB, dir, motionUD){
- 			storeOrientation(tiltLR, tiltFB, dir, motionUD) 
- 	}
+	// SRA: removing because I think MMH should listen for the changes and 
+	// the app should display them if it wants to.
+	
+ 	//me.sendMovement = function (tiltLR, tiltFB, dir, motionUD){
+ 	//		storeOrientation(tiltLR, tiltFB, dir, motionUD) 
+ 	//}
 
 	/*
 	 * Here we must list all the possible user agents that contain accelerometers.
@@ -79,6 +87,7 @@ var MMH = (function () {
 	var SEND_FREQUENCY = 100; // can get throttled
 	var accel = {};
 	var orientationTimer = null;
+	var clientCallbackFunction = null;
 
 	// Listening for accelerometer changes
 	function listenForAccelerometers() {
@@ -161,6 +170,13 @@ var MMH = (function () {
 		// send the current data we have at this point in time 
 		// note, it does not send every reading we have had since the last send.
 		socket.emit("accel", accel);
+		
+		clientMovementCallback(accel);
+	}
+	
+	// Call the cilents call back if they are interested in using the movements.
+	function clientMovementCallback(accel) {
+		if (clientCallbackFunction) clientCallbackFunction(accel);
 	}
 	
 	return me;

@@ -60,7 +60,7 @@
             gameConfig.brickout = {section: "redgreen",func: initRedGreen};
 
 
-            socket = io.connect('/players');
+            var socket = io.connect('/players');
 
             socket.on('changeSettings', function (data) {
                 document.getElementById("log").innerHTML = "message from controller " + JSON.stringify(data);
@@ -72,11 +72,12 @@
 
             // display mouse arrow (used when no acceleromters present)
             function initmousedetection() {
-
+		
                     $("#mousecontroller").css('display', 'block');
                     var mouseArrow = new MouseArrow();
                     mouseArrow.init("#mousecanvas");
-                    
+          
+          
                     //send mouse movements to MMH to be processed
                     mouseArrow.subscribeorientationchanged(MMH.sendMovement);
                     // Timer for animation.
@@ -87,7 +88,7 @@
                         var orientation = mouseArrow.getOrientation();
                         $("#arrowlog").html(' tiltLR: ' + orientation.tiltLR + ' tiltFB: ' + orientation.tiltFB);
                     }, 20);
-            
+         
             }
 
             // Change the game on request of the controller and initialize the screens and data
@@ -107,13 +108,22 @@
                 socket.emit("namechange", document.getElementById('username').value);
             }
 
+			function movementCallback (accel) {
+				mouseArrow.updatePosition(accel.tiltLR, accel.tiltFB);
+				mouseArrow.drawArrow();
+			}
+			
             function initTilt() {
                 // start the acceleromters sending
 				MMH.init(socket);
-				if (!MMH.clientHasAcceleromters()) {
-					initmousedetection();
-				}
-				MMH.listenForMovements();
+				//if (!MMH.clientHasAcceleromters()) {
+				//	initmousedetection();
+				//}
+				$("#mousecontroller").css('display', 'block');
+				mouseArrow = new MouseArrow();
+				mouseArrow.init("#mousecanvas");
+				MMH.listenForMovements(movementCallback);
+				
             }
 
             function initColor() {

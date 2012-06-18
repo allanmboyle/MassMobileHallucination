@@ -107,14 +107,15 @@ function MouseArrow() {
             _canvasElement.addEventListener("mouseup", this.mouseUp, false);
         },
 
-        updatePosition: function () {
-            if (trackMouse) {
+        updatePosition: function (dx, dy) {
+            //if (trackMouse) {
                 // Distance from mouse x and center of canvas.
                 this._dx = mouse.x - this.centerX;
                 // Distance from mouse y and center of canvas.
                 this._dy = mouse.y - this.centerY;
                 // Radians for the canvas rotate method.
                 this._radians = Math.atan2(this._dy, this._dx);
+				this._radians = Math.atan2(dx, dy);
 
                 this._angle = this._radians * (180 / Math.PI);
 
@@ -123,8 +124,7 @@ function MouseArrow() {
                     this.getOrientation();
                     this.eventAction(_orientation.tiltLR, _orientation.tiltFB, 0, 0);
                 }
-
-            }
+            //}
         },
 
         drawArrow: function () // Draw.
