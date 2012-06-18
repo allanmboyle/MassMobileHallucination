@@ -1,5 +1,4 @@
 <html>
-    
     <head>
         <title>Mass Mobile Hallucination</title>
         <script src="/socket.io/socket.io.js"></script>
@@ -35,17 +34,17 @@
                 controller. So it won't change anything...</div>
         </section>
         <section id="tilt" style="display: none">
-            <div style="background-color: gold; height: 50%; width: 100%">BASIC TILT SCREEN. Used for a number of games. (should there be a ball
+            <div style="background-color: gold; height: 100%; width: 100%">BASIC TILT SCREEN. Used for a number of games. (should there be a ball
                 rolling around) or something else to indicate that we are interested in
-                your tilt. Maybe... sometimes mystery is better.</div>
+                your tilt. Maybe... sometimes mystery is better.
             
                 <div id="mousecontroller" style="display:none"> <p>No accelerometer detected use the mouse instead. Click canvas to start
                 and stop. Move mouse to rotate arrow.
-                <canvas id="mousecanvas" width=200
-                height=200></canvas>
-                <div id="arrowlog"></div>
-        </div>
-        </section>
+					<canvas id="mousecanvas" width=200 height=200></canvas>
+					<div id="arrowlog"></div>
+				</div>
+			</div>
+		</section>
         <section id="redgreen" style="display: none">
             <div style="background-color: green; height: 100%; width: 50%; float: right"></div>
             <div style="background-color: red; height: 100%; width: 50%; float: left"></div>
@@ -54,14 +53,14 @@
             // What game controllers this file supports. The <div> to show and
             // any initialization function to call to get it going.
             var gameConfig = {}
-            gameConfig.worm = {section: "redgreen", func: initTilt};
-            gameConfig.color = {section: "color", func: initColor };
-            gameConfig.fairy = {section: "tilt", func: initTilt};
-            gameConfig.bounce = {section: "tilt", func: initTilt};
-            gameConfig.brickout = { section: "redgreen",func: initRedGreen};
+            gameConfig.worm 	= {section: "redgreen", func: initTilt};
+            gameConfig.color 	= {section: "color", func: initColor };
+            gameConfig.fairy 	= {section: "tilt", func: initTilt};
+            gameConfig.bounce 	= {section: "tilt", func: initTilt};
+            gameConfig.brickout = {section: "redgreen",func: initRedGreen};
 
 
-            var socket = io.connect('/players');
+            socket = io.connect('/players');
 
             socket.on('changeSettings', function (data) {
                 document.getElementById("log").innerHTML = "message from controller " + JSON.stringify(data);
@@ -71,7 +70,7 @@
                 changeGame(game);
             });
 
-            //check for accelerometer support and display mouse arrow if not present
+            // display mouse arrow (used when no acceleromters present)
             function initmousedetection() {
 
                     $("#mousecontroller").css('display', 'block');
@@ -103,28 +102,24 @@
                 initFunction();
             }
 
+			// TODO move to MMH.js
             function changeName() {
                 socket.emit("namechange", document.getElementById('username').value);
             }
 
             function initTilt() {
                 // start the acceleromters sending
-            if (MMH.clientHasAcceleromters()) {
-                MMH.init(io);
-            }
-            else
-            {
-                //temp
-                initmousedetection();
-                MMH.init1(io);
-            }
-
-                
+				MMH.init(socket);
+				if (!MMH.clientHasAcceleromters()) {
+					initmousedetection();
+				}
+				MMH.listenForMovements();
             }
 
             function initColor() {
                 // start the acceleromters sending
-                MMH.init(io);
+                MMH.init(socket);
+				MMH.listenForMovements();
             }
 
             function initRedGreen() {
@@ -135,5 +130,4 @@
 
         </script>
     </body>
-
 </html>

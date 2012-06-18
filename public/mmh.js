@@ -11,49 +11,48 @@ var MMH = (function () {
 	// Public methods
 	// 
 
-	me.init = function () {
-		socket = io.connect('/players');
+	me.init = function (playerSocket) {
+		socket = playerSocket;
+		//socket = io.connect('/players'); // SHOULD THIS BE HERE? WILL IT LISTEN MULTIPLE TIMES IF CALLED REPEATADLY?
 
 		// listen to the admin messages
 		socket.on('admin', function(data){
-			if (data.control == "changeSettings") {
+			if (data.control == "changeSettings") { // TODO rename to changeSendFrequency
 				SEND_FREQUENCY = data.data.freq;
 			}
 		});
-		
+	}
+
+	me.listenForMovements = function () {
 		if (me.clientHasAcceleromters()) {
-			listenForAccelerometers();
+			startListeningForAccelerometers();
 		} else {
-			listenForMouseMovements();
+			startListeningForMouseMovements();
 		}
+		
+		me.startSendingOrientationToServer();
 	}
-
-	// temporary way to initialise using without hooking up the default mouse event handler
-	// use this method in conjunction with subscribing sendMovement method to the mousemotioncontrol
-	me.init1 = function () {
-
-		socket = io.connect('/players');
-
-		// listen to the admin messages
-		socket.on('admin', function(data){
-			if (data.control == "changeSettings") {
-				SEND_FREQUENCY = data.data.freq;
-			}
-		});
-		sendOrientationToGameServer();		
-	}
-
-	// TODO stop sending orientation data. This needs to be called
+	
 	// from the start stop game stuff.
 	me.shutdown = function () {
+		stopSendingOrientationToServer();
+		
+	}
+	
+	me.startSendingOrientationToServer = function () {
+		// do it again in a few millis...
+		orientationTimer = setInterval(sendOrientationToGameServer, SEND_FREQUENCY);
+	}
+	
+	me.stopSendingOrientationToServer = function() {
 		clearTimeout(orientationTimer);
 	}
 	
-	me.getOrientation = function () {
+		me.getOrientation = function () {
 		return accel;
 	}
 
- 	me.sendMovement= function (tiltLR, tiltFB, dir, motionUD){
+ 	me.sendMovement = function (tiltLR, tiltFB, dir, motionUD){
  			storeOrientation(tiltLR, tiltFB, dir, motionUD) 
  	}
 
@@ -101,12 +100,7 @@ var MMH = (function () {
 				
 				// call our orientation event handler
 				storeOrientation(tiltLR, tiltFB, dir, motUD);
-
 				}, false);
-
-			// send the current orientation (left/right) periodically to the game server
-			socket.emit("namechange", "iPhone Safarai");
-			sendOrientationToGameServer();
 		} else if (window.OrientationEvent) {
 			alert("This browser needs a little work before it will work properly");
 			//document.getElementById("doEvent").innerHTML = "MozOrientation";
@@ -126,7 +120,6 @@ var MMH = (function () {
 				var motUD = eventData.z;
 				
 				storeOrientation(tiltLR, tiltFB, dir, motUD);
-				///??????
 				}, false);
 		} else {
 			//document.getElementById("doEvent").innerHTML = "Not supported on your device or browser.  Sorry."
@@ -134,7 +127,7 @@ var MMH = (function () {
 		}
 	}
 
-	function listenForMouseMovements() {
+	function startListeningForMouseMovements() {
 		window.onmousemove = function(e) {
 			e = e || window.event;
 			storeOrientation(
@@ -144,11 +137,9 @@ var MMH = (function () {
 				0
 			);
 		};
-		
-		sendOrientationToGameServer();
 	}
 	
-	function stopListeningForMouseMove() {
+	function stopListeningForMouseMovements() {
 		document.onmousemove = null;
 	}
 	
@@ -167,11 +158,9 @@ var MMH = (function () {
 	// This is a periodic function.
 	//
 	function sendOrientationToGameServer() {
-		// send the current data we have
+		// send the current data we have at this point in time 
+		// note, it does not send every reading we have had since the last send.
 		socket.emit("accel", accel);
-		
-		// do it again in a few millis...
-		orientationTimer = setTimeout(sendOrientationToGameServer, SEND_FREQUENCY);
 	}
 	
 	return me;
