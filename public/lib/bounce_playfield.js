@@ -38,30 +38,12 @@ var BouncePlayfield = (function () {
 
         // Start the timer that measures timing statistics
         stats();
-        initSlider();
         internalinit();
 
         setInterval(drawGameBoard, 20);
 
         // redraw the board when we come back here. On the first time it might do nothing.
         updateBoard();
-    }
-
-
-    function initSlider() {
-
-        $("#slider").slider({
-            range: "min",
-            value: 0,
-            min: -5,
-            max: +5,
-            slide: updateSliderValue
-        });
-    }
-
-    function updateSliderValue(event, ui) {
-        $("#sliderValue").html(ui.value);
-        userInput = ui.value;
     }
 
     function internalinit() {
@@ -215,6 +197,27 @@ var BouncePlayfield = (function () {
 
 
     me.processPositionUpdates = function (updates) {
+        // process the player move          
+        for (update in updates) {
+            var data = updates[update];
+        
+        $("#bouncelog").html(JSON.stringify(updates));
+
+        if (data.accel.tiltLR != null){
+
+            // Algorithm: convert a value from -90 to +90 into a range of -10 to 10 and 
+            //            move the acceleration towards it.
+        
+            // left right tilt acceleration
+            
+            var val = parseInt(data.accel.tiltLR) / 90 * 10; 
+        
+        userInput = val;
+        
+        }
+    }
+                  var values = 'userInput = ' + userInput;
+        $("#bouncelog1").html(values);
 
     }
 
