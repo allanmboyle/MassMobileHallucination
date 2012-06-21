@@ -52,7 +52,7 @@
 		 <div id="sliderValue"></div> 
 		<div style="width: 100%; background-color: pink">THE END</div>
 		<div id="bouncelog"></div>
-		<div id="bouncelog2"></div>
+		<div id="bouncelog1"></div>
 	</section>
 
 	<script>
@@ -76,6 +76,7 @@
 		
 		// Pass these on to the game
 		socket.on('updates', function (updates) { currentGame.processPositionUpdates(updates); });
+		socket.on('totals', function (totals) { currentGame.processTotalUpdates(totals); });
         socket.on('newuser', function (data) 	{ currentGame.newUser(data); });
         socket.on('woosout', function (data) 	{ currentGame.woosOut(data); });
 		socket.on('players', function (players) { currentGame.initPlayers(players);	});
