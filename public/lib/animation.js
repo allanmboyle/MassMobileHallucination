@@ -27,6 +27,8 @@ var ANIMATION = (function () {
 
     me.clear =function (x,y,w,h) {
  	 _canvas.clearRect(x, y, w, h);
+ 	 _canvas.fillStyle   = '#FFFFFF'; // set canvas background color
+	_canvas.fillRect  (0,   0, w, h);  // now fill the canvas
 }
 	return me;
 }());

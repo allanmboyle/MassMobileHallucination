@@ -8,6 +8,7 @@
 	<script src="/lib/worm_playfield.js"></script>
     <script src="/lib/bounce_playfield.js"></script>
 	<script src="/lib/animation.js"></script>
+	<link rel="stylesheet" href="../style.css" type="text/css"/>
 </head>
 
 <body bgcolor="lightblue">
@@ -31,26 +32,13 @@
 	</section>
 	
 	<section id=bounce style="display: none">
-		<style type="text/css">
-	/*      canvas { border: 2px solid black; }
-*/	      #slider { margin: 10px;
-	                width: 348px;
-	                color : Green;
-	                border-color : Green;
-	              }
-	      #slider-container .ui-widget-content { border: 1px solid #aaaaaa; background: #dfe5e7;}
-	      #slider-container .ui-state-default { border: 1px solid #aaaaaa; background: #ffffff; } 
-	      div.inline { float:left; } 
-	  	</style>
 		<div style="background-color: grey">
 			Debug Messages go here: <span id="stats"></span></br>
-		</div>//
+		</div>
 		<div  id="score1">Score :</div><div id="score">0</div><br>
     	<div  id="hscore1">Highest Score  :</div><div  id="highestScore">0</div><br>
-		<canvas id="bouncecanvas" width="900" height="400" bgcolor="gold"></canvas>
-		 <div id="slider"></div> 
-		 <div id="sliderValue"></div> 
-		<div style="width: 100%; background-color: pink">THE END</div>
+		<canvas id="bouncecanvas" class="bounce" width="900" height="600"></canvas>
+		 <div style="width: 100%; background-color: pink">THE END</div>
 		<div id="bouncelog"></div>
 		<div id="bouncelog1"></div>
 	</section>

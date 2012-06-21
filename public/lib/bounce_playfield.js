@@ -86,13 +86,14 @@ var BouncePlayfield = (function () {
         paddlex = newpaddlex;
     }
 
-    BALL_RADIUS = 80;
+    BALL_RADIUS = 49;
 
     function drawGameBoard() {
 
         debugStats();
         movePaddle();
         ANIMATION.clear(0, 0, canvasWidth, canvasHeight);
+
 
         //blue ball
         ANIMATION.circle(x, y, BALL_RADIUS, '#00f');
@@ -158,7 +159,7 @@ var BouncePlayfield = (function () {
 
         paddlex = canvasWidth / 2;
         paddleh = 25;
-        paddlew = 75;
+        paddlew = 120;
 
     }
 
