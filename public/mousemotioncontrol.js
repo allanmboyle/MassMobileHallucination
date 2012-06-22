@@ -95,13 +95,13 @@ function MouseArrow() {
             };
 
             trackMouse = false;
-            _canvas = $(name)[0].getContext("2d");;
-            _canvasElement = $(name)[0];
-            _width = $(name).width();
-            _height = $(name).height();
+
+            _canvas = document.getElementById(name).getContext("2d"); 
+            _canvasElement = document.getElementById(name);
+            _width = document.getElementById(name).width;
+            _height = document.getElementById(name).height;
             this.centerX = _width / 2;
             this.centerY = _height / 2;
-
 
             _canvasElement.addEventListener("mousemove", this.mouseMove, false);
             _canvasElement.addEventListener("mouseup", this.mouseUp, false);

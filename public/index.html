@@ -5,7 +5,6 @@
         <script src="/socket.io/socket.io.js"></script>
         <script src="mmh.js"></script>
         <script src="mousemotioncontrol.js" type="text/javascript"></script>
-        <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.5/jquery.min.js"></script>
         <link rel="stylesheet" href="style.css" type="text/css"/>
     </head>
     <body>
@@ -72,26 +71,26 @@
                 changeGame(game);
             });
 
-            // display mouse arrow (used when no acceleromters present)
-            function initmousedetection() {
+            // // display mouse arrow (used when no acceleromters present)
+            // function initmousedetection() {
 		
-                    $("#mousecontroller").css('display', 'block');
-                    var mouseArrow = new MouseArrow();
-                    mouseArrow.init("#mousecanvas");
+            //         $("#mousecontroller").css('display', 'block');
+            //         var mouseArrow = new MouseArrow();
+            //         mouseArrow.init("mousecanvas");
           
           
-                    //send mouse movements to MMH to be processed
-                    mouseArrow.subscribeorientationchanged(MMH.sendMovement);
-                    // Timer for animation.
-                    setInterval(function () {
-                        mouseArrow.updatePosition();
-                        mouseArrow.drawArrow();
-                        var angle = mouseArrow.angle();
-                        var orientation = mouseArrow.getOrientation();
-                        $("#arrowlog").html(' tiltLR: ' + orientation.tiltLR + ' tiltFB: ' + orientation.tiltFB);
-                    }, 20);
+            //         //send mouse movements to MMH to be processed
+            //         mouseArrow.subscribeorientationchanged(MMH.sendMovement);
+            //         // Timer for animation.
+            //         setInterval(function () {
+            //             mouseArrow.updatePosition();
+            //             mouseArrow.drawArrow();
+            //             var angle = mouseArrow.angle();
+            //             var orientation = mouseArrow.getOrientation();
+            //             $("#arrowlog").html(' tiltLR: ' + orientation.tiltLR + ' tiltFB: ' + orientation.tiltFB);
+            //         }, 20);
          
-            }
+            // }
 
             // Change the game on request of the controller and initialize the screens and data
             function changeGame(gameName) {
@@ -101,7 +100,6 @@
 
                 // change in the new section content
                 document.getElementById("main").innerHTML = document.getElementById(section).innerHTML;
-                $('#main').attr('height',$(window).height());
 
                 // call the init function (as specified)
                 initFunction();
@@ -123,9 +121,8 @@
 				//if (!MMH.clientHasAcceleromters()) {
 				//	initmousedetection();
 				//}
-				$("#mousecontroller").css('display', 'block');
 				mouseArrow = new MouseArrow();
-				mouseArrow.init("#mousecanvas");
+				mouseArrow.init("mousecanvas");
 				MMH.listenForMovements(movementCallback);
 				
             }
@@ -140,7 +137,7 @@
                 // ask the server what color we are and set the background accordingly.
             }
 
-            changeGame("fairy");
+            changeGame("bounce");
 
         </script>
     </body>
