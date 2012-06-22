@@ -5,9 +5,10 @@
         <script src="mmh.js"></script>
         <script src="mousemotioncontrol.js" type="text/javascript"></script>
         <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.5/jquery.min.js"></script>
+        <link rel="stylesheet" href="style.css" type="text/css"/>
     </head>
     <body>
-        <div id="main">
+        <div id="main" class="fullscreen">
             <h1>The Mass Mobie Hallucination Game.</h1>Your name:
             <input type=text onchange="changeName()"
             id=username />
@@ -99,6 +100,8 @@
 
                 // change in the new section content
                 document.getElementById("main").innerHTML = document.getElementById(section).innerHTML;
+                $('#main').attr('height',$(window).height());
+
                 // call the init function (as specified)
                 initFunction();
             }

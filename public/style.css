@@ -6,4 +6,18 @@ canvas.bounce {
     display: block; 
 } 
 
+/*The following is required to make a DIV fill screen in IE 9...*/  
+/*give the body height:100% so that its child    elements can have percentage heights*/  
+body{ height:100% }  /*this is what we want the div to look like*/  
+
+div.fullscreen{    display:block;    /*set the div in the top-left corner of the screen*/    
+	position:absolute;    
+	top:0;    
+	left:0;        
+	width:100%;    
+	height:100%;  
+}
+
+
+
 
