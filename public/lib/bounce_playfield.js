@@ -6,6 +6,7 @@
  *
  * 14-06-12 AidanC first version - rewriting bounce to run inside a replaceable div with local variables etc...
  * 21-06-12 AidanC now the paddle responds to mouse movements
+ * 23-06-12 AidanC removing JQuery references
  */
 var BouncePlayfield = (function () {
     var me = {};
@@ -142,16 +143,17 @@ var BouncePlayfield = (function () {
 
         if (score > highestScore) {
             highestScore = score;
-            $("#highestScore").html(highestScore);
+            document.getElementById("highestScore").innerHTML = highestScore;
         }
-        $("#score").html(score);
+        document.getElementById("score").innerHTML = score;
     }
 
     function initialiseGameVariables() {
-        ctx = $('#bouncecanvas')[0].getContext("2d");
+        ctx = document.getElementById("bouncecanvas").getContext("2d"); 
         ANIMATION.setCanvas(ctx);
-        canvasWidth = $("#bouncecanvas").width();
-        canvasHeight = $("#bouncecanvas").height();
+        canvasWidth = document.getElementById("bouncecanvas").width;
+        canvasHeight = document.getElementById("bouncecanvas").height;
+
         x = 140;
         y = 150;
         dx = .5;
@@ -165,10 +167,9 @@ var BouncePlayfield = (function () {
 
     function debugStats() {
         var values = 'X = ' + x + '   y=' + y + ' dx=' + dx + ' dy=' + dy + '  paddlex=' + paddlex;
-        $("#bouncelog").html(values);
+        document.getElementById("bouncelog").innerHTML = values;
         var values = 'userInput = ' + userInput;
-        $("#bouncelog1").html(values);
-
+        document.getElementById("bouncelog1").innerHTML = values;
     }
 
     me.processTotalUpdates = function (totals) {
