@@ -81,8 +81,6 @@
 
                 // default starting game
                 changeGame("fairy");
-                changeGame("bounce");
-
 
                 // Generic playfield functions
                 socket.on("changeGame", function (newGame) {
@@ -91,10 +89,10 @@
 
                 // Pass these on to the game
                 socket.on('updates', function (updates) {
-                    currentGame.processPositionUpdates(updates);
+                    currentGame.positionUpdates(updates);
                 });
                 socket.on('totals', function (totals) {
-                    currentGame.processTotalUpdates(totals);
+                    currentGame.totalUpdates(totals);
                 });
                 socket.on('newuser', function (data) {
                     currentGame.newUser(data);
@@ -109,13 +107,28 @@
                     currentGame.admin(message);
                 });
 
-                //socket.on('namechange', function (data) { nameChange(data); });
                 function changeGame(newGame) {
                     // change the currentGame to new game and shutdown the old one.
                     if (currentGame) currentGame.shutdown();
-                    document.getElementById("main").innerHTML = document.getElementById(gameConfig[newGame].section).innerHTML;
-                    currentGame = gameConfig[newGame].module;
-                    if (currentGame) currentGame.init(socket);
+
+					if (!gameConfig[newGame]) {
+						alert("Game '" + newGame + "' is not supported yet...");
+						return;
+					}
+					
+					if (!document.getElementById(gameConfig[newGame].section)) {
+						alert("Weird, can't find the game section for " + newGame);
+						return;
+					}
+                    
+					document.getElementById("main").innerHTML = document.getElementById(gameConfig[newGame].section).innerHTML;
+	                currentGame = gameConfig[newGame].module;
+	                
+					if (currentGame) { 
+						currentGame.init(socket);
+					} else {
+						alert("Cannot initialize the current game. Maybe its not written yet?");
+					}
                 }
             </script>
     </body>

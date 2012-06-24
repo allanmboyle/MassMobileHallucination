@@ -19,7 +19,8 @@ var socket;
 	me.newUser = function (data) 	{ newUser(data) }
 	me.woosOut = function (data) 	{ woosOut(data) }
 	me.players = function (players) { players(data) }
-	me.updates = function (updates) { processPositionUpdates(updates) }
+	me.positionUpdates = function (updates) { processPositionUpdates(updates) }
+	me.totalUpdates = function (updates) { processTotalUpdates(updates) }
 	me.shutdown = function () { }
 	me.admin = function(message) { alert("Fairy playfield got an admin message: " + messages); 	}	}
 	
@@ -27,5 +28,16 @@ var socket;
 		// can ignore this. Just need totals
 	}
 
+	//
+	// privates
+	//
+	
+	function processPositionUpdates(updates) {
+		// ignoring for now
+	}
+	
+	function processTotalUpdates(updates) {
+		// ignoring for now
+	}
 	return me;
 }());

@@ -24,10 +24,10 @@ var BouncePlayfield = (function () {
     me.players = function (players) {
         players(data)
     }
-    me.processTotalUpdates = function (totals) {
+    me.totalUpdates = function (totals) {
         processTotalUpdates(totals)
     }
-    me.processPositionUpdates = function (totals) {
+    me.positionUpdates = function (updates) {
         processPositionUpdates(updates)
     }
     me.admin = function (message) {
@@ -172,7 +172,7 @@ var BouncePlayfield = (function () {
         document.getElementById("bouncelog1").innerHTML = values;
     }
 
-    me.processTotalUpdates = function (totals) {
+    function processTotalUpdates (totals) {
 
         userInput = 0;
 
@@ -187,7 +187,7 @@ var BouncePlayfield = (function () {
     }
 
 
-    me.processPositionUpdates = function (updates) {
+    function processPositionUpdates (updates) {
         //not used
     }
 

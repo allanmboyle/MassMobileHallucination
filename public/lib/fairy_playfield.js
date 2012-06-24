@@ -12,11 +12,12 @@ var FairyPlayfield = (function () {
 	//
 	// Publics
 	//	
-	me.newUser = function (data) 	{ newUser(data) }
-	me.woosOut = function (data) 	{ woosOut(data) }
-	me.players = function (players) { players(data) }
-	me.updates = function (updates) { processPositionUpdates(updates) }
-	me.admin = function(message) 	{ alert("Fairy playfield got an admin message: " + messages); }
+	me.newUser 			= function (data) 	 { newUser(data) }
+	me.woosOut 			= function (data) 	 { woosOut(data) }
+	me.players 			= function (players) { players(data) }
+	me.positionUpdates 	= function (updates) { processPositionUpdates(updates) }
+	me.totalUpdates 	= function (updates) { processTotalUpdates(updates) }
+	me.admin 			= function (message) { alert("Fairy playfield got an admin message: " + messages); }
 	
 	me.init = function (theSocket) {
 		socket = theSocket;
@@ -66,6 +67,10 @@ var FairyPlayfield = (function () {
 	MAX_X = 900;
 	MAX_Y = 600;
 
+	me.processTotalUpdates = function (updates) {
+		// ignore these. Shouldn't receive too many because the clients are instructed not to send them.
+	}
+	
 	me.processPositionUpdates = function (updates) {
 		// record the change for stats
 		numberOfCalls += updates.length;
