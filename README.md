@@ -11,9 +11,9 @@ regular client pointed http://localhost:8080... and have a play around!
 
 TODOs
 =====
-x collate different update types
 o move the players to their own module
 o use a smaller socket.id to save bandwidth
+x collate different update types
 x group updates and send periodically to playfield.
 x write the REAL game
 x Fix the type in the repo name.
