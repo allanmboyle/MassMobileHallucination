@@ -7,14 +7,15 @@
         <script src="/lib/fairy_playfield.js"></script>
         <script src="/lib/worm_playfield.js"></script>
         <script src="/lib/bounce_playfield.js"></script>
+        <script src="/lib/millionaire_playfield.js"></script>
         <script src="/lib/animation.js"></script>
         <link rel="stylesheet" href="../style.css" type="text/css" />
     </head>
     
     <body bgcolor="lightblue">
         <h1>Mass Mobile Hallucinegenic Playfield</h1>
-        <div id=main>nothing</div>
-        <div id=fairy style="display: none">
+        <div id="main">nothing</div>
+        <div id="fairy" style="display: none">
             <div style="background-color: grey">Messages per second:
                 <span id="stats"></span>
                 </br>Time to process a packet:
@@ -25,6 +26,9 @@
             <div id="log"></div>
             <div id="log2"></div>
         </div>
+        <div id="millionaire" style="display: none">
+            <div style="width: 100%; height: 100%; background-color: red;">Who wants to be a millionaire !!</div>
+        </div> 
         <div id=worm style="display: none">
             <div style="width: 100%; height: 100%; background-color: red;">The worms crawl in and the worms crawl out.</div>
             <div id=bounce style="display: none">
@@ -78,9 +82,14 @@
                     module: BouncePlayfield
                 };
 
+                gameConfig.millionaire = {
+                    section: "millionaire",
+                    module: MillionairePlayfield
+                };
+
 
                 // default starting game
-                changeGame("fairy");
+                changeGame("millionaire");
 
                 // Generic playfield functions
                 socket.on("changeGame", function (newGame) {
