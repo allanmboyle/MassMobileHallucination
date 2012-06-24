@@ -26,6 +26,7 @@ o Time up for a question on screen ! ( wait some more time to habdle the latency
 o Playfield knows the answers , as each question is answered correctly it sends the next one down to the player...
 	- SRA: Nothing is sent to the player, only a You Lose or You Win message. Certainly no need for the answers.
 	- AC I wonder if its worth sending messages like "Q2 has 4 answers A,B,C,D"... this way it can be more easily  reuse this for surveys etc or is this just YAGNI??
+	- That is a great idea to make it a tab more generic. And probably not too hard to do when we are ready so maybe start without and add later.
 
 0 how long does it take to cycle thru all players and message them individually ??
 	- SRA: trivial amount because its all network so its background.
