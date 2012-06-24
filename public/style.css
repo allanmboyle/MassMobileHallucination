@@ -18,6 +18,22 @@ div.fullscreen{    display:block;    /*set the div in the top-left corner of the
 	height:100%;  
 }
 
-
+        #millionaireLeft {
+            position: absolute;
+            left: 0;
+            width: 150px;
+        }
+        #millionaireRight {
+            position: absolute;
+            right: 0;
+            width: 150px;
+        }
+        #millionaireMiddle {
+            margin: 0 150px 0 150px;
+            background-color :Black;
+            font-family: Arial;
+            font-size: xx-large;
+            color: #FFFFFF;
+        }
 
 
