@@ -10,6 +10,7 @@
         <script src="/lib/millionaire_playfield.js"></script>
         <script src="/lib/animation.js"></script>
         <link rel="stylesheet" href="../style.css" type="text/css" />
+        <script type="text/javascript"  src="knockout-2.0.0.js"> </script>
     </head>
     
     <body bgcolor="lightblue">
@@ -35,7 +36,7 @@
             RHS Area
             <br />
             <br />
-            <input type =button value="Next Question" />
+            <input type =button value="Next Question" onclick='MillionairePlayfield.askQuestion();'/>
 
             <br />
             <br />
@@ -61,25 +62,26 @@
 
             <div id="millionaireMiddle">
             <br /><br /><br />
-            <h4 style="text-align: center">What is the capital city of Ireland?</h4>
+
+            <h4 style="text-align: center" data-bind="text: question"></h4>
             <br /><br />
 
             <table style="width: 649px" align=center>
             <tr>
             <td style="color: #FFFFFF;font-size: x-large;">A:</td>
-            <td style="color: #FFFFFF; font-size: medium;" width="45%">A really really really long city name</td>
+            <td style="color: #FFFFFF; font-size: medium;" width="45%" data-bind="text: optionA"></td>
 
             <td style="color: #FFFFFF;font-size: x-large;">B:</td>
-            <td style="color: #FFFFFF; font-size: medium;" width="45%">A really really really long city name</td>
+            <td style="color: #FFFFFF; font-size: medium;" width="45%" data-bind="text: optionB"></td>
 
             </tr> 
             
             <tr>
             <td style="color: #FFFFFF;font-size: x-large;">C:</td>
-            <td style="color: #FFFFFF; font-size: medium;" width="45%">A really really really long city name</td>
+            <td style="color: #FFFFFF; font-size: medium;" width="45%" data-bind="text: optionC"></td>
 
             <td style="color: #FFFFFF;font-size: x-large;">D:</td>
-            <td style="color: #FFFFFF; font-size: medium;" width="45%">A really really really long city name</td>
+            <td style="color: #FFFFFF; font-size: medium;" width="45%" data-bind="text: optionD"></td>
 
             </tr>            
             </table>

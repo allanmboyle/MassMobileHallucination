@@ -6,13 +6,23 @@
  *
  * 24-06-12 AidanC first version 
  */
+
+var ViewModel = function(question,a,b,c,d) {
+    this.question = ko.observable(question);
+    this.optionA = ko.observable(a);
+    this.optionB = ko.observable(b);
+    this.optionC = ko.observable(c);
+    this.optionD = ko.observable(d);
+};
+
 var MillionairePlayfield = (function () {
     var me = {};
     var socket;
 
     //
     // Publics
-    //  
+    //
+
     me.newUser = function (data) {
         newUser(data)
     }
@@ -33,11 +43,17 @@ var MillionairePlayfield = (function () {
     me.processPositionUpdates = function (totals) {
   
     }
+
+    me.askQuestion = function () {
+        askQuestion(); 
+    }
+
     me.admin = function (message) {
         alert("Millionaire playfield got an admin message: " + messages);
     }
     me.init = function (theSocket) {
         socket = theSocket;
+        loadQuestions();
         //socket.emit("admin", "yes_totals");
         //socket.emit("admin", "no_updates");
        
@@ -60,8 +76,11 @@ var MillionairePlayfield = (function () {
     var score = 0;
 
     var questionList = {};
+    var currentQuestion = null;
     var currentAnswers = null;
-    var currentQuestion =1;
+
+    //what question are we on?
+    var questionNo =1;
 
     var gameStatus = 
     { 
@@ -71,8 +90,10 @@ var MillionairePlayfield = (function () {
         Finished:3
     }; 
 
-    // user changed their name
-    function populateQuestionList() {
+
+    //would be nicer to seperate out the questions into a csv file and load em up at runtime
+
+    function loadQuestions() {
                 questionList.Q1 = {
                     question: "The main character in the 2000 movie 'Gladiator' fights what animal in the arena?",
                     optionA : "Sloth",
@@ -99,8 +120,20 @@ var MillionairePlayfield = (function () {
                 };
     }
 
-    function AskNextQuestion()
+    function askQuestion()
     {
+
+    //temp cos there are only 3 qns d
+     if (questionNo >3){
+        questionNo=1; 
+     }
+
+        var qn = questionList['Q' + questionNo];
+
+      ko.applyBindings(new ViewModel(qn.question,qn.optionA,qn.optionB,qn.optionC,qn.optionD));
+
+        questionNo++;
+
 
     }
 
