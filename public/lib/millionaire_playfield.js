@@ -93,7 +93,44 @@ var MillionairePlayfield = (function () {
 
     //would be nicer to seperate out the questions into a csv file and load em up at runtime
 
+function loadQuestions1(){
+
+$.get("questions.txt", function(data) {parseQuestions(data);});
+}
+
+function parseQuestions(allText) {
+    var allTextLines = allText.split(/\r\n|\n/);
+    var headers = allTextLines[0].split(',');
+    var lines = [];
+
+    for (var i=1; i<allTextLines.length; i++) {
+        var data = allTextLines[i].split(',');
+        if (data.length == headers.length) {
+
+            var tarr = [];
+            for (var j=0; j<headers.length; j++) {
+              //  tarr.push(headers[j]+":"+data[j]);
+                  tarr.push(data[j]);
+            }
+            lines.push(tarr);
+        }
+    }
+   // alert(lines);
+
+
+    for (var i=1; i<lines.length; i++) {
+
+        var nextQuestion =lines[i];
+
+        alert(nextQuestion[0]);
+    }
+
+}
+
+
     function loadQuestions() {
+    //        loadQuestions1();
+
                 questionList.Q1 = {
                     question: "The main character in the 2000 movie 'Gladiator' fights what animal in the arena?",
                     optionA : "Sloth",

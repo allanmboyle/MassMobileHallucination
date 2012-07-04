@@ -1,0 +1,4 @@
+question,A,B,C,D,answer
+The main character in the 2000 movie 'Gladiator' fights what animal in the arena?,Sloth,Possum,"Squirrel","Tiger","D"
+The answer is A?,A,B,C,D,A
+The answer is B?,A,B,C,D,B
