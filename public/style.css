@@ -37,3 +37,26 @@ div.fullscreen{    display:block;    /*set the div in the top-left corner of the
         }
 
 
+
+/*millionaire styles for index.html*/
+ #millButton
+            {
+                width: 73px;
+                height: 37px;
+            }
+            
+#millcontainer {
+    display: table;
+    width: 500px; 
+    vertical-align: middle; 
+    text-align: center; 
+    }
+
+  #millrow  {
+    display: table-row;
+
+    }
+
+  #millleft, #millright {
+    display: table-cell;
+    }
