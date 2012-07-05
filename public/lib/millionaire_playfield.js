@@ -6,14 +6,13 @@
  *
  * 24-06-12 AidanC first version 
  */
-
-var ViewModel = function(question,a,b,c,d) {
-    this.question = ko.observable(question);
-    this.optionA = ko.observable(a);
-    this.optionB = ko.observable(b);
-    this.optionC = ko.observable(c);
-    this.optionD = ko.observable(d);
-};
+var ViewModel = function (question, a, b, c, d) {
+        this.question = ko.observable(question);
+        this.optionA = ko.observable(a);
+        this.optionB = ko.observable(b);
+        this.optionC = ko.observable(c);
+        this.optionD = ko.observable(d);
+    };
 
 var MillionairePlayfield = (function () {
     var me = {};
@@ -33,19 +32,18 @@ var MillionairePlayfield = (function () {
         players(data)
     }
 
-    me.processUserAnswer = function (answer)
-    {
+    me.processUserAnswer = function (answer) {
         processUserAnswer(answer);
     }
     me.processTotalUpdates = function (totals) {
-  
+
     }
     me.processPositionUpdates = function (totals) {
-  
+
     }
 
     me.askQuestion = function () {
-        askQuestion(); 
+        askQuestion();
     }
 
     me.admin = function (message) {
@@ -56,7 +54,7 @@ var MillionairePlayfield = (function () {
         loadQuestions();
         //socket.emit("admin", "yes_totals");
         //socket.emit("admin", "no_updates");
-       
+
     }
 
     me.shutdown = function () {
@@ -75,103 +73,71 @@ var MillionairePlayfield = (function () {
 
     var score = 0;
 
-    var questionList = {};
+    var questionList = [];
     var currentQuestion = null;
     var currentAnswers = null;
 
     //what question are we on?
-    var questionNo =1;
+    var questionNo = 0;
 
-    var gameStatus = 
-    { 
-        NotStarted:0, 
-        GameStarted:1,
-        TieBreaker:2,
-        Finished:3
-    }; 
+    var gameStatus = {
+        NotStarted: 0,
+        GameStarted: 1,
+        TieBreaker: 2,
+        Finished: 3
+    };
 
 
-    //would be nicer to seperate out the questions into a csv file and load em up at runtime
+    //I'd live to chain this more elegantly so that the result of parseCSV is passed to generateQuestions
+    function loadQuestionsFromCSV() {
 
-function loadQuestions1(){
+        $.get("questions.csv", function (data) {
+            var lines = parseCSV(data);
+            generateQuestions(lines);
+        });
+    }
 
-$.get("questions.txt", function(data) {parseQuestions(data);});
-}
+    function parseCSV(allText) {
+        var allTextLines = allText.split(/\r\n|\n/);
+        var headers = allTextLines[0].split(',');
+        var lines = [];
 
-function parseQuestions(allText) {
-    var allTextLines = allText.split(/\r\n|\n/);
-    var headers = allTextLines[0].split(',');
-    var lines = [];
+        for (var i = 1; i < allTextLines.length; i++) {
+            var data = allTextLines[i].split(',');
+            if (data.length == headers.length) {
 
-    for (var i=1; i<allTextLines.length; i++) {
-        var data = allTextLines[i].split(',');
-        if (data.length == headers.length) {
-
-            var tarr = [];
-            for (var j=0; j<headers.length; j++) {
-              //  tarr.push(headers[j]+":"+data[j]);
-                  tarr.push(data[j]);
+                var tarr = [];
+                for (var j = 0; j < headers.length; j++) {
+                    //  tarr.push(headers[j]+":"+data[j]);
+                    tarr.push(data[j]);
+                }
+                lines.push(tarr);
             }
-            lines.push(tarr);
         }
-    }
-   // alert(lines);
-
-
-    for (var i=1; i<lines.length; i++) {
-
-        var nextQuestion =lines[i];
-
-        alert(nextQuestion[0]);
+        return lines;
     }
 
-}
-
+    function generateQuestions(array) {
+        array.forEach(function (item) {
+            questionList.push({
+                question: item[0],
+                optionA: item[1],
+                optionB: item[2],
+                optionC: item[3],
+                optionD: item[4],
+                answer: item[5]
+            })
+        });
+    }
 
     function loadQuestions() {
-    //        loadQuestions1();
-
-                questionList.Q1 = {
-                    question: "The main character in the 2000 movie 'Gladiator' fights what animal in the arena?",
-                    optionA : "Sloth",
-                    optionB : "Possum",
-                    optionC : "Squirrel",
-                    optionD : "Tiger",
-                    answer: "D"
-                };
-                questionList.Q2 = {
-                    question: "The answer is C, now go pick it!!",
-                    optionA : "Not Me",
-                    optionB : "Not Me",
-                    optionC : "Correct One pick me, go on , pick me !!",
-                    optionD : "Wrong one!",
-                    answer: "C"
-                };
-                questionList.Q3 = {
-                    question: "The answer is A, now go pick it!!",
-                    optionA : "Its me this time",
-                    optionB : "Not Me",
-                    optionC : "another wrong un!",
-                    optionD : "Wrong one!",
-                    answer: "C"
-                };
+        loadQuestionsFromCSV();
     }
 
-    function askQuestion()
-    {
-
-    //temp cos there are only 3 qns d
-     if (questionNo >3){
-        questionNo=1; 
-     }
-
-        var qn = questionList['Q' + questionNo];
-
-      ko.applyBindings(new ViewModel(qn.question,qn.optionA,qn.optionB,qn.optionC,qn.optionD));
-
+    function askQuestion() {
+        var qn = questionList[questionNo];
+        ko.applyBindings(new ViewModel(qn.question, qn.optionA, qn.optionB, qn.optionC, qn.optionD));
         questionNo++;
-
-
     }
 
     // user changed their name
@@ -185,8 +151,6 @@ function parseQuestions(allText) {
     }
 
     // Color them out on woosing out of the game
-    function woosOut(data) {
-
-    }
+    function woosOut(data) {}
     return me;
 }());
