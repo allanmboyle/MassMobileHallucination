@@ -18,7 +18,9 @@ var FairyPlayfield = (function () {
 	me.positionUpdates 	= function (updates) { processPositionUpdates(updates) }
 	me.totalUpdates 	= function (updates) { processTotalUpdates(updates) }
 	me.admin 			= function (message) { alert("Fairy playfield got an admin message: " + messages); }
-	
+	me.processUserAnswer = function (answer) {}
+
+
 	me.init = function (theSocket) {
 		socket = theSocket;
 		

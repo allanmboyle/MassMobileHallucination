@@ -57,6 +57,10 @@ var MMH = (function () {
 		return accel;
 	}
 
+	me.sendAnswerToServer = function(data){
+		sendAnswerToServer(data);
+	}
+
 	// SRA: removing because I think MMH should listen for the changes and 
 	// the app should display them if it wants to.
 	
@@ -177,6 +181,10 @@ var MMH = (function () {
 	// Call the cilents call back if they are interested in using the movements.
 	function clientMovementCallback(accel) {
 		if (clientCallbackFunction) clientCallbackFunction(accel);
+	}
+
+	function sendAnswerToServer(data){
+		socket.emit("answer",data);
 	}
 	
 	return me;

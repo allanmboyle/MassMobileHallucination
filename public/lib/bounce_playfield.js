@@ -33,6 +33,9 @@ var BouncePlayfield = (function () {
     me.admin = function (message) {
         alert("Bounce playfield got an admin message: " + messages);
     }
+
+    me.processUserAnswer = function (answer) {}
+
     me.init = function (theSocket) {
         socket = theSocket;
         // this game is only interested in totals, not individual updates...

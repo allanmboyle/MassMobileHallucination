@@ -36,21 +36,30 @@
  -->            <div id="millcontainer">
               <div id="millrow">
                 <div id="millleft">
-                    <input id="millButton" type="button" value=" A " />
+                    <input id="millButton" type="button" value=" A " onClick="sendAnswer('A')" />
                 </div>
                 <div id="millright">
-                    <input id="millButton" type="button" value=" B " />
+                    <input id="millButton" type="button" value=" B " onClick="sendAnswer('B')"/>
                 </div>
               </div>
               <div id="millrow">
                   <div id="left">
-                    <input id="millButton" type="button" value=" C " />
+                    <input id="millButton" type="button" value=" C " onClick="sendAnswer('C')"/>
                 </div>
                 <div id="millright">
-                    <input id="millButton" type="button" value=" D " />
+                    <input id="millButton" type="button" value=" D " onClick="sendAnswer('D')"/>
                 </div>
             </div>
             </div>
+
+        <script>
+        function sendAnswer(answer){
+            //TO DO
+            //question number needs to come from the playfield ?
+            var payload = { qn: "1", answer: answer }
+            MMH.sendAnswerToServer("answer",payload);
+        }
+        </script>
 
         </div>
 
