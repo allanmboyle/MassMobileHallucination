@@ -150,7 +150,7 @@ var MillionairePlayfield = (function () {
         // to do
         //  check if im still accepting answers to the question
         // update or append the users answer to the array of answers ( they can answer more than once)
-        alert('I got the answer ' + data.qn);
+        alert('I got the answer ' + data.answer);
 
     }
 
