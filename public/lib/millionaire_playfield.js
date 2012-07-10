@@ -46,6 +46,10 @@ var MillionairePlayfield = (function () {
         askQuestion();
     }
 
+    me.startQuiz = function () {
+        startQuiz();
+    }
+
     me.admin = function (message) {
         alert("Millionaire playfield got an admin message: " + messages);
     }
@@ -70,22 +74,23 @@ var MillionairePlayfield = (function () {
     //
     // Privates 
     //
-
-    var score = 0;
-
-    var questionList = [];
-    var currentQuestion = null;
-    var currentAnswers = null;
-
-    //what question are we on?
-    var questionNo = 0;
-
     var gameStatus = {
         NotStarted: 0,
         GameStarted: 1,
         TieBreaker: 2,
         Finished: 3
     };
+
+
+    var score = 0;
+
+    var questionList = [];
+    var currentQuestion = null;
+    var currentAnswers = null;
+    var gameState = gameStatus.NotStarted;
+
+    //what question are we on?
+    var questionNo = 0;
 
 
     //I'd live to chain this more elegantly so that the result of parseCSV is passed to generateQuestions
@@ -140,6 +145,12 @@ var MillionairePlayfield = (function () {
         questionNo++;
     }
 
+    //nobody else can join as the quiz has begun !
+    function startQuiz(){
+        gameState = gameStatus.GameStarted;
+        askQuestion();
+    }
+
     // user changed their name
     function nameChange(data) {
 
@@ -154,11 +165,18 @@ var MillionairePlayfield = (function () {
 
     }
 
-    // handle the arrival of a new user to the game
+    //new player joining
     function newUser(data) {
-
+    //if game is underway nobody else can join
+        if (gameState == gameStatus.NotStarted)
+        {
+            alert('player ' + data.id + ' joined');
+        }
+        else
+        {
+            alert('too late to join');
+        }
     }
-
     // Color them out on woosing out of the game
     function woosOut(data) {}
     return me;
