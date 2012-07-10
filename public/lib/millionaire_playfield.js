@@ -167,14 +167,20 @@ var MillionairePlayfield = (function () {
 
     //new player joining
     function newUser(data) {
-    //if game is underway nobody else can join
+    //if game is underway nobody else can join      
         if (gameState == gameStatus.NotStarted)
         {
-            alert('player ' + data.id + ' joined');
+ 
+            // all good lets add them to the list of players
+           // var socketId = data.id;
+           // socket.emit("sendtoUser",socketId, "tooLate");
+ 
         }
         else
         {
-            alert('too late to join');
+            //game has started so they can't join
+            var socketId = data.id;
+            socket.emit("sendtoUser",socketId, "tooLate");
         }
     }
     // Color them out on woosing out of the game

@@ -105,6 +105,13 @@
                 changeGame(game);
             });
 
+            socket.on('userMessage', function (message) {
+                //this is fired when the palyfield targets a single user....
+                //e.g. for millionaire we need to quit people from the game if they get the wrong answers...
+                alert('message from server');
+                alert(message);
+            });
+
             // // display mouse arrow (used when no acceleromters present)
             // function initmousedetection() {
 		
