@@ -56,7 +56,7 @@
         function sendAnswer(answer){
             //TO DO
             //question number needs to come from the playfield ?
-            var payload = { qn: "1", answer: answer }
+            var payload = { qn: "1", answer: answer,id: socket.socket.sessionid }
             MMH.sendAnswerToServer(payload);
         }
         </script>

@@ -92,6 +92,8 @@ var MillionairePlayfield = (function () {
     //what question are we on?
     var questionNo = 0;
 
+    var playersCurrentAnswers = [];
+
 
     //I'd live to chain this more elegantly so that the result of parseCSV is passed to generateQuestions
     function loadQuestionsFromCSV() {
@@ -158,10 +160,27 @@ var MillionairePlayfield = (function () {
 
     function processUserAnswer(data){
     
+
+
+    // for(var i = playersCurrentAnswers.length-1; i >= 0; i++)
+    //     {  // STEP 1
+           
+    //         var item = playersCurrentAnswers[i];
+    //        if(item.id == data.id)
+    //        {     // STEP 201
+    //         playersCurrentAnswers.splice(i,1);           // STEP 3
+    //         }
+    //     }
+
+    //     playersCurrentAnswers.push({id:data.id,
+    //                                 qn:data.qn,
+    //                                 answer :data.answer
+    //                                 });
+
         // to do
         //  check if im still accepting answers to the question
         // update or append the users answer to the array of answers ( they can answer more than once)
-        alert('I got the answer ' + data.answer);
+        alert('I got the answer ' + data.answer + ' id ' + data.id  );
 
     }
 
