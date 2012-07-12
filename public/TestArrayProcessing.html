@@ -1,0 +1,114 @@
+<html>
+
+<head></head>
+
+<body>
+<h1>Testing Array Processing</h1>
+<input type=button onclick="launchTests()"
+       value="Run tests" />
+<div id="results"></div>
+<script>
+    function launchTests() {
+
+        // just add 10,000 items to the array see how long it takes
+        userAnswers = null;
+        userAnswers = [];
+        addItemsToArray(10000);
+
+        //now try to add 10,000 items but this time add or update each item based on the id
+        //scenario where user answers the question more than once...
+        userAnswers = null;
+        userAnswers = [];
+        addorUpdateItemsToArray(80000)
+
+
+
+    }
+
+    function getRandomInt(min, max) {
+        return Math.floor(Math.random() * (max - min + 1)) + min;
+    }
+
+    function getRandomAnswer() {
+        var number = Math.floor(Math.random() * (4 - 1 + 1)) + 1;
+
+        switch (number) {
+            case 1:
+                return "A";
+                break;
+
+            case 2:
+                return "B";
+                break;
+
+            case 3:
+                return "C";
+                break;
+            default:
+                return "D";
+                break;
+        }
+    }
+
+    function addItemsToArray(count) {
+
+        var time1 = new Date().getTime();
+        for (i = 0; i < count; i++) {
+            var payload = {
+                qn: "1",
+                answer: getRandomAnswer(),
+                id: getRandomInt(1, 400)
+            };
+            AddUserAnswer(payload);
+        }
+
+        var time2 = new Date().getTime();
+        var difference_ms = time2 - time1;
+        var message = "addItemsToArray  time : " + difference_ms + "no items : " + userAnswers.length;
+        document.getElementById("results").innerHTML += message + " </br>";
+    }
+
+    function addorUpdateItemsToArray(count) {
+
+        var time1 = new Date().getTime();
+        for (i = 0; i < count; i++) {
+            var payload = {
+                qn: "1",
+                answer: getRandomAnswer(),
+                id: getRandomInt(1, 400)
+            };
+            AddUpdateUserAnswer(payload);
+        }
+
+        var time2 = new Date().getTime();
+        var difference_ms = time2 - time1;
+        var message = "addorUpdateItemsToArray  time : " + difference_ms + "no items : " + userAnswers.length;
+        document.getElementById("results").innerHTML += message + " </br>";
+    }
+
+    function AddUserAnswer(userAnswer) {
+        userAnswers.push({
+            qn: userAnswer.qn,
+            answer: userAnswer.answer,
+            id: userAnswer.id
+        })
+    }
+
+    function AddUpdateUserAnswer(userAnswer) {
+        var id = userAnswer.id;
+        for (var i = 0; i < userAnswers.length; i++) {
+            if (userAnswers[i].id == id) {
+                userAnswers.splice(i, 1);
+                break;
+            }
+        }
+        AddUserAnswer(userAnswer);
+    }
+
+    
+
+    var userAnswers = [];
+</script>
+</body>
+
+</html>
