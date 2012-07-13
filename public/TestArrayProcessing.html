@@ -1,9 +1,11 @@
 <html>
 
-<head></head>
+<head>
+    <script src="underscore.js"></script>
+</head>
 
 <body>
-<h1>Testing Array Processing</h1>
+<h1>test  array processing functions</h1>
 <input type=button onclick="launchTests()"
        value="Run tests" />
 <div id="results"></div>
@@ -21,7 +23,12 @@
         userAnswers = [];
         addorUpdateItemsToArray(80000)
 
-
+        // now lets say we want to figure out the breakdown of answers
+        //e.g 20% voted 'A' and 70% voted 'B'
+        //this is like ask the audience and also can be used for political worm..
+        userAnswers = null;
+        userAnswers = [];
+        aggregateUserAnswers();
 
     }
 
@@ -31,7 +38,6 @@
 
     function getRandomAnswer() {
         var number = Math.floor(Math.random() * (4 - 1 + 1)) + 1;
-
         switch (number) {
             case 1:
                 return "A";
@@ -49,6 +55,19 @@
                 break;
         }
     }
+
+
+    function aggregateUserAnswers()
+    {
+        //lets get an array with 1000 random users answers
+        addorUpdateItemsToArray(1000) ;
+        var totals =  calcStatistics();
+
+        var text = "A :" + totals.A + " B : "   + totals.B  + " C : "   + totals.C  + " D : "   + totals.D;
+        document.getElementById("results").innerHTML += text + " </br>";
+    }
+
+
 
     function addItemsToArray(count) {
 
@@ -75,7 +94,7 @@
             var payload = {
                 qn: "1",
                 answer: getRandomAnswer(),
-                id: getRandomInt(1, 400)
+                id: getRandomInt(1, 1000)
             };
             AddUpdateUserAnswer(payload);
         }
@@ -94,6 +113,37 @@
         })
     }
 
+
+    function calcStatistics(item)
+    {
+        var totals = {A:0,B:0,C:0,D:0};
+
+        var fee=  _.reduce(userAnswers,function(result,item){
+
+            switch (item.answer) {
+                case "A":
+                    result.A++;
+                    break;
+                case "B":
+                    result.B++;
+                    break;
+                case "C":
+                    result.C++;
+                    break;
+                case "D":
+                    result.D++;
+                    break;
+                default:
+                    break;
+            }
+             return result;
+            },totals)   ;
+
+          return fee;
+    }
+
+
+
     function AddUpdateUserAnswer(userAnswer) {
         var id = userAnswer.id;
         for (var i = 0; i < userAnswers.length; i++) {
@@ -104,8 +154,6 @@
         }
         AddUserAnswer(userAnswer);
     }
-
-    
 
     var userAnswers = [];
 </script>
