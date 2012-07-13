@@ -13,22 +13,39 @@
     function launchTests() {
 
         // just add 10,000 items to the array see how long it takes
-        userAnswers = null;
-        userAnswers = [];
-        addItemsToArray(10000);
+        test_AddItemsToArray(10000);
 
-        //now try to add 10,000 items but this time add or update each item based on the id
+        //add 10,000 items but this time add or update each item based on the id
         //scenario where user answers the question more than once...
-        userAnswers = null;
-        userAnswers = [];
-        addorUpdateItemsToArray(80000)
 
-        // now lets say we want to figure out the breakdown of answers
+        test_AddorUpdateItemsToArray(10000)
+
+        //figure out the breakdown of answers
         //e.g 20% voted 'A' and 70% voted 'B'
-        //this is like ask the audience and also can be used for political worm..
+        //this is like ask the audience and can also be used for political worm..
+
+        test_AggregateUserAnswers();
+
+        //figure out the users that answered the question incorrectly
+        //these will need to be told that they are out of the game so need their sessionID
+        test_filterUserAnswers()
+
+
+    }
+
+
+    function test_filterUserAnswers()
+    {
+        //ARRANGE - 10,000 random answers
         userAnswers = null;
         userAnswers = [];
-        aggregateUserAnswers();
+        AddorUpdateItemsToArray(10000)
+
+
+        //ACT
+
+
+        //ASSERT
 
     }
 
@@ -56,21 +73,38 @@
         }
     }
 
-
-    function aggregateUserAnswers()
+    function test_AggregateUserAnswers()
     {
-        //lets get an array with 1000 random users answers
-        addorUpdateItemsToArray(1000) ;
-        var totals =  calcStatistics();
+        //ARRANGE
 
-        var text = "A :" + totals.A + " B : "   + totals.B  + " C : "   + totals.C  + " D : "   + totals.D;
+        userAnswers = null;
+        userAnswers = [];
+        //generate 1000 user answers
+        AddorUpdateItemsToArray(1000) ;
+
+        //ACT
+        var time1 = new Date().getTime();
+        //summarise the results (Reduce to 1 answer)
+        var totals =  SummariseAnswers();
+
+        var time2 = new Date().getTime();
+        //ASSERT
+        var difference_ms = time2 - time1;
+
+        var text = "test_AggregateUserAnswers_____>  A :" + totals.A + " B : "   + totals.B  + " C : "   + totals.C  + " D : "   + totals.D
+                + " time(ms): " + difference_ms ;
         document.getElementById("results").innerHTML += text + " </br>";
+
     }
 
+    function test_AddItemsToArray(count) {
 
 
-    function addItemsToArray(count) {
+        //ARRANGE
+        userAnswers = null;
+        userAnswers = [];
 
+        //ACT
         var time1 = new Date().getTime();
         for (i = 0; i < count; i++) {
             var payload = {
@@ -80,29 +114,41 @@
             };
             AddUserAnswer(payload);
         }
-
         var time2 = new Date().getTime();
+
+         //ASSERT
         var difference_ms = time2 - time1;
-        var message = "addItemsToArray  time : " + difference_ms + "no items : " + userAnswers.length;
+        var message = "test_AddItemsToArray_______>   no items : " + userAnswers.length + " time(ms) : " + difference_ms;
         document.getElementById("results").innerHTML += message + " </br>";
     }
 
-    function addorUpdateItemsToArray(count) {
+    function test_AddorUpdateItemsToArray(count) {
+        //ARRANGE
+        userAnswers = null;
+        userAnswers = [];
 
+
+        //ACT
         var time1 = new Date().getTime();
+        AddorUpdateItemsToArray(count);
+        var time2 = new Date().getTime();
+
+        //ASSERT
+
+        var difference_ms = time2 - time1;
+        var message = "test_AddorUpdateItemsToArray_______>  no items : " + userAnswers.length + " time(ms) : " + difference_ms;
+        document.getElementById("results").innerHTML += message + " </br>";
+    }
+
+    function AddorUpdateItemsToArray(count) {
         for (i = 0; i < count; i++) {
             var payload = {
-                qn: "1",
-                answer: getRandomAnswer(),
-                id: getRandomInt(1, 1000)
+                qn:"1",
+                answer:getRandomAnswer(),
+                id:getRandomInt(1, 1000)
             };
             AddUpdateUserAnswer(payload);
         }
-
-        var time2 = new Date().getTime();
-        var difference_ms = time2 - time1;
-        var message = "addorUpdateItemsToArray  time : " + difference_ms + "no items : " + userAnswers.length;
-        document.getElementById("results").innerHTML += message + " </br>";
     }
 
     function AddUserAnswer(userAnswer) {
@@ -114,9 +160,9 @@
     }
 
 
-    function calcStatistics(item)
+    function SummariseAnswers(item)
     {
-        var totals = {A:0,B:0,C:0,D:0};
+        var runningTotals = {A:0,B:0,C:0,D:0};
 
         var fee=  _.reduce(userAnswers,function(result,item){
 
@@ -137,12 +183,10 @@
                     break;
             }
              return result;
-            },totals)   ;
+            },runningTotals)   ;
 
-          return fee;
+          return runningTotals;
     }
-
-
 
     function AddUpdateUserAnswer(userAnswer) {
         var id = userAnswer.id;
@@ -154,7 +198,6 @@
         }
         AddUserAnswer(userAnswer);
     }
-
     var userAnswers = [];
 </script>
 </body>
