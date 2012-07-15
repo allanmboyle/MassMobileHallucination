@@ -191,7 +191,7 @@ var MMH = (function () {
 	}
 
 	function sendAnswerToServer(data){
-		socket.emit("answer",data);
+        socket.emit("answer",data);
 	}
 	
 	return me;

@@ -159,8 +159,6 @@ var MillionairePlayfield = (function () {
     }
 
     function processUserAnswer(data){
-    
-
 
     // for(var i = playersCurrentAnswers.length-1; i >= 0; i++)
     //     {  // STEP 1
