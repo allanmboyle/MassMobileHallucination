@@ -26,16 +26,23 @@ var MMH = (function () {
 	// listen for movements and start sending them to the server. Optionally
 	// send them to a callback as well.
 	me.listenForMovements = function (clientCallback) {
+        try
+        {
 		if (me.clientHasAcceleromters()) {
 			startListeningForAccelerometers();
 		} else {
 			startListeningForMouseMovements();
 		}
-		
+
 		me.startSendingOrientationToServer();
-		
+
 		// save the client callback if they have passed in one.
-		if (clientCallback) clientCallbackFunction = clientCallback; 
+		if (clientCallback) clientCallbackFunction = clientCallback;
+        }
+        catch(error)
+        {
+            alert(error);
+        }
 	}
 	
 	// from the start stop game stuff.
@@ -94,14 +101,14 @@ var MMH = (function () {
 	var clientCallbackFunction = null;
 
 	// Listening for accelerometer changes
-	function listenForAccelerometers() {
+	function startListeningForAccelerometers() {
 		if (window.DeviceOrientationEvent) {
 			//document.getElementById("doEvent").innerHTML = "DeviceOrientation";
 			// Listen for the deviceorientation event and handle the raw data
 			window.addEventListener('deviceorientation', function(eventData) {
 				// gamma is the left-to-right tilt in degrees, where right is positive
 				var tiltLR = eventData.gamma;
-				
+
 				// beta is the front-to-back tilt in degrees, where front is positive
 				var tiltFB = eventData.beta;
 				

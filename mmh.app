@@ -16,7 +16,16 @@ var playerList = {};
 
 // start up the server 
 server.listen(process.env.PORT || 8080);
-io.set('log level', 3); // turn logging down
+io.set('log level', 2); // turn logging down
+
+io.configure(function () {
+  io.set("transports", ["xhr-polling"]);
+  io.set("polling duration", 10);
+});
+
+process.on('uncaughtException', function(err) {
+  console.log('uncaught error' + err);
+});
 
 // serve up static content images, css etc...
 server.use(express.static(__dirname + '/public')); 
