@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html>
+    
+    <head>
+        <title>TagCanvas example</title>
+      
+
+        <script src="jquery.min.js"></script>
+        <script src="tagcanvas.min.js" type="text/javascript"></script>
+      <style type="text/css">
+canvas {
+    padding-left: 0;
+    padding-right: 0;
+    margin-left: auto;
+    margin-right: auto;
+    display: block;
+}
+
+</style>
+       <script type="text/javascript">
+            var i = 1;
+
+            window.onload = function () {
+
+                initialiseCloudTags();
+            };
+
+//shuffle list items so that each time the cloud tag us generated the tags start at a different position in the screen
+//otherwise its obvoius that its restarting
+function shuffle(elems) {
+ 
+    allElems = (function(){
+    var ret = [], l = elems.length;
+    while (l--) { ret[ret.length] = elems[l]; }
+    return ret;
+    })();
+ 
+    var shuffled = (function(){
+        var l = allElems.length, ret = [];
+        while (l--) {
+            var random = Math.floor(Math.random() * allElems.length),
+                randEl = allElems[random].cloneNode(true);
+            allElems.splice(random, 1);
+            ret[ret.length] = randEl;
+        }
+        return ret; 
+    })(), l = elems.length;
+ 
+    while (l--) {
+        elems[l].parentNode.insertBefore(shuffled[l], elems[l].nextSibling);
+        elems[l].parentNode.removeChild(elems[l]);
+    }
+ 
+}
+ 
+            function initialiseCloudTags() {
+                try {
+                    TagCanvas.Start('myCanvas', 'tags', {
+                        textFont: 'Impact,"Arial Black",sans-serif',
+                        textColour: null,
+                        outlineColour: '#ff00ff',
+                        reverse: true,
+                        depth: 0.95,
+                        maxSpeed: 0.02,
+                        shape: 'sphere',
+                        noSelect: 'true',
+                        initial: [0.8, - 0.3]
+
+                    });
+                } catch (e) {
+                    // something went wrong, hide the canvas container
+                    document.getElementById('myCanvasContainer').style.display = 'none';
+                }
+            }
+
+            function AddItem() {
+
+for (i=0; i<50; i++)
+  {
+     var clr = '#' + (Math.random() * 0xFFFFFF << 0).toString(16);
+
+                $("#detags").append('<li><a style="color:' + clr + ';">Another Contestant' + i + '</a></li>');
+  }
+
+
+               
+      
+            shuffle( document.getElementsByTagName('li') );
+                initialiseCloudTags();
+                i++;
+            }
+        </script>
+    </head>
+    
+    <body>
+        <h1>Players Cloud Tag</h1>
+        <input type=button onclick="AddItem();" value='ADD'>
+        <div id="myCanvasContainer">
+            <canvas width="900" height="550" id="myCanvas" align=centre>
+                <p>Anything in here will be replaced on browsers that support the canvas
+                    element</p>
+            </canvas>
+        </div>
+        <div id="tags">
+            <ul id="detags">
+                <li>
+                    <a style="color:#FF0000;">Simon Raik-Allen</a>
+                </li>
+                <li>
+                    <a style="color:green;">Loren C. Carpenter</a>
+                </li>
+                <li>
+                    <a style="color:purple;">Aidan Casey</a>
+                </li>
+        </div>
+        
+    </body>
+
+</html>
