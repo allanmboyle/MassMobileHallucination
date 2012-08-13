@@ -1,3 +1,4 @@
+
 // animation.js
 
 var ANIMATION = (function () {
@@ -23,6 +24,12 @@ var ANIMATION = (function () {
 	  _canvas.closePath();
 	  _canvas.fillStyle   = colour;
 	  _canvas.fill();
+    }
+
+    me.setText = function(font,text,x,y)
+    {
+        _canvas.font = font;
+        _canvas.fillText(text, x, y);
     }
 
     me.clear =function (x,y,w,h) {

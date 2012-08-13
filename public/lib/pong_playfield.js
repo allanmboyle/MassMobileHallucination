@@ -66,7 +66,6 @@ var PongPlayfield = (function () {
     var y = 150;
     var dx = .5;
     var dy = 1;
-    var ctx;
     var canvasWidth;
     var canvasHeight;
     var intervalId = 0;
@@ -85,7 +84,7 @@ var PongPlayfield = (function () {
         paddlex = newpaddlex;
     }
 
-    BALL_RADIUS = 49;
+    BALL_RADIUS = 10;
 
     function drawGameBoard() {
 
@@ -93,15 +92,33 @@ var PongPlayfield = (function () {
         movePaddle();
         ANIMATION.clear(0, 0, canvasWidth, canvasHeight);
 
+        //black background
+        ANIMATION.rectangle(0, 0, canvasWidth, canvasHeight, '#000000');
 
-        //blue ball
-        ANIMATION.circle(x, y, BALL_RADIUS, '#00f');
+        //white ball
+        ANIMATION.circle(x, y, BALL_RADIUS, '#FFFFFF');
         var padheight = canvasHeight - paddleh;
 
-        //red paddle
-        ANIMATION.rectangle(paddlex, padheight, paddlew, paddleh, '#f00');
+
+        //player one red paddle
+        ANIMATION.rectangle(0, 300, 20, 100, '#f00');
+
+        //player two green paddle
+        ANIMATION.rectangle(canvasWidth -20, 300, 20, 100, '#629632');
+
+
+       // ANIMATION.rectangle(paddlex, padheight, paddlew, paddleh, '#f00');
+
         checkBounce();
+
+        drawScore();
     }
+
+
+    function drawScore(){
+        ANIMATION.setText("26px cinnamoncake, Verdana","Score:   0",340,30);
+    }
+
 
     function checkBounce() {
 
@@ -112,7 +129,8 @@ var PongPlayfield = (function () {
         // Hit the roof
         if (y + dy < BALL_RADIUS) {
             dy = -dy;
-        } else if (
+        }
+        else if (
         // hit a paddle?
         (y + dy >= canvasHeight - paddleh - BALL_RADIUS // ball lower edge will be below the paddle surface
         &&
