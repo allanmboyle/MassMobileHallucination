@@ -122,6 +122,24 @@ var PongPlayfield = (function () {
 
     function checkBounce() {
 
+
+        if (x + dx  > canvasWidth - BALL_RADIUS  || x + dx - BALL_RADIUS < 0)
+            dx = -dx;
+        if (y + dy  > canvasHeight - BALL_RADIUS || y + dy - BALL_RADIUS < 0)
+            dy = -dy;
+
+        x += dx;
+        y += dy;
+
+        return;
+
+        //hit the top or the bottom
+
+        if (y + dy < BALL_RADIUS) {
+            dy = -dy;
+        }
+
+
         // Hit a left/right wall
         if (x + dx > canvasWidth - BALL_RADIUS || x + dx < BALL_RADIUS) dx = -dx;
 
