@@ -39,7 +39,8 @@ var PongPlayfield = (function () {
         initialiseGameVariables();
         drawGameBoard();
         //this game work by redrawing canvas every 30 milliseconds and applying  movcment changes to paddle position
-        setInterval(drawGameBoard, 30);
+     //   setInterval(drawGameBoard, 30);
+        setInterval(drawGameBoard, 10);
     }
 
     me.shutdown = function () {
@@ -149,15 +150,57 @@ var PongPlayfield = (function () {
 
 
     function checkBounce() {
-
-
-        if (x + dx  > canvasWidth - BALL_RADIUS  || x + dx - BALL_RADIUS < 0)
-            dx = -dx;
+        //Y coordinate update is dead easy if the ball hits the roof or the floor just reverse it
         if (y + dy  > canvasHeight - BALL_RADIUS || y + dy - BALL_RADIUS < 0)
+        {
             dy = -dy;
-
-        x += dx;
+        }
         y += dy;
+
+
+        //right wall
+
+        // is the edge of the ball in the hit zone
+        if ((x + dx + BALL_RADIUS) >= (canvasWidth - paddlew))
+        {
+          // if the right paddle is in positing bounce otherwise its out
+          var posx = x + dx;
+          var posy = y + dy;
+
+            if ((posy >= paddle2Y) && (posy<= paddle2Y + paddleh))
+            {
+                //bounce!
+                dx = -dx;
+            }
+            else
+            {
+                alert('out!') ;
+            }
+        }
+
+
+        //left wall
+        if ((x + dx - BALL_RADIUS) <= (paddlew))
+        {
+            // if the right paddle is in positing bounce otherwise its out
+            var posx = x + dx;
+            var posy = y + dy;
+
+            if ((posy >= paddle1Y) && (posy<= paddle1Y + paddleh))
+            {
+                //bounce!
+                dx = -dx;
+            }
+            else
+            {
+                alert('out!') ;
+            }
+        }
+
+
+
+
+            x += dx;
 
         return;
 
@@ -288,7 +331,7 @@ var PongPlayfield = (function () {
 
 
     function debugStats() {
-        var values = 'X = ' + x + '   y=' + y + ' dx=' + dx + ' dy=' + dy + '  paddlex=' + paddlex;
+        var values = 'X = ' + x + '   y=' + y + ' dx=' + dx + ' dy=' + dy + '  paddle2Y=' + paddle2Y;
         document.getElementById("ponglog").innerHTML = values;
         var values = 'player1Input = ' + player1Input;
         document.getElementById("ponglog1").innerHTML = values;
