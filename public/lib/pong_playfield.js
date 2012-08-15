@@ -61,27 +61,58 @@ var PongPlayfield = (function () {
     var used;
     var score = 0;
     var highestScore = 0;
-    var userInput = 0;
-    var x = 140;
-    var y = 150;
+
+
+    var player1Input = 0;
+    var player2Input = 0;
+
+    var startX = 400;
+    var startY = 300;
+
+    var x = startX;
+    var y = startY;
+
     var dx = .5;
     var dy = 1;
+
     var canvasWidth;
     var canvasHeight;
     var intervalId = 0;
     var paddlex;
+
+    var paddle1Y=0;
+    var paddle2Y=0;
     var paddleh;
     var paddlew;
 
     function movePaddle() {
+/*
         //apply changes to paddle but make sure it stays inside the box !
-        var newpaddlex = paddlex + userInput;
+        var newpaddlex = paddlex + player1Input;
         if (newpaddlex < 0) {
             newpaddlex = 0;
         } else if (newpaddlex + paddlew > canvasWidth) {
             newpaddlex = canvasWidth - paddlew;
         }
-        paddlex = newpaddlex;
+        paddlex = newpaddlex;*/
+
+        //apply changes to paddle but make sure it stays inside the box !
+        var newpaddle1Y = paddle1Y + player1Input;
+        if (newpaddle1Y < 0) {
+            newpaddle1Y = 0;
+        } else if (newpaddle1Y + paddleh > canvasHeight) {
+            newpaddle1Y = canvasHeight - paddleh;
+        }
+        paddle1Y = newpaddle1Y;
+
+        var newpaddle2Y = paddle2Y + player2Input;
+        if (newpaddle2Y < 0) {
+            newpaddle2Y = 0;
+        } else if (newpaddle2Y + paddleh > canvasHeight) {
+            newpaddle2Y = canvasHeight - paddleh;
+        }
+        paddle2Y = newpaddle2Y;
+
     }
 
     BALL_RADIUS = 10;
@@ -97,17 +128,14 @@ var PongPlayfield = (function () {
 
         //white ball
         ANIMATION.circle(x, y, BALL_RADIUS, '#FFFFFF');
+
         var padheight = canvasHeight - paddleh;
 
-
         //player one red paddle
-        ANIMATION.rectangle(0, 300, 20, 100, '#f00');
+        ANIMATION.rectangle(0, paddle1Y, paddlew, paddleh, '#f00');
 
         //player two green paddle
-        ANIMATION.rectangle(canvasWidth -20, 300, 20, 100, '#629632');
-
-
-       // ANIMATION.rectangle(paddlex, padheight, paddlew, paddleh, '#f00');
+        ANIMATION.rectangle(canvasWidth -paddlew, paddle2Y, paddleh, paddleh, '#629632');
 
         checkBounce();
 
@@ -188,27 +216,87 @@ var PongPlayfield = (function () {
         canvasWidth = document.getElementById("pongcanvas").width;
         canvasHeight = document.getElementById("pongcanvas").height;
 
-        x = 140;
-        y = 150;
+        x = startX;
+        y = startY;
         dx = .5;
         dy = 1;
 
         paddlex = canvasWidth / 2;
-        paddleh = 25;
-        paddlew = 120;
+        paddleh = 100;
+
+        paddlew = 20;
+
+        document.body.addEventListener('keydown', onkeydown, false) ;
+        document.body.addEventListener('keyup', onkeyup, false) ;
 
     }
+
+    function onkeydown (e) {
+
+        switch(e.keyCode) {
+            //Q
+            case 81:{
+                player1Input = -5;
+                break;
+            }
+            //A
+            case 65:{
+                player1Input = +5;
+                break;
+            }
+            //L
+            case 76:{
+                player2Input = +5;
+                break;
+            }
+            //P
+            case 80:{
+                player2Input = -5;
+                break;
+            }
+        }
+    }
+
+    function onkeyup (e) {
+
+        switch(e.keyCode) {
+            //Q
+            case 81:{
+                player1Input = 0;
+                break;
+            }
+            //A
+            case 65:{
+                player1Input = 0;
+                break;
+            }
+            //L
+            case 76: {
+                player2Input = 0;
+                break;
+            }
+            //P
+            case 80:    {
+                player2Input = 0;
+                break;
+            }
+        }
+    }
+
+
+
+
 
     function debugStats() {
         var values = 'X = ' + x + '   y=' + y + ' dx=' + dx + ' dy=' + dy + '  paddlex=' + paddlex;
         document.getElementById("ponglog").innerHTML = values;
-        var values = 'userInput = ' + userInput;
+        var values = 'player1Input = ' + player1Input;
         document.getElementById("ponglog1").innerHTML = values;
     }
 
     function processTotalUpdates (totals) {
 
-        userInput = 0;
+        player1Input = 0;
 
         //if its null then do nothin!
         if (totals.totalTiltLR == null) {
@@ -216,7 +304,7 @@ var PongPlayfield = (function () {
         }
 
         //user input currently callibrated to +5 to -5 but maybe this should change??
-        userInput = (totals.totalTiltLR / totals.count) / 90 * 5;
+        player1Input = (totals.totalTiltLR / totals.count) / 90 * 5;
 
     }
 
