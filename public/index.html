@@ -9,14 +9,22 @@
     </head>
     <body>
         <div id="main" class="fullscreen">
-            <h1>The Mass Mobie Hallucination Game.</h1>Your name:
-            <input type=text onchange="changeName()"
-            id=username />
+            <h1>The Mass Mobile Hallucination Game.</h1>
+
+            Welcome aboard ! just 2 questions before you can start
+            </br>
+            </br>
+
+            Your name :
+            <input type=text onchange="changeName()" id=username />
             <br/>
-            <span>
-                <input type=button class=bigbutton value="LEFT"/>
-                <input type=button class=bigbutton value="RIGHT"/>
-            </span>
+            <br/>
+
+            What side fo the room are you seated on ? :
+            <input type="radio" name="playerLocation" value="Left"> Left
+            <input type="radio" name="playerLocation" value="Right" checked>  Right
+            <br/>
+
             <div id="log"></div>
         </div>
         
