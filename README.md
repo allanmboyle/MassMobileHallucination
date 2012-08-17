@@ -5,7 +5,7 @@ A game for playing with lots of people on mobiles looking at the same web page a
 
 Suited to conference talks. This is really just an all-JavaScript experiment.
 
-To try the app, run node.js on mmh.js on your local machine and then launch a few browser
+To try the app, run node.js on server.js on your local machine and then launch a few browser
 windows. In one put the playfield http://localhost:8080/playfield. In the others put a
 regular client pointed http://localhost:8080... and have a play around!
 

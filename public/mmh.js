@@ -68,13 +68,6 @@ var MMH = (function () {
 		sendAnswerToServer(data);
 	}
 
-	// SRA: removing because I think MMH should listen for the changes and 
-	// the app should display them if it wants to.
-	
- 	//me.sendMovement = function (tiltLR, tiltFB, dir, motionUD){
- 	//		storeOrientation(tiltLR, tiltFB, dir, motionUD) 
- 	//}
-
 	/*
 	 * Here we must list all the possible user agents that contain accelerometers.
 	 */
