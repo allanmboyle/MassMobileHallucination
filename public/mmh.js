@@ -23,7 +23,17 @@ var MMH = (function () {
 		});
 	}
 
-	// listen for movements and start sending them to the server. Optionally
+
+    me.setPlayerLocation = function (location) {
+        playerLocation = location;
+        };
+
+    me.getPlayerLocation = function () {
+        return playerLocation;
+    };
+
+
+    // listen for movements and start sending them to the server. Optionally
 	// send them to a callback as well.
 	me.listenForMovements = function (clientCallback) {
         try
@@ -87,6 +97,7 @@ var MMH = (function () {
 	//
 	// Private stuff
 	//
+    var playerLocation = "right";
 	var socket = null;
 	var SEND_FREQUENCY = 100; // can get throttled
 	var accel = {};
