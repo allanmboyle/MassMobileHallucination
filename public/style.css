@@ -4,7 +4,16 @@ canvas.pong {
     margin-left: auto; 
     margin-right: auto; 
     display: block; 
-} 
+}
+
+
+#updownIndicator {
+    width: 50%;
+    margin: 0px auto;
+}
+
+
+
 
 /*The following is required to make a DIV fill screen in IE 9...*/  
 /*give the body height:100% so that its child    elements can have percentage heights*/  

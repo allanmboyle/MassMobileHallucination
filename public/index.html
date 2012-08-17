@@ -80,6 +80,16 @@
 				</div>
 			</div>
 		</div>
+
+        <div id="updownTilt" style="display: none">
+            <div style="background-color: #afeeee; height: 100%; width: 100%;">
+                For this game its either up or down, add a nice image or animation later
+                </br></br></br>
+                <div id="updownIndicator" style="font-size:xx-large;"></div>
+             </div>
+            </div>
+        </div>
+
         <div id="redgreen" style="display: none">
             <div style="background-color: green; height: 100%; width: 50%; float: right"></div>
             <div style="background-color: red; height: 100%; width: 50%; float: left"></div>
@@ -91,7 +101,7 @@
             gameConfig.worm 	= {section: "redgreen", func: initTilt};
             gameConfig.color 	= {section: "color", func: initColor };
             gameConfig.fairy 	= {section: "tilt", func: initTilt};
-            gameConfig.pong 	= {section: "tilt", func: initTilt};
+            gameConfig.pong 	= {section: "updownTilt", func: initTheNewAndImprovedUpDownOnlyTilt};
             gameConfig.brickout = {section: "redgreen",func: initRedGreen};
             gameConfig.millionaire = {section: "millionaire",func: initMillionaire};
 
@@ -131,10 +141,25 @@
                 socket.emit("namechange", document.getElementById('username').value);
             }
 
-			function movementCallback (accel) {
-				mouseArrow.updatePosition(accel.tiltLR, accel.tiltFB);
-				mouseArrow.drawArrow();
-			}
+			function updownCallback (accel) {
+                if (accel.tiltFB!= undefined)
+                {
+                   if (accel.tiltFB <0)
+                   {
+                       document.getElementById("updownIndicator").innerHTML = "UP";
+                   }
+                    else
+                   {
+                       document.getElementById("updownIndicator").innerHTML = "DOWN";
+                   }
+                }
+            }
+
+            function movementCallback (accel) {
+                mouseArrow.updatePosition(accel.tiltLR, accel.tiltFB);
+                mouseArrow.drawArrow();
+            }
+
 			
             function initTilt() {
                 // start the acceleromters sending
@@ -146,6 +171,12 @@
 				mouseArrow.init("mousecanvas");
 				MMH.listenForMovements(movementCallback);
 				
+            }
+
+            function initTheNewAndImprovedUpDownOnlyTilt() {
+                MMH.init(socket);
+                MMH.listenForMovements(updownCallback);
+
             }
 
             function initColor() {
