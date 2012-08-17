@@ -29,7 +29,9 @@ var PongPlayfield = (function () {
         alert("Pong playfield got an admin message: " + messages);
     }
 
-    me.processUserAnswer = function (answer) {}
+    me.processUserAnswer = function (answer) {
+        //not used
+    }
 
     me.init = function (theSocket) {
         socket = theSocket;
@@ -38,7 +40,7 @@ var PongPlayfield = (function () {
         socket.emit("admin", "no_updates");
         initialiseGameVariables();
         drawGameBoard();
-        //this game work by redrawing canvas every 30 milliseconds and applying  movcment changes to paddle position
+        //this game work by redrawing canvas every 30 milliseconds and applying  movement changes to paddle position
      //   setInterval(drawGameBoard, 30);
         setInterval(drawGameBoard, 10);
     }
@@ -87,15 +89,6 @@ var PongPlayfield = (function () {
     var paddlew;
 
     function movePaddle() {
-/*
-        //apply changes to paddle but make sure it stays inside the box !
-        var newpaddlex = paddlex + player1Input;
-        if (newpaddlex < 0) {
-            newpaddlex = 0;
-        } else if (newpaddlex + paddlew > canvasWidth) {
-            newpaddlex = canvasWidth - paddlew;
-        }
-        paddlex = newpaddlex;*/
 
         //apply changes to paddle but make sure it stays inside the box !
         var newpaddle1Y = paddle1Y + player1Input;
@@ -148,7 +141,6 @@ var PongPlayfield = (function () {
         ANIMATION.setText("26px cinnamoncake, Verdana","Score:   0",340,30);
     }
 
-
     function checkBounce() {
         //Y coordinate update is dead easy if the ball hits the roof or the floor just reverse it
         if (y + dy  > canvasHeight - BALL_RADIUS || y + dy - BALL_RADIUS < 0)
@@ -174,7 +166,7 @@ var PongPlayfield = (function () {
             }
             else
             {
-                alert('out!') ;
+                //alert('out!') ;
             }
         }
 
@@ -193,13 +185,9 @@ var PongPlayfield = (function () {
             }
             else
             {
-                alert('out!') ;
+                //alert('out!') ;
             }
         }
-
-
-
-
             x += dx;
 
         return;
@@ -327,9 +315,6 @@ var PongPlayfield = (function () {
     }
 
 
-
-
-
     function debugStats() {
         var values = 'X = ' + x + '   y=' + y + ' dx=' + dx + ' dy=' + dy + '  paddle2Y=' + paddle2Y;
         document.getElementById("ponglog").innerHTML = values;
@@ -342,12 +327,12 @@ var PongPlayfield = (function () {
         player1Input = 0;
 
         //if its null then do nothin!
-        if (totals.totalTiltLR == null) {
+        if (totals.totalTiltFB == null) {
             return;
         }
 
-        //user input currently callibrated to +5 to -5 but maybe this should change??
-        player1Input = (totals.totalTiltLR / totals.count) / 90 * 5;
+        //user input currently calibrated to +5 to -5 but maybe this should change??
+        player1Input = (totals.totalTiltFB / totals.count) / 90 * 5;
 
     }
 
@@ -358,17 +343,16 @@ var PongPlayfield = (function () {
 
     // user changed their name
     function nameChange(data) {
-
+       // not used
     }
 
     // handle the arrival of a new user to the game
     function newUser(data) {
-
+       // not used
     }
 
-    // Color them out on woosing out of the game
     function woosOut(data) {
-
+        //not used
     }
     return me;
 }());
