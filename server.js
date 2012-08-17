@@ -38,7 +38,6 @@ server.get('/playfield', function (req, res) { res.sendfile(__dirname + '/public
 server.get('/test', function (req, res) { res.sendfile(__dirname + '/public/scaletest.html'); });
 server.get('/motiontest', function (req, res) { res.sendfile(__dirname + '/public/motiondetector.html'); });
 server.get('/control', function (req, res) { res.sendfile(__dirname + '/public/controller.html'); });
-server.get('/bounce', function (req, res) { res.sendfile(__dirname + '/public/bounce/playfield.html'); });
 
 // set up socket handlers (one per namespace)
 // Should this move to each of the modules???

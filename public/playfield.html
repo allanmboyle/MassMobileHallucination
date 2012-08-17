@@ -6,7 +6,6 @@
         <script src="/socket.io/socket.io.js"></script>
         <script src="/lib/fairy_playfield.js"></script>
         <script src="/lib/worm_playfield.js"></script>
-        <script src="/lib/bounce_playfield.js"></script>
         <script src="/lib/pong_playfield.js"></script>
         <script src="/lib/millionaire_playfield.js"></script>
         <script src="/lib/animation.js"></script>
@@ -97,7 +96,7 @@
 
         <!-- start pong -->
         <div id=pong style="display: none">
-            <canvas id="pongcanvas" class="bounce" width="800" height="600"></canvas>
+            <canvas id="pongcanvas" width="800" height="600"></canvas>
             <table align="center" style="width:80%;font-family: Arial, Helvetica, sans-serif; font-size: medium">
                 <tr>
                     <td>
@@ -118,35 +117,7 @@
 
         <div id=worm style="display: none">
             <div style="width: 100%; height: 100%; background-color: red;">The worms crawl in and the worms crawl out.</div>
-            <div id=bounce style="display: none">
-                <table align="center" style="width:30%;font-family: Arial, Helvetica, sans-serif; font-size: large">
-                    <tr>
-                        <td>Score</td>
-                        <td>
-                            <div id="score">0</div>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>Highest Score</td>
-                        <td>
-                            <div id="highestScore">0</div>
-                        </td>
-                    </tr>
-                </table>
-                <canvas id="bouncecanvas" class="bounce" width="900" height="600"></canvas>
-                <table align="center" style="width:80%;font-family: Arial, Helvetica, sans-serif; font-size: medium">
-                    <tr>
-                        <td>
-                            <div id="bouncelog"></div>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>
-                            <div id="bouncelog1"></div>
-                        </td>
-                    </tr>
-                </table>
-            </div>
+        </div>
             <script>
                 var currentGame = null;
                 var socket = io.connect("/playfield");
@@ -164,11 +135,6 @@
                     section: "maze",
                     module: null
                 };
-                gameConfig.bounce = {
-                    section: "bounce",
-                    module: BouncePlayfield
-                };
-
                 gameConfig.millionaire = {
                     section: "millionaire",
                     module: MillionairePlayfield
@@ -177,7 +143,6 @@
                     section: "pong",
                     module: PongPlayfield
                 };
-
 
                 // default starting game
                 changeGame("pong");

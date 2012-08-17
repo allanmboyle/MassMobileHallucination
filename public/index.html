@@ -91,7 +91,7 @@
             gameConfig.worm 	= {section: "redgreen", func: initTilt};
             gameConfig.color 	= {section: "color", func: initColor };
             gameConfig.fairy 	= {section: "tilt", func: initTilt};
-            gameConfig.bounce 	= {section: "tilt", func: initTilt};
+            gameConfig.pong 	= {section: "pong", func: initTilt};
             gameConfig.brickout = {section: "redgreen",func: initRedGreen};
             gameConfig.millionaire = {section: "millionaire",func: initMillionaire};
 
@@ -112,26 +112,6 @@
                 alert(message);
             });
 
-            // // display mouse arrow (used when no acceleromters present)
-            // function initmousedetection() {
-		
-            //         $("#mousecontroller").css('display', 'block');
-            //         var mouseArrow = new MouseArrow();
-            //         mouseArrow.init("mousecanvas");
-          
-          
-            //         //send mouse movements to MMH to be processed
-            //         mouseArrow.subscribeorientationchanged(MMH.sendMovement);
-            //         // Timer for animation.
-            //         setInterval(function () {
-            //             mouseArrow.updatePosition();
-            //             mouseArrow.drawArrow();
-            //             var angle = mouseArrow.angle();
-            //             var orientation = mouseArrow.getOrientation();
-            //             $("#arrowlog").html(' tiltLR: ' + orientation.tiltLR + ' tiltFB: ' + orientation.tiltFB);
-            //         }, 20);
-         
-            // }
 
             // Change the game on request of the controller and initialize the screens and data
             function changeGame(gameName) {
