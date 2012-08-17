@@ -35,9 +35,12 @@ var MillionairePlayfield = (function () {
     me.processUserAnswer = function (answer) {
         processUserAnswer(answer);
     }
-    me.processTotalUpdates = function (totals) {
 
+
+    me.totalUpdates = function (totals) {
+       //
     }
+
     me.processPositionUpdates = function (totals) {
 
     }
