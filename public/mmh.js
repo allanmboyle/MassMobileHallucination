@@ -97,7 +97,7 @@ var MMH = (function () {
 	//
 	// Private stuff
 	//
-    var playerLocation = "right";
+    var playerLocation = "right"; // default to RHS but player can change
 	var socket = null;
 	var SEND_FREQUENCY = 100; // can get throttled
 	var accel = {};
@@ -142,8 +142,8 @@ var MMH = (function () {
 				
 				// z is the vertical acceleration of the device
 				var motUD = eventData.z;
-				
-				storeOrientation(tiltLR, tiltFB, dir, motUD);
+
+				storeOrientation(tiltLR, tiltFB, dir, motUD,playerLocation);
 				}, false);
 		} else {
 			//document.getElementById("doEvent").innerHTML = "Not supported on your device or browser.  Sorry."
@@ -158,7 +158,8 @@ var MMH = (function () {
 				(e.x / window.innerWidth ) * 180 - 90,
 				(e.y / window.innerHeight ) * 180 - 90,
 				0,
-				0
+				0 ,
+                playerLocation
 			);
 		};
 	}
@@ -169,12 +170,13 @@ var MMH = (function () {
 	
 	// This is just the last change recorded. The last one recorded gets sent
 	// according to the throttle.
-	function storeOrientation(tiltLR, tiltFB, dir, motionUD) {
+	function storeOrientation(tiltLR, tiltFB, dir, motionUD, location) {
 		accel = {
 			tiltLR: tiltLR,
 			tiltFB: tiltFB,
 			dir: dir,
-			motionUD: motionUD
+			motionUD: motionUD,
+            playerLocation : location
 		}
 	}
 
