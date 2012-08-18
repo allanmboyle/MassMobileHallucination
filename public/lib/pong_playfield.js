@@ -327,6 +327,9 @@ var PongPlayfield = (function () {
         player1Input = 0;
         player2Input = 0;
 
+
+        //alert(JSON.stringify(totals));
+
         //if its null then do nothin!
        // if (totals.totalTiltFB == null) {
        //     return;
