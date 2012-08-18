@@ -123,7 +123,7 @@ var MMH = (function () {
 				var motUD = null;
 				
 				// call our orientation event handler
-				storeOrientation(tiltLR, tiltFB, dir, motUD);
+				storeOrientation(tiltLR, tiltFB, dir, motUD,playerLocation);
 				}, false);
 		} else if (window.OrientationEvent) {
 			alert("This browser needs a little work before it will work properly");
