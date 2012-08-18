@@ -318,21 +318,30 @@ var PongPlayfield = (function () {
     function debugStats() {
         var values = 'X = ' + x + '   y=' + y + ' dx=' + dx + ' dy=' + dy + '  paddle2Y=' + paddle2Y;
         document.getElementById("ponglog").innerHTML = values;
-        var values = 'player1Input = ' + player1Input;
+        var values = 'player1Input = ' + player1Input + '   player2Input = ' + player2Input;
         document.getElementById("ponglog1").innerHTML = values;
     }
 
     function processTotalUpdates (totals) {
 
         player1Input = 0;
+        player2Input = 0;
 
         //if its null then do nothin!
-        if (totals.totalTiltFB == null) {
-            return;
-        }
+       // if (totals.totalTiltFB == null) {
+       //     return;
+       // }
 
         //user input currently calibrated to +5 to -5 but maybe this should change??
-        player1Input = (totals.totalTiltFB / totals.count) / 90 * 5;
+        if (totals.left.totalTiltFB !=0)
+        {
+            player1Input = (totals.left.totalTiltFB / totals.left.count) / 90 * 5;
+        }
+
+        if (totals.right.totalTiltFB !=0)
+        {
+            player2Input = (totals.right.totalTiltFB / totals.right.count) / 90 * 5;
+        }
 
     }
 
