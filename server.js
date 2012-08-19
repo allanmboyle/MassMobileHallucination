@@ -17,6 +17,7 @@ var playerList = {};
 // start up the server 
 server.listen(process.env.PORT || 8080);
 io.set('log level', 2); // turn logging down
+console.log("Server listening on port %d", server.address().port);
 
 io.configure(function () {
   io.set("transports", ["xhr-polling"]);
