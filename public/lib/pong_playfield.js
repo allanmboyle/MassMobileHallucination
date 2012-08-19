@@ -75,8 +75,8 @@ var PongPlayfield = (function () {
     var x = startX;
     var y = startY;
 
-    var dx = 2;
-    var dy = 4;
+    var dx = .75;
+    var dy = 1.5;
 
     var canvasWidth;
     var canvasHeight;
@@ -85,8 +85,8 @@ var PongPlayfield = (function () {
 
     var paddle1Y=0;
     var paddle2Y=0;
-    var paddleh =100;
-    var paddlew =20;
+    var paddleh =150;
+    var paddlew =36;
 
     var player1score = 0;
     var player2score = 0;
@@ -175,7 +175,7 @@ var PongPlayfield = (function () {
             else
             {
                 pointOver = true;
-                player2score++;
+                player1score++;
             }
         }
 
@@ -195,7 +195,7 @@ var PongPlayfield = (function () {
             else
             {
                 pointOver = true;
-                player1score ++;
+                player2score ++;
             }
         }
 
@@ -268,8 +268,8 @@ var PongPlayfield = (function () {
 
         x = startX;
         y = startY;
-        dx = 2;
-        dy = 4;
+        dx = .75;
+        dy = 1.5;
 
         paddlex = canvasWidth / 2;
     //    paddleh = 100;
@@ -348,8 +348,9 @@ var PongPlayfield = (function () {
 
     function processTotalUpdates (totals) {
 
-        player1Input = 0;
-        player2Input = 0;
+      // this makes things blocky..
+      //  player1Input = 0;
+      //  player2Input = 0;
 
 
         //alert(JSON.stringify(totals));
