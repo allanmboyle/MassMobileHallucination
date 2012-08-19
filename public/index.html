@@ -114,6 +114,8 @@
             gameConfig.brickout = {section: "redgreen",func: initRedGreen};
             gameConfig.millionaire = {section: "millionaire",func: initMillionaire};
 
+            MMH.performSlowCrappyGyroscopeDetection();
+
             var socket = io.connect('/players');
 
             socket.on('changeSettings', function (data) {

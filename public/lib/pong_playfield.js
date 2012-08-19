@@ -41,8 +41,8 @@ var PongPlayfield = (function () {
         initialiseGameVariables();
         drawGameBoard();
         //this game work by redrawing canvas every 30 milliseconds and applying  movement changes to paddle position
-     //   setInterval(drawGameBoard, 30);
-        setInterval(drawGameBoard, 10);
+        setInterval(drawGameBoard, 30);
+     //   setInterval(drawGameBoard, 10);
     }
 
     me.shutdown = function () {

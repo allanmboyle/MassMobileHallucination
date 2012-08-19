@@ -24,6 +24,39 @@ var MMH = (function () {
 	}
 
 
+    // performSlowCrappyGyroscopeDetection
+    // This is LAME but it works - there is a more elegant way to do this so let's revisit later.
+    // bottom line is that this is UGLY but it works
+    // Gyroscope detection relies on the event deviceorientation firing with non null values
+    // turns out that if the browser supports a gyroscope but the device doesn't this event may fire once
+    // so the detection relies on the event firing more than once and a hard coded setTimeout function to then
+    // check the result
+
+
+    me.performSlowCrappyGyroscopeDetection    = function(){
+
+        if (window.DeviceOrientationEvent) {
+            window.addEventListener("deviceorientation", handleOrientation, false);
+        }
+        else
+        {
+            gyroscopeDetectionComplete = true;
+        }
+
+        //ugly as a CRT TV !
+        var t=setTimeout(function(){
+
+            if (window.DeviceOrientationEvent) {
+                window.removeEventListener("deviceorientation", handleOrientation, false);
+            }
+            gyroscopeDetectionComplete = true;
+        },200);
+    }
+
+    var gyroscopeDetected = false;
+    var gyroscopeDetectionComplete = false;
+
+
     me.setPlayerLocation = function (location) {
         playerLocation = location;
         };
@@ -78,36 +111,53 @@ var MMH = (function () {
 		sendAnswerToServer(data);
 	}
 
-	/*
-	 * Here we must list all the possible user agents that contain accelerometers.
-	 */
+	//
+    // You MUST call performSlowCrappyGyroscopeDetection at least 200 ms before you call this function
+    // you have been warned !
+    // this is UGLY and will be fixed up later
+
 	me.clientHasAcceleromters = function() {
+        return gyroscopeDetected;
+
+/*
 		var accelerometerDevices = [
 			"iPhone",
 			"iPod",
 			"iPad"];
-		
-		// TODO support the above array
 		if (navigator.userAgent.indexOf("iPhone") != -1) {
 			return true;
 		}
 		return false;
+*/
 	}
 
 	//
 	// Private stuff
 	//
-    var playerLocation = "right"; // default to RHS but player can change
+    var playerLocation = "right"; // default players to RHS but player can change
 	var socket = null;
 	var SEND_FREQUENCY = 100; // can get throttled
 	var accel = {};
 	var orientationTimer = null;
 	var clientCallbackFunction = null;
 
+    function handleOrientation(e){
+
+        // can fire with null values on devices with no gyroscope
+        if (e.alpha != undefined && e.beta != undefined && e.gamma != undefined)
+        {
+            gyroscopeDetected = true;
+        }
+        else
+        {
+            gyroscopeDetected = false;
+        }
+    }
+
+
 	// Listening for accelerometer changes
 	function startListeningForAccelerometers() {
 		if (window.DeviceOrientationEvent) {
-			//document.getElementById("doEvent").innerHTML = "DeviceOrientation";
 			// Listen for the deviceorientation event and handle the raw data
 			window.addEventListener('deviceorientation', function(eventData) {
 				// gamma is the left-to-right tilt in degrees, where right is positive
@@ -126,7 +176,8 @@ var MMH = (function () {
 				storeOrientation(tiltLR, tiltFB, dir, motUD,playerLocation);
 				}, false);
 		} else if (window.OrientationEvent) {
-			alert("This browser needs a little work before it will work properly");
+
+			//alert("This browser needs a little work before it will work properly");
 			//document.getElementById("doEvent").innerHTML = "MozOrientation";
 			window.addEventListener('MozOrientation', function(eventData) {
 				// x is the left-to-right tilt from -1 to +1, so we need to convert to degress
@@ -145,9 +196,6 @@ var MMH = (function () {
 
 				storeOrientation(tiltLR, tiltFB, dir, motUD,playerLocation);
 				}, false);
-		} else {
-			//document.getElementById("doEvent").innerHTML = "Not supported on your device or browser.  Sorry."
-			alert("Sorry, your browser doesn't support access to acceleromters");
 		}
 	}
 
