@@ -69,7 +69,7 @@ var FairyPlayfield = (function () {
 	MAX_X = 900;
 	MAX_Y = 600;
 
-	me.processTotalUpdates = function (updates) {
+	processTotalUpdates = function (updates) {
 		// ignore these. Shouldn't receive too many because the clients are instructed not to send them.
 	}
 	
