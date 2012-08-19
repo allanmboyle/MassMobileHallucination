@@ -1,6 +1,4 @@
 
-// animation.js
-
 var ANIMATION = (function () {
 	
 	var me = {};
