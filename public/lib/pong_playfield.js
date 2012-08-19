@@ -75,8 +75,10 @@ var PongPlayfield = (function () {
     var x = startX;
     var y = startY;
 
-    var dx = .5;
-    var dy = 1;
+ //   var dx = .5;
+  //  var dy = 1;
+    var dx = 20;
+    var dy = 40;
 
     var canvasWidth;
     var canvasHeight;
@@ -87,6 +89,11 @@ var PongPlayfield = (function () {
     var paddle2Y=0;
     var paddleh;
     var paddlew;
+
+    var player1score = 0;
+    var player2score = 0;
+
+
 
     function movePaddle() {
 
@@ -138,10 +145,13 @@ var PongPlayfield = (function () {
 
 
     function drawScore(){
-        ANIMATION.setText("26px cinnamoncake, Verdana","Score:   0",340,30);
+        ANIMATION.setText("44px Verdana",player1score + "  :  " + player2score  ,340,50,'#fff');
     }
 
     function checkBounce() {
+
+        var pointOver = false;
+
         //Y coordinate update is dead easy if the ball hits the roof or the floor just reverse it
         if (y + dy  > canvasHeight - BALL_RADIUS || y + dy - BALL_RADIUS < 0)
         {
@@ -166,7 +176,8 @@ var PongPlayfield = (function () {
             }
             else
             {
-                //alert('out!') ;
+                pointOver = true;
+                player2score++;
             }
         }
 
@@ -185,60 +196,70 @@ var PongPlayfield = (function () {
             }
             else
             {
-                //alert('out!') ;
+                pointOver = true;
+                player1score ++;
             }
         }
-            x += dx;
-
-        return;
-
-        //hit the top or the bottom
-
-        if (y + dy < BALL_RADIUS) {
-            dy = -dy;
-        }
 
 
-        // Hit a left/right wall
-        if (x + dx > canvasWidth - BALL_RADIUS || x + dx < BALL_RADIUS) dx = -dx;
-
-        // Hit the roof
-        // Hit the roof
-        if (y + dy < BALL_RADIUS) {
-            dy = -dy;
-        }
-        else if (
-        // hit a paddle?
-        (y + dy >= canvasHeight - paddleh - BALL_RADIUS // ball lower edge will be below the paddle surface
-        &&
-        x + dx >= paddlex && x + dx < paddlex + paddlew) || (y + dy >= canvasHeight - paddleh - BALL_RADIUS * .8 // ball 3rd of the way below the top of the paddle
-        &&
-        (x + dx >= paddlex - BALL_RADIUS && x + dx < paddlex + paddlew + BALL_RADIUS)) // touching a paddle corner
-        ) {
-            score++;
-
-            dy = -dy;
-            dx = 8 * ((x - (paddlex + paddlew / 2)) / paddlew);
-            // you've missed the ball, bozo! (the next else-if clause will kick in>
-        } else if (y + dy > canvasHeight - BALL_RADIUS) {
-            //game over, so stop the animation
-            //game over, I think it would be good to have a bit of a delay before the next game starts...
-            clearInterval(intervalId);
-            score = 0;
-            initialiseGameVariables();
-            dy = -dy;
-            y = BALL_RADIUS;
-        }
-
+        if (!pointOver)
+        {
         x += dx;
-        y += dy;
-
-
-        if (score > highestScore) {
-            highestScore = score;
-            document.getElementById("highestScore").innerHTML = highestScore;
+            return;
         }
-        document.getElementById("score").innerHTML = score;
+
+      // new game
+        clearInterval(intervalId);
+        initialiseGameVariables();
+
+        /*
+      //hit the top or the bottom
+
+      if (y + dy < BALL_RADIUS) {
+          dy = -dy;
+      }
+
+
+      // Hit a left/right wall
+      if (x + dx > canvasWidth - BALL_RADIUS || x + dx < BALL_RADIUS) dx = -dx;
+
+      // Hit the roof
+      // Hit the roof
+      if (y + dy < BALL_RADIUS) {
+          dy = -dy;
+      }
+      else if (
+      // hit a paddle?
+      (y + dy >= canvasHeight - paddleh - BALL_RADIUS // ball lower edge will be below the paddle surface
+      &&
+      x + dx >= paddlex && x + dx < paddlex + paddlew) || (y + dy >= canvasHeight - paddleh - BALL_RADIUS * .8 // ball 3rd of the way below the top of the paddle
+      &&
+      (x + dx >= paddlex - BALL_RADIUS && x + dx < paddlex + paddlew + BALL_RADIUS)) // touching a paddle corner
+      ) {
+          score++;
+
+          dy = -dy;
+          dx = 8 * ((x - (paddlex + paddlew / 2)) / paddlew);
+          // you've missed the ball, bozo! (the next else-if clause will kick in>
+      } else if (y + dy > canvasHeight - BALL_RADIUS) {
+          //game over, so stop the animation
+          //game over, I think it would be good to have a bit of a delay before the next game starts...
+          clearInterval(intervalId);
+          score = 0;
+          initialiseGameVariables();
+          dy = -dy;
+          y = BALL_RADIUS;
+      }
+
+      x += dx;
+      y += dy;
+
+
+      if (score > highestScore) {
+          highestScore = score;
+          document.getElementById("highestScore").innerHTML = highestScore;
+      }
+      document.getElementById("score").innerHTML = score;*/
     }
 
     function initialiseGameVariables() {
@@ -249,8 +270,8 @@ var PongPlayfield = (function () {
 
         x = startX;
         y = startY;
-        dx = .5;
-        dy = 1;
+        dx = 5;
+        dy = 10;
 
         paddlex = canvasWidth / 2;
         paddleh = 100;

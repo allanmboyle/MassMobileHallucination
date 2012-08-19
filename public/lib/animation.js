@@ -26,8 +26,9 @@ var ANIMATION = (function () {
 	  _canvas.fill();
     }
 
-    me.setText = function(font,text,x,y)
+    me.setText = function(font,text,x,y, colour)
     {
+        _canvas.fillStyle = colour;
         _canvas.font = font;
         _canvas.fillText(text, x, y);
     }
