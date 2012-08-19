@@ -75,10 +75,8 @@ var PongPlayfield = (function () {
     var x = startX;
     var y = startY;
 
-  //  var dx = .5;
-  //  var dy = 1;
-    var dx = 5;
-    var dy = 10;
+    var dx = 2;
+    var dy = 4;
 
     var canvasWidth;
     var canvasHeight;
@@ -87,8 +85,8 @@ var PongPlayfield = (function () {
 
     var paddle1Y=0;
     var paddle2Y=0;
-    var paddleh;
-    var paddlew;
+    var paddleh =100;
+    var paddlew =20;
 
     var player1score = 0;
     var player2score = 0;
@@ -270,13 +268,14 @@ var PongPlayfield = (function () {
 
         x = startX;
         y = startY;
-        dx = 5;
-        dy = 10;
+        dx = 2;
+        dy = 4;
 
         paddlex = canvasWidth / 2;
-        paddleh = 100;
+    //    paddleh = 100;
 
-        paddlew = 20;
+
+    //    paddlew = 20;
 
         document.body.addEventListener('keydown', onkeydown, false) ;
         document.body.addEventListener('keyup', onkeyup, false) ;
