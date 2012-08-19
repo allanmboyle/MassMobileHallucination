@@ -75,10 +75,10 @@ var PongPlayfield = (function () {
     var x = startX;
     var y = startY;
 
- //   var dx = .5;
+  //  var dx = .5;
   //  var dy = 1;
-    var dx = 20;
-    var dy = 40;
+    var dx = 5;
+    var dy = 10;
 
     var canvasWidth;
     var canvasHeight;
@@ -305,6 +305,10 @@ var PongPlayfield = (function () {
             case 80:{
                 player2Input = -5;
                 break;
+            }
+            case 32:{
+                alert('temp pause for debugging...');
+                clearInterval(intervalId);
             }
         }
     }
