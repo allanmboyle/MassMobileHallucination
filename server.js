@@ -37,7 +37,6 @@ server.use(express.static(__dirname + '/public/lib'));
 server.get('/', function (req, res) { res.sendfile(__dirname + '/public/index.html'); });
 server.get('/playfield', function (req, res) { res.sendfile(__dirname + '/public/playfield.html'); });
 server.get('/test', function (req, res) { res.sendfile(__dirname + '/public/scaletest.html'); });
-server.get('/motiontest', function (req, res) { res.sendfile(__dirname + '/public/motiondetector.html'); });
 server.get('/control', function (req, res) { res.sendfile(__dirname + '/public/controller.html'); });
 
 // set up socket handlers (one per namespace)
