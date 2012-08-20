@@ -26,7 +26,10 @@ var PongPlayfield = (function () {
         processPositionUpdates(updates)
     }
     me.admin = function (message) {
-        alert("Pong playfield got an admin message: " + messages);
+        if (message.game != undefined && message.game =="pong")
+        {
+            applyConfigurationSettings(message);
+        }
     }
 
     me.processUserAnswer = function (answer) {
@@ -92,6 +95,14 @@ var PongPlayfield = (function () {
     var player2score = 0;
 
 
+    var ball_radius = 10;
+
+
+    function applyConfigurationSettings(data)
+    {
+        ball_radius = data.ballRadius;
+    }
+
 
     function movePaddle() {
 
@@ -114,7 +125,6 @@ var PongPlayfield = (function () {
 
     }
 
-    BALL_RADIUS = 10;
 
     function drawGameBoard() {
 
@@ -126,7 +136,7 @@ var PongPlayfield = (function () {
         ANIMATION.rectangle(0, 0, canvasWidth, canvasHeight, '#000000');
 
         //white ball
-        ANIMATION.circle(x, y, BALL_RADIUS, '#FFFFFF');
+        ANIMATION.circle(x, y, ball_radius, '#FFFFFF');
 
         var padheight = canvasHeight - paddleh;
 
@@ -151,7 +161,7 @@ var PongPlayfield = (function () {
         var pointOver = false;
 
         //Y coordinate update is dead easy if the ball hits the roof or the floor just reverse it
-        if (y + dy  > canvasHeight - BALL_RADIUS || y + dy - BALL_RADIUS < 0)
+        if (y + dy  > canvasHeight - ball_radius || y + dy - ball_radius < 0)
         {
             dy = -dy;
         }
@@ -161,7 +171,7 @@ var PongPlayfield = (function () {
         //right wall
 
         // is the edge of the ball in the hit zone
-        if ((x + dx + BALL_RADIUS) >= (canvasWidth - paddlew))
+        if ((x + dx + ball_radius) >= (canvasWidth - paddlew))
         {
           // if the right paddle is in positing bounce otherwise its out
           var posx = x + dx;
@@ -181,7 +191,7 @@ var PongPlayfield = (function () {
 
 
         //left wall
-        if ((x + dx - BALL_RADIUS) <= (paddlew))
+        if ((x + dx - ball_radius) <= (paddlew))
         {
             // if the right paddle is in positing bounce otherwise its out
             var posx = x + dx;
