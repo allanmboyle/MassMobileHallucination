@@ -11,19 +11,19 @@ var PongPlayfield = (function () {
     // Publics
     //  
     me.newUser = function (data) {
-        newUser(data)
+        newUser(data);
     }
     me.woosOut = function (data) {
-        woosOut(data)
+        woosOut(data);
     }
     me.players = function (players) {
-        players(data)
+        players(data) ;
     }
     me.totalUpdates = function (totals) {
-        processTotalUpdates(totals)
+        processTotalUpdates(totals);
     }
     me.positionUpdates = function (updates) {
-        processPositionUpdates(updates)
+        processPositionUpdates(updates);
     }
     me.admin = function (message) {
         if (message.game != undefined && message.game =="pong")
@@ -71,29 +71,32 @@ var PongPlayfield = (function () {
     var x = startX;
     var y = startY;
 
+    var ball_radius = 10;
     var dx = .75;
     var dy = 1.5;
+    var paddleHeight =150;
+    var paddleWidth =36;
 
     var canvasWidth;
     var canvasHeight;
     var intervalId = 0;
-    var paddlex;
 
     var paddle1Y=0;
     var paddle2Y=0;
-    var paddleh =150;
-    var paddlew =36;
-
     var player1score = 0;
     var player2score = 0;
 
 
-    var ball_radius = 10;
+
 
 
     function applyConfigurationSettings(data)
     {
         ball_radius = data.ballRadius;
+        dx = data.dx;
+        dy = data.dy;
+        paddleHeight  = data.paddleHeight;
+        paddleWidth = data.paddleWidth;
     }
 
 
@@ -103,16 +106,16 @@ var PongPlayfield = (function () {
         var newpaddle1Y = paddle1Y + player1Input;
         if (newpaddle1Y < 0) {
             newpaddle1Y = 0;
-        } else if (newpaddle1Y + paddleh > canvasHeight) {
-            newpaddle1Y = canvasHeight - paddleh;
+        } else if (newpaddle1Y + paddleHeight > canvasHeight) {
+            newpaddle1Y = canvasHeight - paddleHeight;
         }
         paddle1Y = newpaddle1Y;
 
         var newpaddle2Y = paddle2Y + player2Input;
         if (newpaddle2Y < 0) {
             newpaddle2Y = 0;
-        } else if (newpaddle2Y + paddleh > canvasHeight) {
-            newpaddle2Y = canvasHeight - paddleh;
+        } else if (newpaddle2Y + paddleHeight > canvasHeight) {
+            newpaddle2Y = canvasHeight - paddleHeight;
         }
         paddle2Y = newpaddle2Y;
 
@@ -132,10 +135,10 @@ var PongPlayfield = (function () {
         ANIMATION.circle(x, y, ball_radius, '#FFFFFF');
 
         //player one red paddle
-        ANIMATION.rectangle(0, paddle1Y, paddlew, paddleh, '#f00');
+        ANIMATION.rectangle(0, paddle1Y, paddleWidth, paddleHeight, '#f00');
 
         //player two green paddle
-        ANIMATION.rectangle(canvasWidth -paddlew, paddle2Y, paddleh, paddleh, '#629632');
+        ANIMATION.rectangle(canvasWidth -paddleWidth, paddle2Y, paddleHeight, paddleHeight, '#629632');
 
         checkBounce();
 
@@ -162,13 +165,13 @@ var PongPlayfield = (function () {
         //right wall
 
         // is the edge of the ball in the hit zone
-        if ((x + dx + ball_radius) >= (canvasWidth - paddlew))
+        if ((x + dx + ball_radius) >= (canvasWidth - paddleWidth))
         {
           // if the right paddle is in positing bounce otherwise its out
           var posx = x + dx;
           var posy = y + dy;
 
-            if ((posy >= paddle2Y) && (posy<= paddle2Y + paddleh))
+            if ((posy >= paddle2Y) && (posy<= paddle2Y + paddleHeight))
             {
                 //bounce!
                 dx = -dx;
@@ -182,13 +185,13 @@ var PongPlayfield = (function () {
 
 
         //left wall
-        if ((x + dx - ball_radius) <= (paddlew))
+        if ((x + dx - ball_radius) <= (paddleWidth))
         {
             // if the right paddle is in positing bounce otherwise its out
             var posx = x + dx;
             var posy = y + dy;
 
-            if ((posy >= paddle1Y) && (posy<= paddle1Y + paddleh))
+            if ((posy >= paddle1Y) && (posy<= paddle1Y + paddleHeight))
             {
                 //bounce!
                 dx = -dx;
