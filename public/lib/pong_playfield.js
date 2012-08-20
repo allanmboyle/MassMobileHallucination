@@ -62,13 +62,6 @@ var PongPlayfield = (function () {
     // Privates 
     //
 
-    //canvas
-    var ctx;
-    var used;
-    var score = 0;
-    var highestScore = 0;
-
-
     var player1Input = 0;
     var player2Input = 0;
 
@@ -137,8 +130,6 @@ var PongPlayfield = (function () {
 
         //white ball
         ANIMATION.circle(x, y, ball_radius, '#FFFFFF');
-
-        var padheight = canvasHeight - paddleh;
 
         //player one red paddle
         ANIMATION.rectangle(0, paddle1Y, paddlew, paddleh, '#f00');
@@ -271,7 +262,7 @@ var PongPlayfield = (function () {
     }
 
     function initialiseGameVariables() {
-        ctx = document.getElementById("pongcanvas").getContext("2d");
+        var ctx = document.getElementById("pongcanvas").getContext("2d");
         ANIMATION.setCanvas(ctx);
         canvasWidth = document.getElementById("pongcanvas").width;
         canvasHeight = document.getElementById("pongcanvas").height;
@@ -280,12 +271,6 @@ var PongPlayfield = (function () {
         y = startY;
         dx = .75;
         dy = 1.5;
-
-        paddlex = canvasWidth / 2;
-    //    paddleh = 100;
-
-
-    //    paddlew = 20;
 
         document.body.addEventListener('keydown', onkeydown, false) ;
         document.body.addEventListener('keyup', onkeyup, false) ;
