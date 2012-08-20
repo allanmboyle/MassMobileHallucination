@@ -17,6 +17,16 @@
 		function changeGame(theGame) {
 			socket.emit("changeGame", theGame);
 		}
+
+        function  changePongSettings(){
+            var settings = document.getElementById('pongSettings').value;
+            sendAdminMessageToPlayfield(settings);
+        }
+
+
+        function  sendAdminMessageToPlayfield(settings){
+            socket.emit("playfield_admin", { control: "changeSettings", data: settings});
+        }
 		
 	</script>
 </head>
@@ -35,6 +45,16 @@
 			<input type=button onclick="changeGame('millionaire')" value="Who wants to be a millionaire?" />
 
 	</div>
+
+    <br /><br />
+    <div>
+    Tweat Pong Settings on the fly !
+    </div>
+    <textarea id = "pongSettings" rows="10" cols="30">{game:pong,ballRadius:20}
+    </textarea>
+    <input type=button onclick="changePongSettings();" value="UPdate Pong playfield" />
+
+
 </body>
 </html>
 
