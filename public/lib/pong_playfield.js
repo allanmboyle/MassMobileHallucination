@@ -43,19 +43,19 @@ var PongPlayfield = (function () {
     // Publics
     //  
     me.newUser = function (data) {
-        newUser(data);
+        //not used
     }
     me.woosOut = function (data) {
-        woosOut(data);
+       // not used
     }
     me.players = function (players) {
-        players(data);
+        //not used
     }
     me.totalUpdates = function (totals) {
         processTotalUpdates(totals);
     }
     me.positionUpdates = function (updates) {
-        processPositionUpdates(updates);
+        //not used
     }
     me.admin = function (message) {
         if (message.game != undefined && message.game == "pong") {
@@ -84,7 +84,7 @@ var PongPlayfield = (function () {
 
     // place players randomly on the screen
     me.initPlayers = function (players) {
-
+      //not used
     };
 
     //
@@ -155,26 +155,33 @@ var PongPlayfield = (function () {
         if (config().debugMode) {
             outputDebugInfoToPlayfield();
         }
-
+        drawBoard();
         movePaddles();
+        drawBall();
+        drawPaddles();
+        checkBounce();
+        drawScore(game.score);
+    }
 
-        ANIMATION.clear(0, 0, canvasWidth, canvasHeight);
-
-        //black background
-        ANIMATION.rectangleWithOpacity(0, 0, canvasWidth, canvasHeight, '00', '00', '00', boardOpacity);
-
-        //white ball
-        ANIMATION.circle(game.ball.x, game.ball.y, config().radius, '#FFFFFF');
-
+    function drawPaddles(){
         //player one red paddle
         ANIMATION.rectangle(0, game.paddle.leftY, config().paddleWidth, config().paddleHeight, '#f00');
 
         //player two green paddle
         ANIMATION.rectangle(canvasWidth - config().paddleWidth, game.paddle.rightY, config().paddleWidth, config().paddleHeight, '#629632');
 
-        checkBounce();
+    }
 
-        drawScore(game.score);
+    function drawBall(){
+        //white ball
+        ANIMATION.circle(game.ball.x, game.ball.y, config().radius, '#FFFFFF');
+    }
+
+    function drawBoard(){
+        ANIMATION.clear(0, 0, canvasWidth, canvasHeight);
+
+        //black background
+        ANIMATION.rectangleWithOpacity(0, 0, canvasWidth, canvasHeight, '00', '00', '00', boardOpacity);
     }
 
     function drawScore(score) {
@@ -362,24 +369,6 @@ var PongPlayfield = (function () {
             game.player2Input = (totals.right.totalTiltFB / totals.right.count) / 90 * 5;
         }
 
-    }
-
-    function processPositionUpdates(updates) {
-        //not used
-    }
-
-    // user changed their name
-    function nameChange(data) {
-        // not used
-    }
-
-    // handle the arrival of a new user to the game
-    function newUser(data) {
-        // not used
-    }
-
-    function woosOut(data) {
-        //not used
     }
     return me;
 }(Settings));
