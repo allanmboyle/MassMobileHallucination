@@ -18,6 +18,8 @@ var Settings = (function () {
         _settings.dy = data.dy;
         _settings.paddleHeight = data.paddleHeight;
         _settings.paddleWidth = data.paddleWidth;
+        _settings.gameLoopInterval = data.gameLoopInterval;
+        _settings.debugMode = data.debugMode;
     } ;
 
     //defaults
@@ -26,7 +28,9 @@ var Settings = (function () {
         dx : 0.75,
         dy:1.5,
         paddleHeight:150,
-        paddleWidth:36
+        paddleWidth:36,
+        gameLoopInterval :30,
+        debugMode :false
     }
 
     return me;
@@ -72,10 +76,8 @@ var PongPlayfield = (function () {
         socket.emit("admin", "yes_totals");
         socket.emit("admin", "no_updates");
         initialiseGameVariables();
-        drawGameBoard();
-        //this game work by redrawing canvas every 30 milliseconds and applying  movement changes to paddle position
-        setInterval(drawGameBoard, 30);
-     //   setInterval(drawGameBoard, 10);
+
+        setInterval(gameLoop, config().gameLoopInterval);
     }
 
     me.shutdown = function () {
@@ -124,11 +126,15 @@ var PongPlayfield = (function () {
     var paddle1Y=0;
     var paddle2Y=0;
     var player1score = 0;
-    var player1score = 0;
     var player2score = 0;
 
     var boardOpacity = 1.0;
 
+
+    var COLOUR  =
+    {
+        board :'000000'
+    }
 
 
     function applyConfigurationSettings(data)
@@ -136,7 +142,6 @@ var PongPlayfield = (function () {
         updateConfig(data);
 
     }
-
 
     function movePaddle() {
 
@@ -159,11 +164,14 @@ var PongPlayfield = (function () {
 
     }
 
+    function gameLoop() {
 
-    function drawGameBoard() {
+        if (config().debugMode){
+            outputDebugInfoToPlayfield();
+        }
 
-        debugStats();
         movePaddle();
+
         ANIMATION.clear(0, 0, canvasWidth, canvasHeight);
 
         //black background
@@ -182,7 +190,6 @@ var PongPlayfield = (function () {
 
         drawScore();
     }
-
 
     function drawScore(){
         ANIMATION.setText("44px Verdana",player1score + "  :  " + player2score  ,340,50,'#fff');
@@ -233,7 +240,6 @@ var PongPlayfield = (function () {
         if ((x + dx - config().radius) <= (config().paddleWidth))
         {
             // if the right paddle is in positing bounce otherwise its out
-        //    var posx = x + dx;
             var posy = y + dy;
 
             if ((posy >= paddle1Y) && (posy<= paddle1Y + config().paddleHeight))
@@ -251,7 +257,6 @@ var PongPlayfield = (function () {
                 }
             }
         }
-
 
         if (!pointOver)
         {
@@ -345,7 +350,7 @@ var PongPlayfield = (function () {
     }
 
 
-    function debugStats() {
+    function outputDebugInfoToPlayfield() {
         var values = 'X = ' + x + '   y=' + y + ' dx=' + dx + ' dy=' + dy + '  paddle2Y=' + paddle2Y;
         document.getElementById("ponglog").innerHTML = values;
         var values = 'player1Input = ' + player1Input + '   player2Input = ' + player2Input;
