@@ -14,12 +14,19 @@ var Settings = (function () {
 
     me.setSettings = function (data) {
         _settings.radius = data.radius;
+        _settings.dx = data.dx;
+        _settings.dy = data.dy;
+        _settings.paddleHeight = data.paddleHeight;
+        _settings.paddleWidth = data.paddleWidth;
     } ;
 
-    //privates
-
+    //defaults
     var _settings = {
-        radius :10
+        radius :10,
+        dx : 0.75,
+        dy:1.5,
+        paddleHeight:150,
+        paddleWidth:36
     }
 
     return me;
@@ -107,10 +114,8 @@ var PongPlayfield = (function () {
     var y = startY;
 
    // var ball_radius = config().radius;
-    var dx = .75;
-    var dy = 1.5;
-    var paddleHeight =150;
-    var paddleWidth =36;
+    var dx = config().dx;
+    var dy = config().dy;
 
     var canvasWidth;
     var canvasHeight;
@@ -130,11 +135,6 @@ var PongPlayfield = (function () {
     {
         updateConfig(data);
 
-        //ball_radius = data.ballRadius;
-        dx = data.dx;
-        dy = data.dy;
-        paddleHeight  = data.paddleHeight;
-        paddleWidth = data.paddleWidth;
     }
 
 
@@ -144,16 +144,16 @@ var PongPlayfield = (function () {
         var newpaddle1Y = paddle1Y + player1Input;
         if (newpaddle1Y < 0) {
             newpaddle1Y = 0;
-        } else if (newpaddle1Y + paddleHeight > canvasHeight) {
-            newpaddle1Y = canvasHeight - paddleHeight;
+        } else if (newpaddle1Y + config().paddleHeight > canvasHeight) {
+            newpaddle1Y = canvasHeight - config().paddleHeight;
         }
         paddle1Y = newpaddle1Y;
 
         var newpaddle2Y = paddle2Y + player2Input;
         if (newpaddle2Y < 0) {
             newpaddle2Y = 0;
-        } else if (newpaddle2Y + paddleHeight > canvasHeight) {
-            newpaddle2Y = canvasHeight - paddleHeight;
+        } else if (newpaddle2Y + config().paddleHeight > canvasHeight) {
+            newpaddle2Y = canvasHeight - config().paddleHeight;
         }
         paddle2Y = newpaddle2Y;
 
@@ -173,10 +173,10 @@ var PongPlayfield = (function () {
         ANIMATION.circle(x, y, config().radius, '#FFFFFF');
 
         //player one red paddle
-        ANIMATION.rectangle(0, paddle1Y, paddleWidth, paddleHeight, '#f00');
+        ANIMATION.rectangle(0, paddle1Y, config().paddleWidth, config().paddleHeight, '#f00');
 
         //player two green paddle
-        ANIMATION.rectangle(canvasWidth -paddleWidth, paddle2Y, paddleWidth, paddleHeight, '#629632');
+        ANIMATION.rectangle(canvasWidth -config().paddleWidth, paddle2Y, config().paddleWidth, config().paddleHeight, '#629632');
 
         checkBounce();
 
@@ -204,14 +204,14 @@ var PongPlayfield = (function () {
 
         // is the edge of the ball in the hit zone
 
-        if ((x + dx + config().radius) >= (canvasWidth - paddleWidth))
+        if ((x + dx + config().radius) >= (canvasWidth - config().paddleWidth))
         {
           // if the right paddle is in positing bounce otherwise its out
          // var posx = x + dx;
           var posy = y + dy;
 
             //is the Y position in between the paddles
-            if ((posy >= paddle2Y) && (posy<= paddle2Y + paddleHeight))
+            if ((posy >= paddle2Y) && (posy<= paddle2Y + config().paddleHeight))
             {
                 //bounce!
                 dx = -dx;
@@ -219,7 +219,7 @@ var PongPlayfield = (function () {
             else
             {
                 //ball needs to be 1/3 or the radius past paddle
-                if ((x + dx + config().radius) - (canvasWidth - paddleWidth) > .3 * config().radius)
+                if ((x + dx + config().radius) - (canvasWidth - config().paddleWidth) > .3 * config().radius)
                 {
                     pointOver = true;
                     player1score++;
@@ -230,13 +230,13 @@ var PongPlayfield = (function () {
 
 
         //left wall
-        if ((x + dx - config().radius) <= (paddleWidth))
+        if ((x + dx - config().radius) <= (config().paddleWidth))
         {
             // if the right paddle is in positing bounce otherwise its out
         //    var posx = x + dx;
             var posy = y + dy;
 
-            if ((posy >= paddle1Y) && (posy<= paddle1Y + paddleHeight))
+            if ((posy >= paddle1Y) && (posy<= paddle1Y + config().paddleHeight))
             {
                 //bounce!
                 dx = -dx;
@@ -244,7 +244,7 @@ var PongPlayfield = (function () {
             else
             {
                 //ball needs to be 1/3 or the radius past paddle
-                if (paddleWidth - (x + dx - config().radius)>= .3 *config().radius )
+                if (config().paddleWidth - (x + dx - config().radius)>= .3 *config().radius )
                 {
                     pointOver = true;
                     player2score ++;
@@ -281,8 +281,8 @@ var PongPlayfield = (function () {
 
         x = startX;
         y = startY;
-        dx = .75;
-        dy = 1.5;
+        dx = config().dx;
+        dy = config().dy;
 
         document.body.addEventListener('keydown', onkeydown, false) ;
         document.body.addEventListener('keyup', onkeyup, false) ;
@@ -314,10 +314,6 @@ var PongPlayfield = (function () {
             }
             case 32:{
                 alert('temp pause for debugging...');
-
-                alert((x + dx + config().radius));
-                alert((canvasWidth - paddleWidth))  ;
-                clearInterval(intervalId);
             }
         }
     }
@@ -358,18 +354,6 @@ var PongPlayfield = (function () {
 
     function processTotalUpdates (totals) {
 
-      // this makes things blocky..
-      //  player1Input = 0;
-      //  player2Input = 0;
-
-
-        //alert(JSON.stringify(totals));
-
-        //if its null then do nothin!
-       // if (totals.totalTiltFB == null) {
-       //     return;
-       // }
-
         //user input currently calibrated to +5 to -5 but maybe this should change??
         if (totals.left.totalTiltFB !=0)
         {
@@ -382,7 +366,6 @@ var PongPlayfield = (function () {
         }
 
     }
-
 
     function processPositionUpdates (updates) {
         //not used
