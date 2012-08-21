@@ -132,7 +132,7 @@ var PongPlayfield = (function () {
         updateConfig(data);
     }
 
-    function movePaddle() {
+    function movePaddles() {
         //apply changes to paddle but make sure it stays inside the box !
         var newpaddle1Y = game.paddle.leftY + game.player1Input;
         if (newpaddle1Y < 0) {
@@ -156,7 +156,7 @@ var PongPlayfield = (function () {
             outputDebugInfoToPlayfield();
         }
 
-        movePaddle();
+        movePaddles();
 
         ANIMATION.clear(0, 0, canvasWidth, canvasHeight);
 
