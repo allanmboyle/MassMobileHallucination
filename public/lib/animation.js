@@ -24,6 +24,15 @@ var ANIMATION = (function () {
 	  _canvas.fill();
     }
 
+    me.rectangleWithOpacity = function(x,y,w,h,r,g,b,opactiy) {
+        _canvas.beginPath();
+        _canvas.fillStyle   = "rgba(" + r + "," +  g + "," +  b + "," +  opactiy + ")";
+        _canvas.rect(x,y,w,h);
+        _canvas.closePath();
+
+        _canvas.fill();
+    }
+
     me.setText = function(font,text,x,y, colour)
     {
         _canvas.fillStyle = colour;
