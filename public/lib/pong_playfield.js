@@ -3,10 +3,33 @@
  * Copyright (c) 2012 MYOB Australia Ltd.
 
  */
+
+
+var Settings = (function () {
+    var me = {};
+
+    me.getSettings = function () {
+        return _settings;
+    } ;
+
+    me.setSettings = function (data) {
+        _settings.radius = data.radius;
+    } ;
+
+    //privates
+
+    var _settings = {
+        radius :10
+    }
+
+    return me;
+}());
+
+
 var PongPlayfield = (function () {
+
     var me = {};
     var socket;
-
     //
     // Publics
     //  
@@ -62,6 +85,18 @@ var PongPlayfield = (function () {
     // Privates 
     //
 
+
+    var config = function(){
+        return Settings.getSettings();
+    }
+
+
+    var updateConfig = function(data)
+    {
+        Settings.setSettings(data);
+    }
+
+
     var player1Input = 0;
     var player2Input = 0;
 
@@ -71,7 +106,7 @@ var PongPlayfield = (function () {
     var x = startX;
     var y = startY;
 
-    var ball_radius = 10;
+   // var ball_radius = config().radius;
     var dx = .75;
     var dy = 1.5;
     var paddleHeight =150;
@@ -93,7 +128,9 @@ var PongPlayfield = (function () {
 
     function applyConfigurationSettings(data)
     {
-        ball_radius = data.ballRadius;
+        updateConfig(data);
+
+        //ball_radius = data.ballRadius;
         dx = data.dx;
         dy = data.dy;
         paddleHeight  = data.paddleHeight;
@@ -133,7 +170,7 @@ var PongPlayfield = (function () {
         ANIMATION.rectangleWithOpacity(0, 0, canvasWidth, canvasHeight,'00','00','00',boardOpacity);
 
         //white ball
-        ANIMATION.circle(x, y, ball_radius, '#FFFFFF');
+        ANIMATION.circle(x, y, config().radius, '#FFFFFF');
 
         //player one red paddle
         ANIMATION.rectangle(0, paddle1Y, paddleWidth, paddleHeight, '#f00');
@@ -156,7 +193,7 @@ var PongPlayfield = (function () {
         var pointOver = false;
 
         //Y coordinate update is dead easy if the ball hits the roof or the floor just reverse it
-        if (y + dy  > canvasHeight - ball_radius || y + dy - ball_radius < 0)
+        if (y + dy  > canvasHeight - config().radius || y + dy - config().radius < 0)
         {
             dy = -dy;
         }
@@ -167,7 +204,7 @@ var PongPlayfield = (function () {
 
         // is the edge of the ball in the hit zone
 
-        if ((x + dx + ball_radius) >= (canvasWidth - paddleWidth))
+        if ((x + dx + config().radius) >= (canvasWidth - paddleWidth))
         {
           // if the right paddle is in positing bounce otherwise its out
          // var posx = x + dx;
@@ -182,7 +219,7 @@ var PongPlayfield = (function () {
             else
             {
                 //ball needs to be 1/3 or the radius past paddle
-                if ((x + dx + ball_radius) - (canvasWidth - paddleWidth) > .3 * ball_radius)
+                if ((x + dx + config().radius) - (canvasWidth - paddleWidth) > .3 * config().radius)
                 {
                     pointOver = true;
                     player1score++;
@@ -193,7 +230,7 @@ var PongPlayfield = (function () {
 
 
         //left wall
-        if ((x + dx - ball_radius) <= (paddleWidth))
+        if ((x + dx - config().radius) <= (paddleWidth))
         {
             // if the right paddle is in positing bounce otherwise its out
         //    var posx = x + dx;
@@ -207,7 +244,7 @@ var PongPlayfield = (function () {
             else
             {
                 //ball needs to be 1/3 or the radius past paddle
-                if (paddleWidth - (x + dx - ball_radius)>= .3 *ball_radius )
+                if (paddleWidth - (x + dx - config().radius)>= .3 *config().radius )
                 {
                     pointOver = true;
                     player2score ++;
@@ -278,7 +315,7 @@ var PongPlayfield = (function () {
             case 32:{
                 alert('temp pause for debugging...');
 
-                alert((x + dx + ball_radius));
+                alert((x + dx + config().radius));
                 alert((canvasWidth - paddleWidth))  ;
                 clearInterval(intervalId);
             }
@@ -365,4 +402,4 @@ var PongPlayfield = (function () {
         //not used
     }
     return me;
-}());
+}(Settings));
