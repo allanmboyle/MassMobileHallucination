@@ -104,6 +104,10 @@ var PongPlayfield = (function () {
         player1Input: 0,
         player2Input: 0
     }
+    game.board = {
+        width: 0,
+        height: 0
+    }
     game.score = {
         player1: 0,
         player2: 0
@@ -123,8 +127,6 @@ var PongPlayfield = (function () {
     var dx = config().dx;
     var dy = config().dy;
 
-    var canvasWidth;
-    var canvasHeight;
     var intervalId = 0;
     var boardOpacity = 1.0;
 
@@ -137,16 +139,16 @@ var PongPlayfield = (function () {
         var newpaddle1Y = game.paddle.leftY + game.player1Input;
         if (newpaddle1Y < 0) {
             newpaddle1Y = 0;
-        } else if (newpaddle1Y + config().paddleHeight > canvasHeight) {
-            newpaddle1Y = canvasHeight - config().paddleHeight;
+        } else if (newpaddle1Y + config().paddleHeight > game.board.width) {
+            newpaddle1Y = game.board.width - config().paddleHeight;
         }
         game.paddle.leftY = newpaddle1Y;
 
         var newpaddle2Y = game.paddle.rightY + game.player2Input;
         if (newpaddle2Y < 0) {
             newpaddle2Y = 0;
-        } else if (newpaddle2Y + config().paddleHeight > canvasHeight) {
-            newpaddle2Y = canvasHeight - config().paddleHeight;
+        } else if (newpaddle2Y + config().paddleHeight > game.board.width) {
+            newpaddle2Y = game.board.width - config().paddleHeight;
         }
         game.paddle.rightY = newpaddle2Y;
     }
@@ -168,7 +170,7 @@ var PongPlayfield = (function () {
         ANIMATION.rectangle(0, game.paddle.leftY, config().paddleWidth, config().paddleHeight, '#f00');
 
         //player two green paddle
-        ANIMATION.rectangle(canvasWidth - config().paddleWidth, game.paddle.rightY, config().paddleWidth, config().paddleHeight, '#629632');
+        ANIMATION.rectangle(game.board.height - config().paddleWidth, game.paddle.rightY, config().paddleWidth, config().paddleHeight, '#629632');
 
     }
 
@@ -178,10 +180,10 @@ var PongPlayfield = (function () {
     }
 
     function drawBoard(){
-        ANIMATION.clear(0, 0, canvasWidth, canvasHeight);
+        ANIMATION.clear(0, 0, game.board.height, game.board.width);
 
         //black background
-        ANIMATION.rectangleWithOpacity(0, 0, canvasWidth, canvasHeight, '00', '00', '00', boardOpacity);
+        ANIMATION.rectangleWithOpacity(0, 0, game.board.height, game.board.width, '00', '00', '00', boardOpacity);
     }
 
     function drawScore(score) {
@@ -192,7 +194,7 @@ var PongPlayfield = (function () {
         var pointOver = false;
 
         //Y coordinate update is dead easy if the ball hits the roof or the floor just reverse it
-        if (game.ball.y + dy > canvasHeight - config().radius || game.ball.y + dy - config().radius < 0) {
+        if (game.ball.y + dy > game.board.width - config().radius || game.ball.y + dy - config().radius < 0) {
             dy = -dy;
         }
         game.ball.y += dy;
@@ -202,7 +204,7 @@ var PongPlayfield = (function () {
 
         // is the edge of the ball in the hit zone
 
-        if ((game.ball.x + dx + config().radius) >= (canvasWidth - config().paddleWidth)) {
+        if ((game.ball.x + dx + config().radius) >= (game.board.height - config().paddleWidth)) {
             // if the right paddle is in positing bounce otherwise its out
             var posy = game.ball.y + dy;
 
@@ -212,7 +214,7 @@ var PongPlayfield = (function () {
                 dx = -dx;
             } else {
                 //ball needs to be 1/3 or the radius past paddle
-                if ((game.ball.x + dx + config().radius) - (canvasWidth - config().paddleWidth) > .3 * config().radius) {
+                if ((game.ball.x + dx + config().radius) - (game.board.height - config().paddleWidth) > .3 * config().radius) {
                     pointOver = true;
                     game.score.player1++;
 
@@ -275,8 +277,8 @@ var PongPlayfield = (function () {
     function initialiseGameVariables() {
         var ctx = document.getElementById("pongcanvas").getContext("2d");
         ANIMATION.setCanvas(ctx);
-        canvasWidth = document.getElementById("pongcanvas").width;
-        canvasHeight = document.getElementById("pongcanvas").height;
+        game.board.height = document.getElementById("pongcanvas").width;
+        game.board.width = document.getElementById("pongcanvas").height;
 
         game.ball.x = startX;
         game.ball.y = startY;
