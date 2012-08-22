@@ -35,53 +35,22 @@
 
 ​</style>
        <script type="text/javascript">
-       //the variables
-var i = 1;
-var myTimer;
 
-function myLoop() {
-    //hide everything
-    $(".nHstuff").hide();
-    $(".nH").removeClass("active");
-    //show just the stuff we want
-    $("#nHstuff" + i).show();
-    $("#nH" + i).addClass("active");
-    //increment variables
-    i++;
 
-    if (i === 5) {
-        i = 1;
-    }
+$(document).ready(function() {
 
-    //the timer      
-    myTimer = setTimeout(myLoop, 300);
+$("#nH1").mouseover (function(){ alert("up selected!"); })
+
+    });
+
+
+
+
+function ChangeBackground(){
+    $("#nH1").addClass("active");
+    alert('now turn it off !');
+    $("#nH1").removeClass("active");
 }
-//start the loop
-//myLoop();
-
-//what to do if hovered over an item
-$(".nH").hover(function() {
-   
-    // clear content
-    $(".nHstuff").hide();
-    $(".nH").removeClass("active");
-    // show content
-//    $("#nHstuff" + (this.id.substr(this.id.length - 1))).show();
-});
-
-$(".nH").mouseout(function() {
-//    myLoop();
-});
-
-$(".nH").click(function() {
-  //  clearTimeout(myTimer);
-    i = this.id.substr(this.id.length - 1, 1);
-    alert(i);
-    //show just the stuff we want
- //   $("#nHstuff" + i).show();
-    $("#nH" + i).addClass("active");
-    // To start looping again, call myLoop
-});
 </script>
     </head>    
     <body>
@@ -91,5 +60,8 @@ $(".nH").click(function() {
             <div class="nH" id="nH1">UP</div>
             <div class="nH" id="nH2">DOWN</div>
         </div>
+
+        <input type=button onclick="ChangeBackground();" value='Up'>
+
 </body>
 </html>
