@@ -1,5 +1,7 @@
 /*
  * Mass Mobile Hallucination.
+ * Pong Play field
+ *
  * Copyright (c) 2012 MYOB Australia Ltd.
 
  */
@@ -72,7 +74,12 @@ var PongPlayfield = (function () {
         // this game is only interested in totals, not individual updates...
         socket.emit("admin", "yes_totals");
         socket.emit("admin", "no_updates");
+
         initialiseGameVariables();
+
+        //listen for keyboard input ( just for debugging folks !)
+        document.body.addEventListener('keydown', onkeydown, false);
+        document.body.addEventListener('keyup', onkeyup, false);
 
         setInterval(gameLoop, config().gameLoopInterval);
     }
@@ -99,10 +106,19 @@ var PongPlayfield = (function () {
         Settings.setSettings(data);
     }
 
+
+    var gameState ={
+        NotStarted : 0,
+        InPlay :1,
+        PointOver : 2
+    }
+
+
     //game object
     var game = {
         player1Input: 0,
-        player2Input: 0
+        player2Input: 0,
+        state : gameState.NotStarted
     }
     game.board = {
         width: 0,
@@ -163,6 +179,43 @@ var PongPlayfield = (function () {
         drawPaddles();
         checkBounce();
         drawScore(game.score);
+
+        if (game.state == gameState.PointOver)
+        {
+            pointOver();
+        }
+    }
+
+    function pointOver()
+    {
+        // make the canvas flash !
+        setTimeout(function () {
+            boardOpacity = 0.6;
+        }, 25);
+        setTimeout(function () {
+            boardOpacity = 0.65;
+        }, 50);
+        setTimeout(function () {
+            boardOpacity = 0.7;
+        }, 75);
+        setTimeout(function () {
+            boardOpacity = 0.75;
+        }, 100);
+        setTimeout(function () {
+            boardOpacity = 0.8;
+        }, 125);
+        setTimeout(function () {
+            boardOpacity = 0.84;
+        }, 150);
+        setTimeout(function () {
+            boardOpacity = 0.85;
+        }, 175);
+        setTimeout(function () {
+            boardOpacity = 1.0;
+        }, 175);
+
+        clearInterval(intervalId);
+        initialiseGameVariables();
     }
 
     function drawPaddles(){
@@ -199,9 +252,7 @@ var PongPlayfield = (function () {
         }
         game.ball.y += dy;
 
-
         //right wall
-
         // is the edge of the ball in the hit zone
 
         if ((game.ball.x + dx + config().radius) >= (game.board.height - config().paddleWidth)) {
@@ -217,7 +268,6 @@ var PongPlayfield = (function () {
                 if ((game.ball.x + dx + config().radius) - (game.board.height - config().paddleWidth) > .3 * config().radius) {
                     pointOver = true;
                     game.score.player1++;
-
                 }
             }
         }
@@ -244,49 +294,23 @@ var PongPlayfield = (function () {
             return;
         }
 
-        // make the canvas flash !
-        setTimeout(function () {
-            boardOpacity = 0.6;
-        }, 25);
-        setTimeout(function () {
-            boardOpacity = 0.65;
-        }, 50);
-        setTimeout(function () {
-            boardOpacity = 0.7;
-        }, 75);
-        setTimeout(function () {
-            boardOpacity = 0.75;
-        }, 100);
-        setTimeout(function () {
-            boardOpacity = 0.8;
-        }, 125);
-        setTimeout(function () {
-            boardOpacity = 0.84;
-        }, 150);
-        setTimeout(function () {
-            boardOpacity = 0.85;
-        }, 175);
-        setTimeout(function () {
-            boardOpacity = 1.0;
-        }, 175);
-
-        clearInterval(intervalId);
-        initialiseGameVariables();
+        game.state = gameState.PointOver;
     }
 
     function initialiseGameVariables() {
         var ctx = document.getElementById("pongcanvas").getContext("2d");
         ANIMATION.setCanvas(ctx);
-        game.board.height = document.getElementById("pongcanvas").width;
-        game.board.width = document.getElementById("pongcanvas").height;
+        var canvas =  document.getElementById("pongcanvas");
+
+        game.board.height = canvas.width;
+        game.board.width = canvas.height;
 
         game.ball.x = startX;
         game.ball.y = startY;
         dx = config().dx;
         dy = config().dy;
 
-        document.body.addEventListener('keydown', onkeydown, false);
-        document.body.addEventListener('keyup', onkeyup, false);
+        game.state = gameState.InPlay;
     }
 
     function onkeydown(e) {
