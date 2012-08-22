@@ -22,11 +22,11 @@ var Settings = (function () {
 
     //defaults
     var _settings = {
-        radius: 10,
-        dx: 0.75,
-        dy: 1.5,
-        paddleHeight: 150,
-        paddleWidth: 36,
+        radius: 20,
+        dx: 2.0,
+        dy: 5.0,
+        paddleHeight: 100,
+        paddleWidth: 25,
         gameLoopInterval: 30,
         debugMode: false
     }
