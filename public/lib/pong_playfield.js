@@ -12,6 +12,9 @@ var Settings = (function () {
         return _settings;
     };
 
+    //a way to tweak the game settings when its still running - these
+    //get processed the next time the GameLoop fires
+
     me.setSettings = function (data) {
         _settings.radius = data.radius;
         _settings.dx = data.dx;
@@ -22,7 +25,7 @@ var Settings = (function () {
         _settings.debugMode = data.debugMode;
     };
 
-    //defaults
+    //defaults settings for pong
     var _settings = {
         radius: 20,
         dx: 2.0,
@@ -126,7 +129,8 @@ var PongPlayfield = (function () {
     }
     game.score = {
         player1: 0,
-        player2: 0
+        player2: 0,
+        lastPointScorer : ""
     }
     game.ball = {
         x: 0,
@@ -136,9 +140,6 @@ var PongPlayfield = (function () {
         leftY: 0,
         rightY: 0
     }
-
-    var startX = 400;
-    var startY = 300;
 
     var dx = config().dx;
     var dy = config().dy;
@@ -150,8 +151,38 @@ var PongPlayfield = (function () {
         updateConfig(data);
     }
 
+    //generate a random integer in a given range
+    function getRandomInt (min, max) {
+        return Math.floor(Math.random() * (max - min + 1)) + min;
+    }
+
+
+    function generateStartingCoordinatesForBall(lastPointScorer)
+    {
+        var x =   400;
+        var y = getRandomInt(280,340);
+        var dx  = config().dx;
+        var dy =  config().dy ;
+        if (lastPointScorer == "p1")
+        {
+            dx = Math.abs(dx) * -1;
+        }
+        else
+        {
+            dx = Math.abs(dx);
+        }
+        var result = {x :x,
+                      y : y,
+                      dx : dx,
+                      dy:dy}  ;
+        return result;
+        ;
+    }
+
+
+
     function movePaddles() {
-        //apply changes to paddle but make sure it stays inside the box !
+        //apply changes to paddle but make sure they  stays inside the board !
         var newpaddle1Y = game.paddle.leftY + game.player1Input;
         if (newpaddle1Y < 0) {
             newpaddle1Y = 0;
@@ -268,6 +299,7 @@ var PongPlayfield = (function () {
                 if ((game.ball.x + dx + config().radius) - (game.board.height - config().paddleWidth) > .3 * config().radius) {
                     pointOver = true;
                     game.score.player1++;
+                    game.lastPointScorer = "p1";
                 }
             }
         }
@@ -285,6 +317,7 @@ var PongPlayfield = (function () {
                 if (config().paddleWidth - (game.ball.x + dx - config().radius) >= .3 * config().radius) {
                     pointOver = true;
                     game.score.player2++;
+                    game.lastPointScorer = "p2";
                 }
             }
         }
@@ -305,10 +338,12 @@ var PongPlayfield = (function () {
         game.board.height = canvas.width;
         game.board.width = canvas.height;
 
-        game.ball.x = startX;
-        game.ball.y = startY;
-        dx = config().dx;
-        dy = config().dy;
+        var startingPosition = generateStartingCoordinatesForBall(game.lastPointScorer);
+
+        game.ball.x = startingPosition.x;
+        game.ball.y = startingPosition.y;
+        dx = startingPosition.dx;
+        dy = startingPosition.dy;
 
         game.state = gameState.InPlay;
     }
