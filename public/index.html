@@ -39,6 +39,11 @@
             <div style="background-color: hotpink; height: 100%; width: 100%">COLOR HERE.</div>
         </div>
 
+        <div id="loadtest" style="display:none">
+
+            <div style="background-color: orange; height: 100%; width: 100%">Load test agent goes here</div>
+        </div>
+
 
         <div id="millionaire" style="display:none">
             <!-- <div style="background-color: hotpink; height: 100%; width: 100%">WHO WANTS TO BE A MILLIONAIRE !!</div>
@@ -113,6 +118,7 @@
             gameConfig.pong 	= {section: "updownTilt", func: initTheNewAndImprovedUpDownOnlyTilt};
             gameConfig.brickout = {section: "redgreen",func: initRedGreen};
             gameConfig.millionaire = {section: "millionaire",func: initMillionaire};
+            gameConfig.loadtest = {section: "loadtest",func: initLoadTest};
 
             MMH.performSlowCrappyGyroscopeDetection();
 
@@ -210,6 +216,13 @@
                 MMH.init(socket);
                
             }
+
+
+            function initLoadTest(){
+            alert('initLoadTest');
+            }
+
+
 
         //    changeGame("millionaire");
 

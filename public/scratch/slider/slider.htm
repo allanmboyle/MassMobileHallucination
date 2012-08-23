@@ -1,6 +1,10 @@
 <!DOCTYPE html>
 <html>
     <head>
+
+        <meta name = "viewport" content = "user-scalable=no, initial-scale=1.0, maximum-scale=1.0, width=device-width">
+        <meta name="apple-mobile-web-app-capable" content="yes"/>
+
         <title>TagCanvas example</title>
         <script src="jquery.min.js"></script>
       <style type="text/css">
@@ -17,6 +21,13 @@
     border: 1px dotted #CCC;
     height:200px;
 }
+
+#RESULT {
+    width:300px;
+    float:left;
+    height:100px;
+}
+
 #nH1 {
     background-repeat: no-repeat;
     background-position: 14px 20px;
@@ -39,7 +50,15 @@
 
 $(document).ready(function() {
 
-$("#nH1").mouseover (function(){ alert("up selected!"); })
+$("#nH1").mouseover (function(){ $("#RESULT").html("UP SELECTED mouseover event") ;})
+$("#nH1").mouseout (function(){ $("#RESULT").html("") ;})
+$("#nH1").click (function(){ $("#RESULT").html("UP SELECTED click event") ;})
+
+
+$("#nH2").mouseover (function(){ $("#RESULT").html("DOWN SELECTED mouseover event") ;})
+$("#nH2").mouseout (function(){ $("#RESULT").html("") ;})
+$("#nH2").click (function(){ $("#RESULT").html("DOWN SELECTED click event") ;})
+
 
     });
 
@@ -61,7 +80,10 @@ function ChangeBackground(){
             <div class="nH" id="nH2">DOWN</div>
         </div>
 
-        <input type=button onclick="ChangeBackground();" value='Up'>
+        <input type=button onclick="ChangeBackground();" value='Programatically turn on Up'>
+        
+        <div id="RESULT"></div>
+      
 
 </body>
 </html>

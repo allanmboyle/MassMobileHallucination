@@ -8,6 +8,7 @@
         <script src="/lib/worm_playfield.js"></script>
         <script src="/lib/pong_playfield.js"></script>
         <script src="/lib/millionaire_playfield.js"></script>
+        <script src="/lib/loadtest_playfield.js"></script>
         <script src="/lib/animation.js"></script>
         <link rel="stylesheet" href="../style.css" type="text/css" />
         <script type="text/javascript"  src="knockout-2.0.0.js"> </script>
@@ -112,8 +113,9 @@
         </div>
 
         <!-- end pong -->
-
-
+        <div id="loadtest" style="display: none">
+            <div style="width: 100%; height: 100%; background-color: orange;">Load Test play field !</div>
+        </div>
 
         <div id=worm style="display: none">
             <div style="width: 100%; height: 100%; background-color: red;">The worms crawl in and the worms crawl out.</div>
@@ -142,6 +144,10 @@
                 gameConfig.pong = {
                     section: "pong",
                     module: PongPlayfield
+                };
+                gameConfig.loadtest = {
+                    section: "loadtest",
+                    module: LoadTestPlayfield
                 };
 
                 // default starting game
