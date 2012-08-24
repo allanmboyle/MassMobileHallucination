@@ -18,12 +18,12 @@ var LoadTestPlayfield = (function () {
 	var me = {};
 	var socket;
 
-	me.newUser 			= function (data) 	 { newUser(data) }
+	me.newUser 			= function (data) 	 {  }
 	me.woosOut 			= function (data) 	 {  }
 	me.players 			= function (players) { players(data) }
 	me.positionUpdates 	= function (updates) {  }
 	me.totalUpdates 	= function (updates) { processTotalUpdates(updates) }
-	me.admin 			= function (message) {  }
+	me.admin 			= function (message) { processAdminMessage(message) }
 	me.processUserAnswer = function (answer) {}
 
 	me.init = function (theSocket) {
@@ -33,6 +33,9 @@ var LoadTestPlayfield = (function () {
         //so get it to aggregate results and send totals only
         socket.emit("admin", "yes_totals");
         socket.emit("admin", "no_updates");
+
+        //start sending server metrics...
+        socket.emit("admin", "metrics_on");
 
 		// Start the timer that measures timing statistics
 		stats();
@@ -60,8 +63,10 @@ var LoadTestPlayfield = (function () {
 	MAX_X = 900;
 	MAX_Y = 600;
 
-	processTotalUpdates = function (updates) {
+	processTotalUpdates = function (totals) {
 
+
+        document.getElementById("loadTestOutput").innerHTML = totals.left.count;
 
 
     }
@@ -69,10 +74,11 @@ var LoadTestPlayfield = (function () {
 	me.processPositionUpdates = function (updates) {
 	}
 
-	// user changed their name
-	// Sometimes the player with data.id is not found. Not sure why!
-	function nameChange(data) {
-	}
+	function processAdminMessage(message) {
+        document.getElementById("loadTestMetricData").innerHTML = JSON.stringify(message);
+
+
+    }
 
 
 	// every second see how many user updates were received		
