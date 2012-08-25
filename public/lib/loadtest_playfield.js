@@ -18,15 +18,16 @@ var LoadTestPlayfield = (function () {
 	var me = {};
 	var socket;
 
-	me.newUser 			= function (data) 	 {  }
-	me.woosOut 			= function (data) 	 {  }
-	me.players 			= function (players) { players(data) }
-	me.positionUpdates 	= function (updates) {  }
-	me.totalUpdates 	= function (updates) { processTotalUpdates(updates) }
-	me.admin 			= function (message) { processAdminMessage(message) }
-	me.processUserAnswer = function (answer) {}
+    me.newUser 			= function (data) 	 { processNewUser(data) }
+    me.woosOut 			= function (data) 	 { processWoosOut(data) }
+    me.players 			= function (players) { players(data) }
+    me.positionUpdates 	= function (updates) {  }
+    me.totalUpdates 	= function (updates) { processTotalUpdates(updates) }
+    me.admin 			= function (message) { processAdminMessage(message) }
+    me.processUserAnswer = function (answer) {}
 
-	me.init = function (theSocket) {
+
+    me.init = function (theSocket) {
 		socket = theSocket;
 
         //load test is all about pushing the socket.io server to the max.
@@ -53,7 +54,11 @@ var LoadTestPlayfield = (function () {
 	// Privates 
 	//
 
-	var theBoard = {};
+    var numberOfUsers = 0;
+    var numberDroppedUsers = 0;
+
+
+    var theBoard = {};
 	var numberOfPlayers = 0;
 	var numberOfCalls = 0;
 
@@ -81,7 +86,21 @@ var LoadTestPlayfield = (function () {
     }
 
 
-	// every second see how many user updates were received		
+    function processNewUser()
+    {
+        numberOfUsers++;
+        document.getElementById("loadTestNoOpenSockets").innerHTML = numberOfUsers;
+    }
+    function processWoosOut()
+    {
+        numberOfUsers--;
+        numberDroppedUsers++;
+        document.getElementById("loadTestDroppedConnections").innerHTML = numberDroppedUsers;
+    }
+
+
+
+    // every second see how many user updates were received
 	var lastCount = 0;
 	var timer = null;
 	
