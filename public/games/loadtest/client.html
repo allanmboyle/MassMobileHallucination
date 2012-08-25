@@ -2,48 +2,74 @@
 
 <script>
 	var SEND_FREQUENCY = 40;
+
     var loadTestPlayers = [];
+    var loadTestHasBegun = false;
+
     var sendLoadDataTimer;
 
     function initClient(){
 
-		var data = {};
-		data.usercount = 5;
-		createLoadTestUser(data);
-		sendLoadDataTimer = setInterval(sendLoadTestData, SEND_FREQUENCY);
+        // do nothing here really , just wait till the controller flicks through
+        // a message to start
 
-		socket.on('changeTestSettings', function (data) {
-		    alert(JSON.stringify(data));
-		});
     }
 
-    function createLoadTestUser(data)
-    {
-		for (i = 0; i < data.usercount; i++) {
-
-		    var player = {};
-		    player.socket = io.connect('/players', {'force new connection': true});
-		    player.socket.emit("namechange", "Loren Carpenter " + Math.floor(Math.random()*9999));
-		    loadTestPlayers.push(player);
-		}
-    }
-
-    function sendLoadTestData()
-    {
-		for (p in loadTestPlayers) {
-		    // move them both up and down
-		    accel = {
-			tiltLR: Math.random()*180-90,
-			tiltFB: Math.random()*180-90,
-			dir: Math.random()*180,
-			motionUD: Math.random()*90,
-			playerLocation : "left"
-		    }
-		    loadTestPlayers[p].socket.emit("accel", accel);
-		}
-	}
 
 	function stopClient() {
 		clearInterval(sendLoadDataTimer);
 	}
+
+    //kick off the load test or change the existing test run
+    function changeLoadTestSettings(message){
+        var rampUpCount = message.rampUpConnections;
+        addLoadTestUsers(rampUpCount);
+        if (!loadTestHasBegun)
+        {
+            sendLoadTestData();
+            loadTestHasBegun = true;
+        }
+    }
+
+    ///ramp up more users
+    function addLoadTestUsers(count)
+    {
+        for (i = 0; i < count; i++) {
+
+            var player = {};
+            player.socket = io.connect('/players', {'force new connection': true});
+            player.socket.emit("namechange", "Loren Carpenter " + Math.floor(Math.random()*9999));
+            loadTestPlayers.push(player);
+        }
+    }
+
+    //start pumping out random accelerometer data to the server
+    function sendLoadTestData()
+    {
+        for (p in loadTestPlayers) {
+            // move them both up and down
+            accel = {
+                tiltLR: Math.random()*180-90,
+                tiltFB: Math.random()*180-90,
+                dir: Math.random()*180,
+                motionUD: Math.random()*90,
+                playerLocation : "left"
+            }
+            loadTestPlayers[p].socket.emit("accel", accel);
+        }
+        sendLoadDataTimer = setTimeout(sendLoadTestData, SEND_FREQUENCY);
+
+    }
+
+    //New config settings from controller...
+    function updateGameSettings(message){
+        if (message.game != undefined && message.game == "loadTest") {
+
+            changeLoadTestSettings(message);
+        }
+        else
+        {
+            alert("Oops !! I don't know how to process this message !!!" + JSON.stringify(message));
+        }
+    }
 </script>

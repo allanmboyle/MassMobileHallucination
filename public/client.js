@@ -15,7 +15,7 @@ MMH.performSlowCrappyGyroscopeDetection();
 var socket = io.connect('/players');
 
 socket.on('changeSettings', function (data) {
-    document.getElementById("log").innerHTML = "message from controller " + JSON.stringify(data);
+    changeSettings(data);
 });
 
 socket.on('changeGame', function (game) {
@@ -43,6 +43,14 @@ function changeGame(gameName) {
         initClient();
     });
 }
+
+
+// Admin message from controller
+function changeSettings(data) {
+    if (typeof updateGameSettings == "function") { updateGameSettings(data); }
+}
+
+
 
 function setPlayerLocation(input){
 
