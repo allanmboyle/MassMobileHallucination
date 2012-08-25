@@ -1,20 +1,44 @@
 <div>
-	The playfield for the quiz
-
-	WHO WANTS TO PLAY
-
-	Button to start.
+	<span>Question: </span> <span id="q"></span><br/>
+	<span>A: </span> <span id="a1" ></span><br/>
+	<span>B: </span> <span id="a2" ></span><br/>
+	<span>C: </span> <span id="a3" ></span><br/>
+	<span>D: </span> <span id="a4" ></span><br/>
 	
-	1-15 questions
-	
-	next button on each.
-
-	Score.
+	<input type=button value="Show Answers" onclick="showAnswers()" />
+	<input type=button value="Next Question" onclick="nextQuestion()" />
 </div>
 
 <script src="/games/quiz/quiz_playfield.js"></script>
 <script>
+	var q = 0;
+	var questions = [
+		{q: "blabhabhab", a: ["one", "two", "three", "four"]},
+		{q: "tttttttt", a: ["a", "b", "c", "d"]},
+		{q: "wwwww", a: ["i", "ii", "iii", "iiii"]},
+		{q: "xxxxxxxx", a: ["1", "2", "3", "4"]},
+	];
+
+	nextQuestion();
+
+	function nextQuestion() {
+		if (q < questions.length) {
+			$("#q").text(questions[q].q);
+			$("#a1").text(questions[q].a[0]);
+			$("#a2").text(questions[q].a[1]);
+			$("#a3").text(questions[q].a[2]);
+			$("#a4").text(questions[q].a[3]);
+		}
+		q++;
+	}
+
+	function showAnswers() {
+
+	}
+
 	function initPlayfield() {
 		QuizPlayfield.init();
+		return QuizPlayfield;
 	}
+	function shutdown() {}
 </script>

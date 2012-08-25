@@ -120,7 +120,7 @@
                 // Testing a new launch model with fairy
                 if (newGame == "quiz") {
                     $("#main").load("/games/"+newGame+"/playfield.html", function () {
-                        initPlayfield();
+                        currentGame = initPlayfield();
                     });
                 } else {
                 
