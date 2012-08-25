@@ -16,13 +16,19 @@ var playerList = {};
 
 // start up the server 
 server.listen(process.env.PORT || 8080);
-io.set('log level', 2); // turn logging down
 console.log("Server listening on port %d", server.address().port);
 
-io.configure(function () {
-  io.set("transports", ["xhr-polling"]);
-  io.set("polling duration", 10);
-});
+io.set('log level', 2); // turn logging down
+io.enable('browser client minification');  // send minified client
+io.enable('browser client etag');          // apply etag caching logic based on version number
+io.enable('browser client gzip');          // gzip the file
+io.set('transports', [                     // enable all transports (optional if you want flashsocket)
+ 	'websocket',
+  	'flashsocket',
+  	'htmlfile',
+  	'xhr-polling',
+  	'jsonp-polling',
+]);
 
 process.on('uncaughtException', function(err) {
   console.log('uncaught error' + err);
