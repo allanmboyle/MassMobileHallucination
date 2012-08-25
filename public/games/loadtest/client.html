@@ -1,45 +1,44 @@
 <div> load test client </div>
 
 <script>
-
     var loadTestPlayers = [];
 
     function initLoadTest(){
 
-	var data = {};
-	data.usercount = 5;
-	createLoadTestUser(data);
-	sendLoadTestData();
+		var data = {};
+		data.usercount = 5;
+		createLoadTestUser(data);
+		sendLoadTestData();
 
-	socket.on('changeTestSettings', function (data) {
-	    alert(JSON.stringify(data));
-	});
+		socket.on('changeTestSettings', function (data) {
+		    alert(JSON.stringify(data));
+		});
     }
 
     function createLoadTestUser(data)
     {
-	for (i = 0; i < data.usercount; i++) {
+		for (i = 0; i < data.usercount; i++) {
 
-	    var player = {};
-	    player.socket = io.connect('/players', {'force new connection': true});
-	    player.socket.emit("namechange", "Loren Carpenter " + Math.floor(Math.random()*9999));
-	    loadTestPlayers.push(player);
-	}
+		    var player = {};
+		    player.socket = io.connect('/players', {'force new connection': true});
+		    player.socket.emit("namechange", "Loren Carpenter " + Math.floor(Math.random()*9999));
+		    loadTestPlayers.push(player);
+		}
     }
 
     function sendLoadTestData()
     {
-	for (p in loadTestPlayers) {
-	    // move them both up and down
-	    accel = {
-		tiltLR: Math.random()*180-90,
-		tiltFB: Math.random()*180-90,
-		dir: Math.random()*180,
-		motionUD: Math.random()*90,
-		playerLocation : "left"
-	    }
-	    loadTestPlayers[p].socket.emit("accel", accel);
+		for (p in loadTestPlayers) {
+		    // move them both up and down
+		    accel = {
+			tiltLR: Math.random()*180-90,
+			tiltFB: Math.random()*180-90,
+			dir: Math.random()*180,
+			motionUD: Math.random()*90,
+			playerLocation : "left"
+		    }
+		    loadTestPlayers[p].socket.emit("accel", accel);
+		}
+		setTimeout(sendLoadTestData, 40);
 	}
-	setTimeout(sendLoadTestData, 40);
-    }
-/bin/bash: G: command not found
+</script>

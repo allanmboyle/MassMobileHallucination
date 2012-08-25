@@ -6,10 +6,11 @@
 	<script>
 		var socket = io.connect('/control');
 
-		// An admin function that goes to the players
+		// throttle the player updates !
 		function throttle() {
 			var frequency = document.getElementById('frequency').value;
-			socket.emit("admin", { control: "changeSettings", data: {freq: frequency}});
+			var payload = {freq:frequency};
+            sendMessageToPlayers(payload);
 		}
 		
 		// Tells the whole system to change the game to a different one. Effects the 
@@ -18,10 +19,25 @@
 			socket.emit("changeGame", theGame);
 		}
 
+        //send a message to the pong playfield
         function  changePongSettings(){
             var settings = document.getElementById('pongSettings').value;
+            //need to encode the JSON
             var data = eval('(' + settings + ')');
             sendAdminMessageToPlayfield(data);
+        }
+
+        // broadcast a message to  all load test agents
+        function changeLoadTestSettings(){
+            var settings = document.getElementById('loadTestSettings').value;
+            //need to encode the JSON
+            var data = eval('(' + settings + ')');
+            sendMessageToPlayers(data);
+
+        }
+
+        function  sendMessageToPlayers(settings){
+            socket.emit("admin", { control: "changeSettings", data: settings});
         }
 
         function  sendAdminMessageToPlayfield(settings){
@@ -41,16 +57,25 @@
 			<input type=button onclick="changeGame('worm')" value="Political Worm" />
             <input type=button onclick="changeGame('pong')" value="Pong" />
             <input type=button onclick="changeGame('loadtest')" value="Load Test To the Max" />
-
 	</div>
 
     <br /><br />
     <!-- TODO: make custom loading controllers -->
     <div>
-    Send an admin message to the playfield!
+    Send an admin message to the pong playfield!
+    This lets you configure some of the game settings on the fly!
     </div>
     <textarea id = "pongSettings" rows="10" cols="30">{game:'pong',radius:20,dx:2,dy:5,paddleHeight:100,paddleWidth:25,gameLoopInterval:30,debugMode:true}</textarea>
-    <input type=button onclick="changePongSettings();" value="Send message to playfield" />
+    <input type=button onclick="changePongSettings();" value="Send message to pong playfield" />
+
+
+    <br /><br />
+    <div>
+        Send an admin message to the load test agents (i.e - players )!
+        This lets you start a load testing and ramp up the number of connections each player establishes to the server
+    </div>
+    <textarea id = "loadTestSettings" rows="10" cols="30">{game:'loadTest',rampUpConnections:5, sendData :'true'}</textarea>
+    <input type=button onclick="changeLoadTestSettings();" value="Send message to load agents" />
 
 </body>
 </html>
