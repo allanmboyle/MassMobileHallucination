@@ -41,7 +41,10 @@
 
         <div id="loadtest" style="display:none">
 
-            <div style="background-color: orange; height: 100%; width: 100%">Load test agent goes here</div>
+            <div style="background-color: orange; height: 100%; width: 100%">Load test agents!
+                <div id="loadTestStatus">Waiting on instructions from the controller</div>
+            </div>
+
         </div>
 
 
@@ -125,7 +128,7 @@
             var socket = io.connect('/players');
 
             socket.on('changeSettings', function (data) {
-                document.getElementById("log").innerHTML = "message from controller " + JSON.stringify(data);
+                handleChangeSettings(data);
             });
 
             socket.on('changeGame', function (game) {
@@ -151,6 +154,18 @@
 
                 // call the init function (as specified)
                 initFunction();
+            }
+
+            // TO DO make this generic for now its only the load test that uses this....
+            function handleChangeSettings(message){
+                if (message.game != undefined && message.game == "loadTest") {
+
+                    changeLoadTestSettings(message);
+                }
+                else
+                {
+                    alert("Oops !! I don't know how to process this message !!!" + JSON.stringify(message));
+                }
             }
 
             function setPlayerLocation(input){
@@ -219,22 +234,27 @@
 
 
             var loadTestPlayers = [];
+            var loadTestHasBegun = false;
 
             function initLoadTest(){
+                // do nothing here really , just wait till the controller flicks through
+                // a message to start
 
-                var data = {};
-                data.usercount = 5;
-                createLoadTestUser(data);
-                sendLoadTestData();
-
-                socket.on('changeTestSettings', function (data) {
-                    alert(JSON.stringify(data));
-                });
             }
 
-            function createLoadTestUser(data)
+            function changeLoadTestSettings(message){
+                var rampUpCount = message.rampUpConnections;
+                addLoadTestUsers(rampUpCount);
+                if (!loadTestHasBegun)
+                {
+                    sendLoadTestData();
+                    loadTestHasBegun = true;
+                }
+            }
+
+            function addLoadTestUsers(count)
             {
-                for (i = 0; i < data.usercount; i++) {
+                for (i = 0; i < count; i++) {
 
                     var player = {};
                     player.socket = io.connect('/players', {'force new connection': true});
