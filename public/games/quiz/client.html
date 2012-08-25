@@ -1,0 +1,21 @@
+<div style="background-color: blue">
+<input type=button value="A" onclick=vote("A") />
+<input type=button value="B" onclick=vote("B") />
+<input type=button value="C" onclick=vote("C") />
+<input type=button value="D" onclick=vote("D") /> 
+</div>
+
+<script>
+
+function vote(letter) {
+	alert("voted for letter: " + letter);
+
+	// send this data to the playfield with a custom message?
+	socket.emit("custom", letter);
+}
+
+// must implement this
+function initClient() {
+	
+}
+</script>
