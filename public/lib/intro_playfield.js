@@ -24,7 +24,7 @@ var IntroPlayfield = (function () {
 	me.positionUpdates = function (updates) { processPositionUpdates(updates) }
 	me.totalUpdates = function (updates) { processTotalUpdates(updates) }
 	me.shutdown = function () { }
-	me.admin = function(message) { alert("Fairy playfield got an admin message: " + message); }
+	me.admin = function(message) {  }
 
 	me.initPlayers = function (players) { }
 
