@@ -13,6 +13,10 @@
 	    MMH.listenForMovements(updownCallback);
 	}
 
+	function stopClient() {
+		MMH.stopSendingOrientationToServer();
+	}
+
 	function updownCallback (accel) {
 	    if (accel.tiltFB != undefined)
 		{

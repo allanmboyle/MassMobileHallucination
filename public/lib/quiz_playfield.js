@@ -16,9 +16,9 @@ var socket;
 		// tell the server we don't want totals (only real time updates)
 		socket.emit("admin", "no_updates");
 		
-	me.newUser = function (data) 	{ newUser(data) }
-	me.woosOut = function (data) 	{ woosOut(data) }
-	me.players = function (players) { players(data) }
+	me.newUser = function (data) 	{  }
+	me.woosOut = function (data) 	{  }
+	me.players = function (players) { }
 	me.positionUpdates = function (updates) { processPositionUpdates(updates) }
 	me.totalUpdates = function (updates) { processTotalUpdates(updates) }
 	me.shutdown = function () { }

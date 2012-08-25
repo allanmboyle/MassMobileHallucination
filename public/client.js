@@ -37,6 +37,8 @@ socket.on('userMessage', function (message) {
 
 // Change the game on request of the controller and initialize the screens and data
 function changeGame(gameName) {
+    if (typeof stopClient == "function") { stopClient(); }
+
     $("#main").load("/games/"+gameName+"/client.html", function () {
         initClient();
     });

@@ -1,14 +1,16 @@
 <div> load test client </div>
 
 <script>
+	var SEND_FREQUENCY = 40;
     var loadTestPlayers = [];
+    var sendLoadDataTimer;
 
-    function initLoadTest(){
+    function initClient(){
 
 		var data = {};
 		data.usercount = 5;
 		createLoadTestUser(data);
-		sendLoadTestData();
+		sendLoadDataTimer = setInterval(sendLoadTestData, SEND_FREQUENCY);
 
 		socket.on('changeTestSettings', function (data) {
 		    alert(JSON.stringify(data));
@@ -39,6 +41,9 @@
 		    }
 		    loadTestPlayers[p].socket.emit("accel", accel);
 		}
-		setTimeout(sendLoadTestData, 40);
+	}
+
+	function stopClient() {
+		clearInterval(sendLoadDataTimer);
 	}
 </script>
