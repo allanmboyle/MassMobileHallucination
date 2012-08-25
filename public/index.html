@@ -29,67 +29,6 @@
 
             <div id="log"></div>
         </div>
-
-        <script>
-            MMH.performSlowCrappyGyroscopeDetection();
-
-            var socket = io.connect('/players');
-
-            socket.on('changeSettings', function (data) {
-                handleChangeSettings(data);
-            });
-
-            socket.on('changeGame', function (game) {
-                changeGame(game);
-            });
-
-            socket.on('userMessage', function (message) {
-                //this is fired when the palyfield targets a single user....
-                //e.g. for millionaire we need to quit people from the game if they get the wrong answers...
-                alert('message from server');
-                alert(message);
-            });
-
-
-            // Change the game on request of the controller and initialize the screens and data
-            function changeGame(gameName) {
-                // Change the screen and call ainitialization routine;
-                var section = gameConfig[gameName].section;
-                var initFunction = gameConfig[gameName].func;
-
-                // change in the new section content
-                document.getElementById("main").innerHTML = document.getElementById(section).innerHTML;
-
-                // call the init function (as specified)
-                initFunction();
-            }
-
-            // TO DO make this generic for now its only the load test that uses this....
-            function handleChangeSettings(message){
-                if (message.game != undefined && message.game == "loadTest") {
-
-                    changeLoadTestSettings(message);
-                }
-                else
-                {
-                    alert("Oops !! I don't know how to process this message !!!" + JSON.stringify(message));
-                }
-            }
-
-            function setPlayerLocation(input){
-
-                MMH.setPlayerLocation(input);
-            }
-
-            function getPlayerLocation(){
-                return MMH.getPlayerLocation();
-            }
-
-			// TODO move to MMH.js
-            function changeName() {
-                socket.emit("namechange", document.getElementById('username').value);
-            }
-            </script>
-            <script src="client.js"></script>
+        <script src="client.js"></script>
     </body>
 </html>
