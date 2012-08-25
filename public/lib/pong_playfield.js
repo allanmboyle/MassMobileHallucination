@@ -3,7 +3,6 @@
  * Pong Play field
  *
  * Copyright (c) 2012 MYOB Australia Ltd.
-
  */
 var Settings = (function () {
     var me = {};

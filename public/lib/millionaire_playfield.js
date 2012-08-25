@@ -54,7 +54,7 @@ var MillionairePlayfield = (function () {
     }
 
     me.admin = function (message) {
-        alert("Millionaire playfield got an admin message: " + messages);
+        alert("Millionaire playfield got an admin message: " + message);
     }
     me.init = function (theSocket) {
         socket = theSocket;

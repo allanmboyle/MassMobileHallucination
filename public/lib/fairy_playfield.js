@@ -17,7 +17,7 @@ var FairyPlayfield = (function () {
 	me.players 			= function (players) { players(data) }
 	me.positionUpdates 	= function (updates) { processPositionUpdates(updates) }
 	me.totalUpdates 	= function (updates) { processTotalUpdates(updates) }
-	me.admin 			= function (message) { alert("Fairy playfield got an admin message: " + messages); }
+	me.admin 			= function (message) { alert("Fairy playfield got an admin message: " + message); }
 	me.processUserAnswer = function (answer) {}
 
 

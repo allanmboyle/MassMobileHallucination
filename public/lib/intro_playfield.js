@@ -13,20 +13,19 @@ var IntroPlayfield = (function () {
 	// Publics
 	//	
 	me.init = function (socket) {
-		// tell the server we don't want totals (only real time updates)
+		// tell the server we don't want jack
 		socket.emit("admin", "no_updates");
-		
+		socket.emit("admin", "no_totals");
+	}	
 	me.newUser = function (data) 	{ newUser(data) }
-	me.woosOut = function (data) 	{ woosOut(data) }
-	me.players = function (players) { players(data) }
+	me.woosOut = function (data) 	{ }
+	me.players = function (players) {  }
 	me.positionUpdates = function (updates) { processPositionUpdates(updates) }
 	me.totalUpdates = function (updates) { processTotalUpdates(updates) }
 	me.shutdown = function () { }
-	me.admin = function(message) { alert("Fairy playfield got an admin message: " + messages); 	}	}
+	me.admin = function(message) { alert("Fairy playfield got an admin message: " + message); }
 
-	me.initPlayers = function (players) { 
-		// can ignore this. Just need totals
-	}
+	me.initPlayers = function (players) { }
 
 	//
 	// privates

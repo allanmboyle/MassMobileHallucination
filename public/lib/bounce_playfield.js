@@ -31,7 +31,7 @@ var BouncePlayfield = (function () {
         processPositionUpdates(updates)
     }
     me.admin = function (message) {
-        alert("Bounce playfield got an admin message: " + messages);
+        alert("Bounce playfield got an admin message: " + message);
     }
 
     me.processUserAnswer = function (answer) {}

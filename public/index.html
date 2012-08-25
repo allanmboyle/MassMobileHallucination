@@ -22,8 +22,8 @@
             <br/>
 
             What side fo the room are you seated on ? :
-            <input type="radio" name="location" id="playerLocationLeft" onclick="setPlayerLocation('left');" value="Left"> Left
-            <input type="radio" name="location" id="playerLocationRight" onclick="setPlayerLocation('right');" value="Right" checked>  Right
+            <input type="radio" name="location" id="playerLocationLeft" onclick="setPlayerLocation('left');" value="Left" /> Left
+            <input type="radio" name="location" id="playerLocationRight" onclick="setPlayerLocation('right');" value="Right" checked />  Right
 
             <br/>
 
@@ -31,17 +31,6 @@
         </div>
 
         <script>
-            // What game controllers this file supports. The <div> to show and
-            // any initialization function to call to get it going.
-            var gameConfig = {}
-            gameConfig.worm 	= {section: "redgreen", func: initTilt};
-            gameConfig.color 	= {section: "color", func: initColor };
-            gameConfig.fairy 	= {section: "tilt", func: initTilt};
-            gameConfig.pong 	= {section: "updownTilt", func: initTheNewAndImprovedUpDownOnlyTilt};
-            gameConfig.brickout = {section: "redgreen",func: initRedGreen};
-            gameConfig.millionaire = {section: "millionaire",func: initMillionaire};
-            gameConfig.loadtest = {section: "loadtest",func: initLoadTest};
-
             MMH.performSlowCrappyGyroscopeDetection();
 
             var socket = io.connect('/players');
@@ -100,7 +89,7 @@
             function changeName() {
                 socket.emit("namechange", document.getElementById('username').value);
             }
-            <script src="client.js">
-        </script>
+            </script>
+            <script src="client.js"></script>
     </body>
 </html>
