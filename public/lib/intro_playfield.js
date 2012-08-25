@@ -17,8 +17,9 @@ var IntroPlayfield = (function () {
 		socket.emit("admin", "no_updates");
 		socket.emit("admin", "no_totals");
 	}	
-	me.newUser = function (data) 	{ newUser(data) }
-	me.woosOut = function (data) 	{ }
+	me.newUser 		= function (data) 	{ addUser(data); }
+	me.woosOut 		= function (data) 	{ removeUser(data); }
+	me.nameChange 	= function (data) 	{ nameChange(data); }
 	me.players = function (players) {  }
 	me.positionUpdates = function (updates) { processPositionUpdates(updates) }
 	me.totalUpdates = function (updates) { processTotalUpdates(updates) }
@@ -32,11 +33,21 @@ var IntroPlayfield = (function () {
 	//
 
 	var users=0;
-	function newUser(data) {
+	function addUser(data) {
 		users++;
+		showUsers();
+	}
+	function removeUser(data) {
+		users--;
+		showUsers();
+	}
+	function showUsers() {
 		$("#users").html(users);
 	}
-
+	function nameChange(data) {
+		var newDiv = $('div').css({position: 'absolute', left: '100px', top: '100px'}).text(data.username).appendTo($('body'));
+		newDiv.fadeOut(5000);
+	}
 	function processPositionUpdates(updates) {
 		// ignoring for now
 	}

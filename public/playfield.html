@@ -7,6 +7,7 @@
         <script src="/lib/pong_playfield.js"></script>
         <script src="/lib/quiz_playfield.js"></script>
         <script src="/lib/intro_playfield.js"></script>
+        <script src="/lib/fairy_playfield.js"></script>
         <script src="/lib/loadtest_playfield.js"></script>
         <script src="/lib/animation.js"></script>
         <link rel="stylesheet" href="../style.css" type="text/css" />
@@ -32,6 +33,7 @@
         <div id="intro" style="display: none">
             <div style="font-size:50pt">MMH</div>
             <div style="font-size:10pt" id="users">0</div>
+            <div style="font-size:30pt" id="name"></div>
             
             http://mmh.azure.com
         </div>
@@ -68,24 +70,19 @@
         </div>
 
         <div id=worm style="display: none">
-            <div style="width: 100%; height: 100%; background-color: red;">The worms crawl in and the worms crawl out.</div>
+            <div style="width: 100%; height: 100%; background-color: pink;">The worms crawl in and the worms crawl out.</div>
         </div>
         <script>
             var currentGame = null;
             var socket = io.connect("/playfield");
 
             var gameConfig = {}
-            gameConfig.intro =  { section: "intro", module: IntroPlayfield }; 
-            gameConfig.worm =   { section: "worm",  module: WormPlayfield };
-            gameConfig.quiz =   { section: "quiz", module: QuizPlayfield };
-            gameConfig.pong = {
-                section: "pong",
-                module: PongPlayfield
-            };
-            gameConfig.loadtest = {
-                section: "loadtest",
-                module: LoadTestPlayfield
-            };
+            gameConfig.intro    = { section: "intro",   module: IntroPlayfield }; 
+            gameConfig.worm     = { section: "worm",    module: WormPlayfield };
+            gameConfig.quiz     = { section: "quiz",    module: QuizPlayfield };
+            gameConfig.fairy    = { section: "fairy",   module: FairyPlayfield };
+            gameConfig.pong     = { section: "pong",    module: PongPlayfield };
+            gameConfig.loadtest = { section: "loadtest",module: LoadTestPlayfield };
 
             // default starting game
             changeGame("intro");
@@ -104,6 +101,9 @@
             });
             socket.on('newuser', function (data) {
                 currentGame.newUser(data);
+            });
+            socket.on('namechange', function (data) {
+                currentGame.nameChange(data);
             });
             socket.on('woosout', function (data) {
                 currentGame.woosOut(data);

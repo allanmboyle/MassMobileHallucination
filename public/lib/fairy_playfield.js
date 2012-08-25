@@ -22,6 +22,7 @@ var FairyPlayfield = (function () {
 
 
 	me.init = function (theSocket) {
+alert("fairinig initialized");
 		socket = theSocket;
 		
 		// tell the server we don't want totals (only real time updates)
