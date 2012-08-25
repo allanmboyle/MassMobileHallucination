@@ -1,0 +1,29 @@
+<div>
+	<div style="background-color: #afeeee; height: 100%; width: 100%;">
+        For this game its either up or down, add a nice image or animation later
+        </br></br></br>
+    	<div id="updownIndicator" style="font-size:xx-large;"></div>
+    </div>
+</div>
+
+<script>
+	function initClient() {
+	    var side = getPlayerLocation();
+	    MMH.init(socket);
+	    MMH.listenForMovements(updownCallback);
+	}
+
+	function updownCallback (accel) {
+	    if (accel.tiltFB != undefined)
+		{
+	       if (accel.tiltFB < 0)
+	       {
+	           document.getElementById("updownIndicator").innerHTML = "UP";
+	       }
+	        else
+	       {
+	           document.getElementById("updownIndicator").innerHTML = "DOWN";
+	       }
+	    }
+	}
+</script>

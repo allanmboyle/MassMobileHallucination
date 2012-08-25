@@ -4,10 +4,10 @@
     <head>
         <title>Playfield</title>
         <script src="/socket.io/socket.io.js"></script>
-        <script src="/lib/fairy_playfield.js"></script>
         <script src="/lib/worm_playfield.js"></script>
         <script src="/lib/pong_playfield.js"></script>
-        <script src="/lib/millionaire_playfield.js"></script>
+        <script src="/lib/quiz_playfield.js"></script>
+        <script src="/lib/intro_playfield.js"></script>
         <script src="/lib/loadtest_playfield.js"></script>
         <script src="/lib/animation.js"></script>
         <link rel="stylesheet" href="../style.css" type="text/css" />
@@ -16,8 +16,8 @@
     </head>
     
     <body bgcolor="lightblue">
-        <h1>Mass Mobile Hallucinegenic Playfield</h1>
-        <div id="main">nothing</div>
+        <div id="main">?</div>
+
         <div id="fairy" style="display: none">
             <div style="background-color: grey">Messages per second:
                 <span id="stats"></span>
@@ -29,72 +29,15 @@
             <div id="log"></div>
             <div id="log2"></div>
         </div>
-        <div id="millionaire" style="display: none">
-           <div id="millionaireLeft">
-            LHS Area
-            </div>
 
-            <div id="millionaireRight">
-            RHS Area
-            <br />
-            <input type =button value="Start Quiz" onclick='MillionairePlayfield.startQuiz();'/>
-
-            <br />
-            <input type =button value="Next Question" onclick='MillionairePlayfield.askQuestion();'/>
-
-            <br />
-            <br />
-            <input type =button value="Show Answer" />
-
-            <br />
-            <br />
-            <input type =button value="Show Audience Answers" />
-
-            <br />
-            <br />
-            <input type =button value="Show Contestants" />
-            <br />
-            <br />
-            <input type =button value="Lock it in Tony!" />
-
-
-            </div>
-
-            <div id="millionaireRight">
-            RHS Area
-            </div>
-
-            <div id="millionaireMiddle">
-            <br /><br /><br />
-
-            <h4 style="text-align: center" data-bind="text: question"></h4>
-            <br /><br />
-
-            <table style="width: 649px" align=center>
-            <tr>
-            <td style="color: #FFFFFF;font-size: x-large;">A:</td>
-            <td style="color: #FFFFFF; font-size: medium;" width="45%" data-bind="text: optionA"></td>
-
-            <td style="color: #FFFFFF;font-size: x-large;">B:</td>
-            <td style="color: #FFFFFF; font-size: medium;" width="45%" data-bind="text: optionB"></td>
-
-            </tr> 
+        <div id="intro" style="display: none">
+            <div style="font-size:50pt">MMH</div>
+            <div style="font-size:10pt" id="users">0</div>
             
-            <tr>
-            <td style="color: #FFFFFF;font-size: x-large;">C:</td>
-            <td style="color: #FFFFFF; font-size: medium;" width="45%" data-bind="text: optionC"></td>
-
-            <td style="color: #FFFFFF;font-size: x-large;">D:</td>
-            <td style="color: #FFFFFF; font-size: medium;" width="45%" data-bind="text: optionD"></td>
-
-            </tr>            
-            </table>
-  
-                <br />
-
-            </div>
+            http://mmh.azure.com
         </div>
 
+        <div id="quiz" style="display: none;"><div style="background-color:red"> QUIZ </div></div>
         <!-- start pong -->
         <div id=pong style="display: none">
             <canvas id="pongcanvas" class="pong" width="800" height="600"></canvas>
@@ -129,91 +72,77 @@
         <div id=worm style="display: none">
             <div style="width: 100%; height: 100%; background-color: red;">The worms crawl in and the worms crawl out.</div>
         </div>
-            <script>
-                var currentGame = null;
-                var socket = io.connect("/playfield");
+        <script>
+            var currentGame = null;
+            var socket = io.connect("/playfield");
 
-                var gameConfig = {}
-                gameConfig.fairy = {
-                    section: "fairy",
-                    module: FairyPlayfield
-                };
-                gameConfig.worm = {
-                    section: "worm",
-                    module: WormPlayfield
-                };
-                gameConfig.maze = {
-                    section: "maze",
-                    module: null
-                };
-                gameConfig.millionaire = {
-                    section: "millionaire",
-                    module: MillionairePlayfield
-                };
-                gameConfig.pong = {
-                    section: "pong",
-                    module: PongPlayfield
-                };
-                gameConfig.loadtest = {
-                    section: "loadtest",
-                    module: LoadTestPlayfield
-                };
+            var gameConfig = {}
+            gameConfig.intro =  { section: "intro", module: IntroPlayfield }; 
+            gameConfig.worm =   { section: "worm",  module: WormPlayfield };
+            gameConfig.quiz =   { section: "quiz", module: QuizPlayfield };
+            gameConfig.pong = {
+                section: "pong",
+                module: PongPlayfield
+            };
+            gameConfig.loadtest = {
+                section: "loadtest",
+                module: LoadTestPlayfield
+            };
 
-                // default starting game
-                changeGame("pong");
+            // default starting game
+            changeGame("intro");
 
-                // Generic playfield functions
-                socket.on("changeGame", function (newGame) {
-                    changeGame(newGame);
-                });
+            // Generic playfield functions
+            socket.on("changeGame", function (newGame) {
+                changeGame(newGame);
+            });
 
-                // Pass these on to the game
-                socket.on('updates', function (updates) {
-                    currentGame.positionUpdates(updates);
-                });
-                socket.on('totals', function (totals) {
-                    currentGame.totalUpdates(totals);
-                });
-                socket.on('newuser', function (data) {
-                    currentGame.newUser(data);
-                });
-                socket.on('woosout', function (data) {
-                    currentGame.woosOut(data);
-                });
-                socket.on('players', function (players) {
-                    currentGame.initPlayers(players);
-                });
-                socket.on("admin", function (message) {
-                    currentGame.admin(message);
-                });
-                socket.on("answer", function (data) {
-                    currentGame.processUserAnswer(data);
-                });
+            // Pass these on to the game
+            socket.on('updates', function (updates) {
+                currentGame.positionUpdates(updates);
+            });
+            socket.on('totals', function (totals) {
+                currentGame.totalUpdates(totals);
+            });
+            socket.on('newuser', function (data) {
+                currentGame.newUser(data);
+            });
+            socket.on('woosout', function (data) {
+                currentGame.woosOut(data);
+            });
+            socket.on('players', function (players) {
+                currentGame.initPlayers(players);
+            });
+            socket.on("admin", function (message) {
+                currentGame.admin(message);
+            });
+            socket.on("custom", function (data) {
+                currentGame.processCustomMessage(data);
+            });
 
-                function changeGame(newGame) {
-                    // change the currentGame to new game and shutdown the old one.
-                    if (currentGame) currentGame.shutdown();
+            function changeGame(newGame) {
+                // change the currentGame to new game and shutdown the old one.
+                if (currentGame) currentGame.shutdown();
 
-					if (!gameConfig[newGame]) {
-						alert("Game '" + newGame + "' is not supported yet...");
-						return;
-					}
-					
-					if (!document.getElementById(gameConfig[newGame].section)) {
-						alert("Weird, can't find the game section for " + newGame);
-						return;
-					}
-                    
-					document.getElementById("main").innerHTML = document.getElementById(gameConfig[newGame].section).innerHTML;
-	                currentGame = gameConfig[newGame].module;
-	                
-					if (currentGame) { 
-						currentGame.init(socket);
-					} else {
-						alert("Cannot initialize the current game. Maybe its not written yet?");
-					}
-                }
-            </script>
+				if (!gameConfig[newGame]) {
+					alert("Game '" + newGame + "' is not supported yet...");
+					return;
+				}
+				
+				if (!document.getElementById(gameConfig[newGame].section)) {
+					alert("Weird, can't find the game section for " + newGame);
+					return;
+				}
+                
+				document.getElementById("main").innerHTML = document.getElementById(gameConfig[newGame].section).innerHTML;
+                currentGame = gameConfig[newGame].module;
+                
+				if (currentGame) { 
+					currentGame.init(socket);
+				} else {
+					alert("Cannot initialize the current game. Maybe its not written yet?");
+				}
+            }
+        </script>
     </body>
-
 </html>
