@@ -31,9 +31,10 @@ var IntroPlayfield = (function () {
 	// privates
 	//
 
+	var users=0;
 	function newUser(data) {
 		users++;
-		$("#users").html = users;
+		$("#users").html(users);
 	}
 
 	function processPositionUpdates(updates) {
