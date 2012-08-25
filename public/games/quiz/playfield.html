@@ -22,6 +22,7 @@
 	nextQuestion();
 
 	function nextQuestion() {
+		QuizPlayfield.clearAnswers();
 		if (q < questions.length) {
 			$("#q").text(questions[q].q);
 			$("#a1").text(questions[q].a[0]);
@@ -33,7 +34,7 @@
 	}
 
 	function showAnswers() {
-
+		alert("Answer: " + QuizPlayfield.getAnswers());
 	}
 
 	function initPlayfield() {

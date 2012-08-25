@@ -14,28 +14,62 @@ var QuizPlayfield = (function (playfieldSocket) {
 		// tell the server we don't want totals (only real time updates)
 		playfieldSocket.emit("admin", "no_updates");
 	}
-	me.newUser = function (data) 	{  }
-	me.woosOut = function (data) 	{  }
-	me.players = function (players) { }
-	me.positionUpdates = function (updates) { processPositionUpdates(updates) }
-	me.totalUpdates = function (updates) { processTotalUpdates(updates) }
+	me.newUser = function (data) 	{ /* doesn't matter if new come */}
+	me.woosOut = function (data) 	{ removeUserAnswer(data); }
+	me.positionUpdates = function (updates) { }
+	me.totalUpdates = function (updates) { }
 	me.shutdown = function () { }
-	me.admin = function(message) { alert("Fairy playfield got an admin message: " + message); }
+	me.admin = function(message) { }
+	
+	me.processCustomMessage = function (message) {
+		recordAnswer(message);
+	}	
 	
 	me.initPlayers = function (players) { 
 		// can ignore this. Just need totals
 	}
 
+	// this should be called periodically to see if the totals have changed.
+	me.getAnswers = function () {
+		var answers = [0,0,0,0];
+
+		for (user in userAnswers) {
+			switch (userAnswers[user]) {
+				case 'A': 
+					answers[0]++;
+					break;
+				case 'B': 
+					answers[1]++;
+					break;
+				case 'C': 
+					answers[2]++;
+					break;
+				case 'D': 
+					answers[3]++;
+			}
+		}
+		return answers;
+	}
+
+	me.clearAnswers = function () {
+		userAnswers = {};
+	}
+
 	//
 	// privates
 	//
-	
-	function processPositionUpdates(updates) {
-		// ignoring for now
+	var userAnswers = {};
+
+	function removeUserAnswer(data) {
+		if (userAnswers[data.id]) {
+			delete userAnswers[data.id];
+		}	
 	}
-	
-	function processTotalUpdates(updates) {
-		// ignoring for now
+
+	function recordAnswer(message) {
+		// overrides any previos answer
+		userAnswers[message.id] = message.data;
 	}
+
 	return me;
 }(socket));

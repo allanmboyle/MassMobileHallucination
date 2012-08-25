@@ -8,9 +8,7 @@
 <script>
 
 function vote(letter) {
-	alert("voted for letter: " + letter);
-
-	// send this data to the playfield with a custom message?
+	// a custom game element of data
 	socket.emit("custom", letter);
 }
 
