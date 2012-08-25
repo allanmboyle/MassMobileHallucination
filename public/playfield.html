@@ -5,7 +5,6 @@
         <script src="/socket.io/socket.io.js"></script>
         <script src="/lib/worm_playfield.js"></script>
         <script src="/lib/pong_playfield.js"></script>
-        <script src="/lib/quiz_playfield.js"></script>
         <script src="/lib/intro_playfield.js"></script>
         <script src="/lib/fairy_playfield.js"></script>
         <script src="/lib/loadtest_playfield.js"></script>
@@ -38,8 +37,6 @@
             http://mmh.azure.com
         </div>
 
-        <div id="quiz" style="display: none;"><div style="background-color:red"> QUIZ </div></div>
-        <!-- start pong -->
         <div id=pong style="display: none">
             <canvas id="pongcanvas" class="pong" width="800" height="600"></canvas>
             <table align="center" style="width:80%;font-family: Arial, Helvetica, sans-serif; font-size: medium">
@@ -56,7 +53,6 @@
             </table>
         </div>
 
-        <!-- end pong -->
         <div id="loadtest" style="display: none">
             <div style="width: 100%; height: 100%; background-color: orange;">
                 # aggregated accelerometer readings :<div id="loadTestOutput"></div><br/>
@@ -79,7 +75,6 @@
             var gameConfig = {}
             gameConfig.intro    = { section: "intro",   module: IntroPlayfield }; 
             gameConfig.worm     = { section: "worm",    module: WormPlayfield };
-            gameConfig.quiz     = { section: "quiz",    module: QuizPlayfield };
             gameConfig.fairy    = { section: "fairy",   module: FairyPlayfield };
             gameConfig.pong     = { section: "pong",    module: PongPlayfield };
             gameConfig.loadtest = { section: "loadtest",module: LoadTestPlayfield };
@@ -122,24 +117,32 @@
                 // change the currentGame to new game and shutdown the old one.
                 if (currentGame) currentGame.shutdown();
 
-				if (!gameConfig[newGame]) {
-					alert("Game '" + newGame + "' is not supported yet...");
-					return;
-				}
-				
-				if (!document.getElementById(gameConfig[newGame].section)) {
-					alert("Weird, can't find the game section for " + newGame);
-					return;
-				}
+                // Testing a new launch model with fairy
+                if (newGame == "quiz") {
+                    $("#main").load("/games/"+newGame+"/playfield.html", function () {
+                        initPlayfield();
+                    });
+                } else {
                 
-				document.getElementById("main").innerHTML = document.getElementById(gameConfig[newGame].section).innerHTML;
-                currentGame = gameConfig[newGame].module;
-                
-				if (currentGame) { 
-					currentGame.init(socket);
-				} else {
-					alert("Cannot initialize the current game. Maybe its not written yet?");
-				}
+        			if (!gameConfig[newGame]) {
+                        alert("Game '" + newGame + "' is not supported yet...");
+                        return;
+                    }
+                    
+                    if (!document.getElementById(gameConfig[newGame].section)) {
+                        alert("Weird, can't find the game section for " + newGame);
+                        return;
+                    }	
+
+                    document.getElementById("main").innerHTML = document.getElementById(gameConfig[newGame].section).innerHTML;
+                    currentGame = gameConfig[newGame].module;
+                    
+    				if (currentGame) { 
+    					currentGame.init(socket);
+    				} else {
+    					alert("Cannot initialize the current game. Maybe its not written yet?");
+    				}
+                }
             }
         </script>
     </body>

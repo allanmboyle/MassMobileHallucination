@@ -4,25 +4,23 @@
  * 
  * worm_playfield.js - implementation of the worm game.
  */
-
-var QuizPlayfield = (function () {
+var QuizPlayfield = (function (playfieldSocket) {
 	var me = {};
 
-var socket;
 	//
 	// Publics
 	//	
-	me.init = function (socket) {
+	me.init = function () {
 		// tell the server we don't want totals (only real time updates)
-		socket.emit("admin", "no_updates");
-		
+		playfieldSocket.emit("admin", "no_updates");
+	}
 	me.newUser = function (data) 	{  }
 	me.woosOut = function (data) 	{  }
 	me.players = function (players) { }
 	me.positionUpdates = function (updates) { processPositionUpdates(updates) }
 	me.totalUpdates = function (updates) { processTotalUpdates(updates) }
 	me.shutdown = function () { }
-	me.admin = function(message) { alert("Fairy playfield got an admin message: " + message); 	}	}
+	me.admin = function(message) { alert("Fairy playfield got an admin message: " + message); }
 	
 	me.initPlayers = function (players) { 
 		// can ignore this. Just need totals
@@ -40,4 +38,4 @@ var socket;
 		// ignoring for now
 	}
 	return me;
-}());
+}(socket));
