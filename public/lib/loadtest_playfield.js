@@ -79,10 +79,20 @@ var LoadTestPlayfield = (function () {
 	me.processPositionUpdates = function (updates) {
 	}
 
+    var requestsOverTime = [];
+    var intervalId = 0;
+
 	function processAdminMessage(message) {
         document.getElementById("loadTestMetricData").innerHTML = JSON.stringify(message);
 
+        intervalId++;
+        requestsOverTime.push([intervalId, message.messageCount]);
 
+        $.plot($("#chartdiv"), [
+            {
+                data: requestsOverTime,
+                lines: { show: true, fill: false, steps: true }
+            }]);
     }
 
 
