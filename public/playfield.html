@@ -3,7 +3,6 @@
     <head>
         <title>Playfield</title>
         <script src="/socket.io/socket.io.js"></script>
-        <script src="/lib/worm_playfield.js"></script>
         <script src="/lib/pong_playfield.js"></script>
         <script src="/lib/intro_playfield.js"></script>
         <script src="/lib/fairy_playfield.js"></script>
@@ -78,7 +77,6 @@
 
             var gameConfig = {}
             gameConfig.intro    = { section: "intro",   module: IntroPlayfield }; 
-            gameConfig.worm     = { section: "worm",    module: WormPlayfield };
             gameConfig.fairy    = { section: "fairy",   module: FairyPlayfield };
             gameConfig.pong     = { section: "pong",    module: PongPlayfield };
             gameConfig.loadtest = { section: "loadtest",module: LoadTestPlayfield };
@@ -122,7 +120,7 @@
                 if (currentGame) currentGame.shutdown();
 
                 // Testing a new launch model with fairy
-                if (newGame == "quiz") {
+                if (newGame == "quiz" || newGame == "worm") {
                     $("#main").load("/games/"+newGame+"/playfield.html", function () {
                         currentGame = initPlayfield();
                     });
