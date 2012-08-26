@@ -2,29 +2,46 @@
 	.answer .option {
 		font-size: 19pt;
 	}
+	.option {
+		width: 50%;
+	}
 	.hidden_answer {
 		display: none;
 	}
-
 	.shown_answer {
 		display: inline;
+	}
+	.answerrow {
+		width: 100%;
+	}
+	.correct_answer {
+		background-color: yellow;
 	}
 </style>
 <div>
 	<span>Question </span> <span id="q"></span><br/>
-	<span>A: </span> <span id="a1" class="option"></span> <span id="v1" class="answer hidden_answer"></span><br/>
-	<span>B: </span> <span id="a2" class="option"></span> <span id="v2" class="answer hidden_answer"></span><br/>
-	<span>C: </span> <span id="a3" class="option"></span> <span id="v3" class="answer hidden_answer"></span><br/>
-	<span>D: </span> <span id="a4" class="option"></span> <span id="v4" class="answer hidden_answer"></span><br/>
-	
+	<div class="answerrow">
+		<span>A: </span> <span id="a1" class="option"></span> <span id="v1" class="answer hidden_answer"></span>
+	</div>
+	<div class="answerrow">
+		<span>B: </span> <span id="a2" class="option"></span> <span id="v2" class="answer hidden_answer"></span><br/>
+	</div>
+	<div class="answerrow">
+		<span>C: </span> <span id="a3" class="option"></span> <span id="v3" class="answer hidden_answer"></span><br/>
+	</div>
+	<div class="answerrow">
+		<span>D: </span> <span id="a4" class="option"></span> <span id="v4" class="answer hidden_answer"></span><br/>
+	</div>
+
 	<input type=button value="Show Votes" onclick="showHideVotes()" />
+	<input type=button value="Correct Answer?" onclick="showCorrectAnswer()" />
 	<input type=button value="Next Question" onclick="nextQuestion()" />
 </div>
 
 <script src="/games/quiz/quiz_playfield.js"></script>
 
 <script>
-	var q = 0;
+	var q = -1;
 	
 	var questions = [
 		{q: "blabhabhab", 
@@ -40,19 +57,24 @@
 			c: 3,
 			a: ["1", "2", "3", "4"]}
 	];
+
 	nextQuestion();
 
 	function nextQuestion() {
-		hideVotes();
-		QuizPlayfield.clearVotes();
+		q++;
 		if (q < questions.length) {
+			hideVotes();
+			$(".answerrow").removeClass("correct_answer");
+			QuizPlayfield.clearVotes();
+
 			$("#q").text((q+1) + ": " + questions[q].q);
 			$("#a1").text(questions[q].a[0]);
 			$("#a2").text(questions[q].a[1]);
 			$("#a3").text(questions[q].a[2]);
 			$("#a4").text(questions[q].a[3]);
+		} else {
+			q--; // go back to the last good question.
 		}
-		q++;
 	}
 
 	var votesVisible = false;
@@ -78,6 +100,10 @@
 		$("#v2").text(answers[1]);
 		$("#v3").text(answers[2]);
 		$("#v4").text(answers[3]);
+	}
+
+	function showCorrectAnswer() {
+		$($("div.answerrow")[questions[q].c]).addClass("correct_answer");
 	}
 
 	var voteTimer;
