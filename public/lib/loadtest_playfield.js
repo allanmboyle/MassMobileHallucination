@@ -90,9 +90,18 @@ var LoadTestPlayfield = (function () {
 
         $.plot($("#chartdiv"), [
             {
-                data: requestsOverTime,
-                lines: { show: true, fill: false, steps: true }
-            }]);
+                label: "requests per 30 seconds",  data: requestsOverTime,
+                //lines: { show: true, fill: false, steps: true }
+            }]
+            , {
+                series: {
+                    lines: { show: true },
+                    points: { show: true }
+                }}
+        //    ,{
+        //        xaxis: { min: 0, max: 60 }
+        //    }
+        );
     }
 
 
