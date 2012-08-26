@@ -1,9 +1,9 @@
 <style>
-	.answer .option {
+	.answer {
 		font-size: 19pt;
 	}
 	.option {
-		width: 50%;
+		font-size: 19pt;
 	}
 	.hidden_answer {
 		display: none;
@@ -19,6 +19,7 @@
 	}
 </style>
 <div>
+	<!-- TODO: convert this to a table -->
 	<span>Question </span> <span id="q"></span><br/>
 	<div class="answerrow">
 		<span>A: </span> <span id="a1" class="option"></span> <span id="v1" class="answer hidden_answer"></span>
@@ -81,14 +82,15 @@
 
 	function showHideVotes() {
 		(votesVisible)? hideVotes() : showVotes();
-		votesVisible = !votesVisible;
 	}
 
 	function hideVotes() {
+		votesVisible = false;
 		$(".answer").removeClass("shown_answer").addClass("hidden_answer");
 	}
 
 	function showVotes() {
+		votesVisible = true;
 		$(".answer").removeClass("hidden_answer").addClass("shown_answer");	
 	}
 
@@ -96,10 +98,18 @@
 	function updateVotes() {
 		var answers = QuizPlayfield.calculateVotes();
 
-		$("#v1").text(answers[0]);
-		$("#v2").text(answers[1]);
-		$("#v3").text(answers[2]);
-		$("#v4").text(answers[3]);
+		// add up totals to get the percentage
+		var total = answers[0] + answers[1] + answers[2] + answers[3];
+
+		$("#v1").text(percent(answers[0], total));
+		$("#v2").text(percent(answers[1], total));
+		$("#v3").text(percent(answers[2], total));
+		$("#v4").text(percent(answers[3], total));
+	}
+
+	function percent(val, total) {
+		if (total == 0) { return 0; }
+		return Math.floor(val*100/total)
 	}
 
 	function showCorrectAnswer() {
