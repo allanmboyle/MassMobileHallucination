@@ -80,29 +80,41 @@ var LoadTestPlayfield = (function () {
 	}
 
     var requestsOverTime = [];
+    var userCountOverTime = [];
+
     var intervalId = 0;
 
 	function processAdminMessage(message) {
+
         document.getElementById("loadTestMetricData").innerHTML = JSON.stringify(message);
 
         intervalId++;
         requestsOverTime.push([intervalId, message.messageCount]);
 
-        $.plot($("#chartdiv"), [
-            {
-                label: "requests per 30 seconds",  data: requestsOverTime,
-                //lines: { show: true, fill: false, steps: true }
-            }]
-            , {
-                series: {
-                    lines: { show: true },
-                    points: { show: true }
-                }}
-        //    ,{
-        //        xaxis: { min: 0, max: 60 }
-        //    }
-        );
+        var options = {
+            series: { lines: { show: true },points: { show: true } }, // drawing is faster without shadows
+            //yaxis: { min: 0, max: 500 },
+            grid: {backgroundColor: { colors: ["#fff", "#eee"] }},
+            xaxis: {min: 0, max: 50}
+        };
+        var plot = $.plot($("#chartRequestsPerSecond"), [{label: "requests per 30 seconds",  data: requestsOverTime} ], options);
+
+
+        //user count chart
+
+        userCountOverTime.push([intervalId, numberOfUsers]);
+
+        var options = {
+            series: { lines: { show: true },points: { show: true } }, // drawing is faster without shadows
+            yaxis: { min: 0, max: 300 },
+            grid: {backgroundColor: { colors: ["#fff", "#eee"] }},
+            xaxis: {min: 0, max: 50}
+        };
+        var plot = $.plot($("#chartUserCount"), [{label: "user count per 30 seconds",  data: userCountOverTime} ], options);
+
+
     }
+
 
 
     function processNewUser()
