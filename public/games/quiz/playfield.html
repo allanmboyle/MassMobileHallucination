@@ -1,30 +1,52 @@
+<style>
+	.answer .option {
+		font-size: 19pt;
+	}
+	.hidden_answer {
+		display: none;
+	}
+
+	.shown_answer {
+		display: inline;
+	}
+</style>
 <div>
-	<span>Question: </span> <span id="q"></span><br/>
-	<span>A: </span> <span id="a1" ></span><br/>
-	<span>B: </span> <span id="a2" ></span><br/>
-	<span>C: </span> <span id="a3" ></span><br/>
-	<span>D: </span> <span id="a4" ></span><br/>
+	<span>Question </span> <span id="q"></span><br/>
+	<span>A: </span> <span id="a1" class="option"></span> <span id="v1" class="answer hidden_answer"></span><br/>
+	<span>B: </span> <span id="a2" class="option"></span> <span id="v2" class="answer hidden_answer"></span><br/>
+	<span>C: </span> <span id="a3" class="option"></span> <span id="v3" class="answer hidden_answer"></span><br/>
+	<span>D: </span> <span id="a4" class="option"></span> <span id="v4" class="answer hidden_answer"></span><br/>
 	
-	<input type=button value="Show Answers" onclick="showAnswers()" />
+	<input type=button value="Show Votes" onclick="showHideVotes()" />
 	<input type=button value="Next Question" onclick="nextQuestion()" />
 </div>
 
 <script src="/games/quiz/quiz_playfield.js"></script>
+
 <script>
 	var q = 0;
+	
 	var questions = [
-		{q: "blabhabhab", a: ["one", "two", "three", "four"]},
-		{q: "tttttttt", a: ["a", "b", "c", "d"]},
-		{q: "wwwww", a: ["i", "ii", "iii", "iiii"]},
-		{q: "xxxxxxxx", a: ["1", "2", "3", "4"]},
+		{q: "blabhabhab", 
+			c: 0, 
+			a: ["one", "two", "three", "four"]},
+		{q: "tttttttt", 
+			c: 3,
+			a: ["a", "b", "c", "d"]},
+		{q: "wwwww", 
+			c: 2,
+			a: ["i", "ii", "iii", "iiii"]},
+		{q: "xxxxxxxx", 
+			c: 3,
+			a: ["1", "2", "3", "4"]}
 	];
-
 	nextQuestion();
 
 	function nextQuestion() {
-		QuizPlayfield.clearAnswers();
+		hideVotes();
+		QuizPlayfield.clearVotes();
 		if (q < questions.length) {
-			$("#q").text(questions[q].q);
+			$("#q").text((q+1) + ": " + questions[q].q);
 			$("#a1").text(questions[q].a[0]);
 			$("#a2").text(questions[q].a[1]);
 			$("#a3").text(questions[q].a[2]);
@@ -33,13 +55,42 @@
 		q++;
 	}
 
-	function showAnswers() {
-		alert("Answer: " + QuizPlayfield.getAnswers());
+	var votesVisible = false;
+
+	function showHideVotes() {
+		(votesVisible)? hideVotes() : showVotes();
+		votesVisible = !votesVisible;
 	}
 
+	function hideVotes() {
+		$(".answer").removeClass("shown_answer").addClass("hidden_answer");
+	}
+
+	function showVotes() {
+		$(".answer").removeClass("hidden_answer").addClass("shown_answer");	
+	}
+
+	// TODO: make these perentages
+	function updateVotes() {
+		var answers = QuizPlayfield.calculateVotes();
+
+		$("#v1").text(answers[0]);
+		$("#v2").text(answers[1]);
+		$("#v3").text(answers[2]);
+		$("#v4").text(answers[3]);
+	}
+
+	var voteTimer;
 	function initPlayfield() {
 		QuizPlayfield.init();
+
+		// start a timer on the calculation of votes
+		voteTimer = setInterval(updateVotes, 2000);
+
 		return QuizPlayfield;
 	}
-	function shutdown() {}
+
+	function shutdown() {
+		clearInterval(voteTimer);
+	}
 </script>

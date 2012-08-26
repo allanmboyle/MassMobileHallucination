@@ -6,6 +6,7 @@
  */
 var QuizPlayfield = (function (playfieldSocket) {
 	var me = {};
+	var userVotes = {};
 
 	//
 	// Publics
@@ -15,14 +16,14 @@ var QuizPlayfield = (function (playfieldSocket) {
 		playfieldSocket.emit("admin", "no_updates");
 	}
 	me.newUser = function (data) 	{ /* doesn't matter if new come */}
-	me.woosOut = function (data) 	{ removeUserAnswer(data); }
+	me.woosOut = function (data) 	{ removeUserVote(data); }
 	me.positionUpdates = function (updates) { }
 	me.totalUpdates = function (updates) { }
 	me.shutdown = function () { }
 	me.admin = function(message) { }
 	
 	me.processCustomMessage = function (message) {
-		recordAnswer(message);
+		recordVote(message);
 	}	
 	
 	me.initPlayers = function (players) { 
@@ -30,45 +31,44 @@ var QuizPlayfield = (function (playfieldSocket) {
 	}
 
 	// this should be called periodically to see if the totals have changed.
-	me.getAnswers = function () {
-		var answers = [0,0,0,0];
+	me.calculateVotes = function () {
+		var votes = [0,0,0,0];
 
-		for (user in userAnswers) {
-			switch (userAnswers[user]) {
+		for (user in userVotes) {
+			switch (userVotes[user]) {
 				case 'A': 
-					answers[0]++;
+					votes[0]++;
 					break;
 				case 'B': 
-					answers[1]++;
+					votes[1]++;
 					break;
 				case 'C': 
-					answers[2]++;
+					votes[2]++;
 					break;
 				case 'D': 
-					answers[3]++;
+					votes[3]++;
 			}
 		}
-		return answers;
+		return votes;
 	}
 
-	me.clearAnswers = function () {
-		userAnswers = {};
-	}
 
+	me.clearVotes = function () {
+		userVotes = {};
+	}
 	//
 	// privates
 	//
-	var userAnswers = {};
 
-	function removeUserAnswer(data) {
-		if (userAnswers[data.id]) {
-			delete userAnswers[data.id];
+	function removeUserVote(data) {
+		if (userVotes[data.id]) {
+			delete userVotes[data.id];
 		}	
 	}
 
-	function recordAnswer(message) {
-		// overrides any previos answer
-		userAnswers[message.id] = message.data;
+	function recordVote(message) {
+		// overrides any previous vote so you can only provide 
+		userVotes[message.id] = message.data;
 	}
 
 	return me;
