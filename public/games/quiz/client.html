@@ -14,6 +14,9 @@
 		margin: 10px;
 		font-size: 30pt;
 	}
+	.selectedButton {
+		background-color: firebrick;
+	}
 	.quizpanel {
 		background-color: lightblue;
 		width: 100%; 
@@ -47,7 +50,9 @@
 <script>
 
 function vote(letter) {
-	// a custom game element of data
+	$(".quizbutton").removeClass("selectedButton");
+	$('.quizbutton[value|="'+letter+'"]').addClass("selectedButton");
+	// Tell the server via custom message what our selection is
 	socket.emit("custom", letter);
 }
 
