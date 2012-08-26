@@ -1,9 +1,9 @@
 <style>
-	.answer .option {
+	.answer {
 		font-size: 19pt;
 	}
 	.option {
-		width: 50%;
+		font-size: 19pt;
 	}
 	.hidden_answer {
 		display: none;
@@ -19,6 +19,7 @@
 	}
 </style>
 <div>
+	<!-- TODO: convert this to a table -->
 	<span>Question </span> <span id="q"></span><br/>
 	<div class="answerrow">
 		<span>A: </span> <span id="a1" class="option"></span> <span id="v1" class="answer hidden_answer"></span>
@@ -81,14 +82,15 @@
 
 	function showHideVotes() {
 		(votesVisible)? hideVotes() : showVotes();
-		votesVisible = !votesVisible;
 	}
 
 	function hideVotes() {
+		votesVisible = false;
 		$(".answer").removeClass("shown_answer").addClass("hidden_answer");
 	}
 
 	function showVotes() {
+		votesVisible = true;
 		$(".answer").removeClass("hidden_answer").addClass("shown_answer");	
 	}
 
