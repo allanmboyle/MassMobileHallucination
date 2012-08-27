@@ -1,0 +1,18 @@
+Findings
+
+Using Long polling on Azure Websites 
+
+(1) Chrome supports a max of 25 connections using websockets = after this it craps out
+(2) VERY long delay ( 20 secs) beteen controller telling client to ramp up connections and any throughput on the server
+(3) chunky responses coming through - maxing out at 6500 requests per 30 seconds , this is with 25 concurrent users sending data ar 40ms intervals...
+
+
+
+To DO
+
+X log number of users on the gamefield
+X switch to websockets, period!
+X trap dropped connections on the client
+
+
+

@@ -1,5 +1,9 @@
-<div> load test client </div>
-
+<div id="loadTestStatus">Not started  just waiting to fhe call to arms from the controller!</div>
+<br/>
+number of connections <div id="loadTestConnections">0</div>
+<br/>
+ <div id="loadtestControllerMessages"></div>
+<br/>
 <script>
 	var SEND_FREQUENCY = 40;
 
@@ -23,9 +27,12 @@
     //kick off the load test or change the existing test run
     function changeLoadTestSettings(message){
         var rampUpCount = message.rampUpConnections;
+        outputMessage("ramp up users by" + rampUpCount);
         addLoadTestUsers(rampUpCount);
         if (!loadTestHasBegun)
         {
+            document.getElementById("loadTestStatus").innerHTML = "Start load testing!";
+
             sendLoadTestData();
             loadTestHasBegun = true;
         }
@@ -41,6 +48,8 @@
             player.socket.emit("namechange", "Loren Carpenter " + Math.floor(Math.random()*9999));
             loadTestPlayers.push(player);
         }
+        document.getElementById("loadTestConnections").innerHTML = loadTestPlayers.length + 1;
+
     }
 
     //start pumping out random accelerometer data to the server
@@ -58,6 +67,15 @@
             loadTestPlayers[p].socket.emit("accel", accel);
         }
         sendLoadDataTimer = setTimeout(sendLoadTestData, SEND_FREQUENCY);
+
+    }
+
+    function outputMessage(message){
+        var content  =  document.getElementById("loadtestControllerMessages").innerHTML;
+
+        content += "<br/>";
+        content +=message;
+        document.getElementById("loadtestControllerMessages").innerHTML = content;
 
     }
 
