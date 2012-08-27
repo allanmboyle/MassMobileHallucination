@@ -44,9 +44,10 @@
 		setTimeout(function () {
 			$(".wormsplash").fadeOut(2000, function() {
 				$(".wormsplash").addClass("hideme");
-				$(".wormworm").fadeIn(3000);
+				$(".wormworm").fadeIn(3000, function() {
+					startWorming();
+				});
 				$(".wormworm").removeClass("hideme");
-				startWorming();
 			})	
 		}, 1000); //8000
 
@@ -64,13 +65,19 @@
 		canvas = document.getElementById("wormcanvas");
  		ctx = canvas.getContext("2d");
 
-		// set the initial worm position to the middle of the canvas. 
- 		lastWormY = canvas.height/2;
+		ctx.canvas.width  = window.innerWidth;
+  		ctx.canvas.height = window.innerHeight;
 
 		drawWormBackground();
 
+		// set the initial worm position to the middle of the canvas. 
+		// NOTE: this must go after drawing the background which changes widths.
+ 		lastWormY = ctx.canvas.height/2;
+ 		lastWormX = 0;
+ 		wormXwiggle = (WIGGLE_INTERVAL/TOTAL_WORM_TIME)*ctx.canvas.width;
+
 		// launch an interval thread		
-		wormInternal = setInterval(drawNextWiggle, WIGGLE_INTERVAL);
+		wormInterval = setInterval(drawNextWiggle, WIGGLE_INTERVAL);
 	}
 
 	var lastWormX = 0;
@@ -78,46 +85,38 @@
 
 	// Draw the next point along the worm.
 	function drawNextWiggle() {
-		// alert("average: " + WormPlayfield.averageWorm());
-
-		var nextWormX = lastWormX + Math.floor(WIGGLE_INTERVAL/TOTAL_WORM_TIME*canvas.width); 
-		var nextWormY = Math.floor(((WormPlayfield.averageWorm() + 90)/180)*canvas.height);
-
-		// alert("wiggle " + lastWormX + ", " + lastWormY + " to " + nextWormX + "," + nextWormY);
+		var nextWormX = lastWormX + wormXwiggle; 
+		var nextWormY = lastWormY + (Math.floor(((WormPlayfield.averageWorm() + 90)/180)*ctx.canvas.height) - lastWormY)*.33;
 
 		// draw the line
 		ctx.lineWidth = 2;
        	ctx.beginPath();
-       	ctx.moveTo(lastWormX, lastWormY);
-       	ctx.lineTo(nextWormX, nextWormY);
+       	ctx.moveTo(Math.round(lastWormX), lastWormY);
+       	ctx.lineTo(Math.round(nextWormX), nextWormY);
        	ctx.stroke();
 
 		// reset the last positions
 		lastWormX = nextWormX;
 		lastWormY = nextWormY;
 
-		if (lastWormX > canvas.width) {
+		if (lastWormX > ctx.canvas.width) {
 			clearInterval(wormInterval);
-			alert("The Debate is Over!");
 		}
 	}
 
 	function drawWormBackground() {
-		ctx.canvas.width  = window.innerWidth;
-  		ctx.canvas.height = window.innerHeight;
-
 		ctx.fillStyle = "rgb(200,90,90)";
-		ctx.fillRect (0, 0, canvas.width, canvas.height/2);
+		ctx.fillRect (0, 0, ctx.canvas.width, ctx.canvas.height/2);
 		 
 		ctx.fillStyle = "rgba(90, 90, 200, 0.5)";
-		ctx.fillRect (0, canvas.height/2, canvas.width, canvas.height);
+		ctx.fillRect (0, ctx.canvas.height/2, ctx.canvas.width, ctx.canvas.height);
 
 		ctx.fillStyle = "rgb(10,10,10)";
-		ctx.fillRect (0, canvas.height/2-2, canvas.width, 3);
+		ctx.fillRect (0, ctx.canvas.height/2-2, ctx.canvas.width, 3);
 
 		ctx.fillStyle = "blue";
   		ctx.font = "bold 36pt Arial";
-  		ctx.fillText(GOOD, canvas.width - canvas.width/5, canvas.height/10);
-  		ctx.fillText(BAD, canvas.width - canvas.width/5, canvas.height - canvas.height/16 );
+  		ctx.fillText(GOOD, ctx.canvas.width - ctx.canvas.width/5, ctx.canvas.height/10);
+  		ctx.fillText(BAD, ctx.canvas.width - ctx.canvas.width/5, ctx.canvas.height - ctx.canvas.height/16 );
 	}
 </script>
