@@ -61,6 +61,8 @@
 
 	var canvas;
 	var ctx;
+	var wormInterval;
+
 	function startWorming() {
 		canvas = document.getElementById("wormcanvas");
  		ctx = canvas.getContext("2d");
@@ -76,8 +78,11 @@
  		lastWormX = 0;
  		wormXwiggle = (WIGGLE_INTERVAL/TOTAL_WORM_TIME)*ctx.canvas.width;
 
-		// launch an interval thread		
-		wormInterval = setInterval(drawNextWiggle, WIGGLE_INTERVAL);
+		// launch an drawing interval thread. The old one will be left running
+		// on a game refresh so don't start two!
+		if (!wormInterval) { 
+			setInterval(drawNextWiggle, WIGGLE_INTERVAL);
+		}
 	}
 
 	var lastWormX = 0;
