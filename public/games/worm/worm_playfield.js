@@ -4,7 +4,6 @@
  * 
  * worm_playfield.js - implementation of the worm game.
  */
-
 var WormPlayfield = (function (playfieldSocket) {
 	var me = {};
 
@@ -13,29 +12,29 @@ var WormPlayfield = (function (playfieldSocket) {
 	//	
 	me.init = function () {
 		// tell the server we don't want totals (only real time updates)
+		playfieldSocket.emit("admin", "yes_totals");
 		playfieldSocket.emit("admin", "no_updates");
-		
+		playfieldSocket.emit("admin", {update_frequency: 333}); 
+	}	
 	me.newUser = function (data) 	{ }
 	me.woosOut = function (data) 	{ }
-	me.positionUpdates = function (updates) { processPositionUpdates(updates) }
+	me.positionUpdates = function (updates) { /* ignore these */ }
 	me.totalUpdates = function (updates) { processTotalUpdates(updates) }
 	me.shutdown = function () { }
-	me.admin = function(message) { 	}	}
+	me.admin = function(message) { }
 	
-	me.initPlayers = function (players) { 
-		// can ignore this. Just need totals
-	}
+	me.initPlayers = function (players) { }
 
+	me.averageWorm = function () { return averageWorm; }
 	//
 	// privates
 	//
-	
-	function processPositionUpdates(updates) {
-		// ignoring for now
-	}
-	
+	var averageWorm = 0;
 	function processTotalUpdates(updates) {
-		// ignoring for now
+		// HACK: combine left and right side updates until we fix this on the server
+		totalValues = updates.left.totalTiltFB + updates.right.totalTiltFB;
+		totalCount = updates.left.count + updates.right.count;
+		averageWorm = totalValues/totalCount;
 	}
 	return me;
 }(socket));

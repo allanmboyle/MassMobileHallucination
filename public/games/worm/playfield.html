@@ -31,14 +31,17 @@
 
 <script src="/games/worm/worm_playfield.js"></script>
 <script>
-	var GOOD = "Like It";
-	var BAD = "Total Crap";
+	var GOOD = "ROCKS!";
+	var BAD = "SUX!";
+
+	var WIGGLE_INTERVAL = 500;		// draw a worm dot every half a second
+	var TOTAL_WORM_TIME = 120000;	// total time represented on the chart, 2 minutes.
 
 	function initPlayfield() {
 		WormPlayfield.init();
 
 		// show the debate splash, fade, then show the worm.
-		setInterval(function () {
+		setTimeout(function () {
 			$(".wormsplash").fadeOut(2000, function() {
 				$(".wormsplash").addClass("hideme");
 				$(".wormworm").fadeIn(3000);
@@ -46,12 +49,13 @@
 				startWorming();
 			})	
 		}, 1000); //8000
-		
+
 		return WormPlayfield;
 	}
 
 	function shutdown() {
 		// stop worming
+		clearInterval(wormInerval);
 	}
 
 	var canvas;
@@ -59,9 +63,43 @@
 	function startWorming() {
 		canvas = document.getElementById("wormcanvas");
  		ctx = canvas.getContext("2d");
- 
+
+		// set the initial worm position to the middle of the canvas. 
+ 		lastWormY = canvas.height/2;
+
 		drawWormBackground();
+
 		// launch an interval thread		
+		wormInternal = setInterval(drawNextWiggle, WIGGLE_INTERVAL);
+	}
+
+	var lastWormX = 0;
+	var lastWormY = 0; // canvas.height/2;
+
+	// Draw the next point along the worm.
+	function drawNextWiggle() {
+		// alert("average: " + WormPlayfield.averageWorm());
+
+		var nextWormX = lastWormX + Math.floor(WIGGLE_INTERVAL/TOTAL_WORM_TIME*canvas.width); 
+		var nextWormY = Math.floor(((WormPlayfield.averageWorm() + 90)/180)*canvas.height);
+
+		// alert("wiggle " + lastWormX + ", " + lastWormY + " to " + nextWormX + "," + nextWormY);
+
+		// draw the line
+		ctx.lineWidth = 2;
+       	ctx.beginPath();
+       	ctx.moveTo(lastWormX, lastWormY);
+       	ctx.lineTo(nextWormX, nextWormY);
+       	ctx.stroke();
+
+		// reset the last positions
+		lastWormX = nextWormX;
+		lastWormY = nextWormY;
+
+		if (lastWormX > canvas.width) {
+			clearInterval(wormInterval);
+			alert("The Debate is Over!");
+		}
 	}
 
 	function drawWormBackground() {
