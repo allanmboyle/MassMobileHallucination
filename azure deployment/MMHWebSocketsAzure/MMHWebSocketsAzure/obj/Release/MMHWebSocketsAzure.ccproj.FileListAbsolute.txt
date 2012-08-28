@@ -1,9 +1,0 @@
-C:\Code\MassMobileHellucination\azure deployment\MMHWebSocketsAzure\MMHWebSocketsAzure\bin\Release\ServiceConfiguration.cscfg
-C:\Code\MassMobileHellucination\azure deployment\MMHWebSocketsAzure\MMHWebSocketsAzure\bin\Release\ValidationIssues.xml
-C:\Code\MassMobileHellucination\azure deployment\MMHWebSocketsAzure\MMHWebSocketsAzure\obj\Release\NodeWorkerRole\Microsoft.WindowsAzure.Configuration.dll
-C:\Code\MassMobileHellucination\azure deployment\MMHWebSocketsAzure\MMHWebSocketsAzure\obj\Release\NodeWorkerRole\Microsoft.WindowsAzure.Diagnostics.dll
-C:\Code\MassMobileHellucination\azure deployment\MMHWebSocketsAzure\MMHWebSocketsAzure\obj\Release\NodeWorkerRole\Microsoft.WindowsAzure.StorageClient.dll
-C:\Code\MassMobileHellucination\azure deployment\MMHWebSocketsAzure\MMHWebSocketsAzure\obj\Release\NodeWorkerRole\node.exe
-C:\Code\MassMobileHellucination\azure deployment\MMHWebSocketsAzure\MMHWebSocketsAzure\obj\Release\NodeWorkerRole\WorkerRole1.dll
-C:\Code\MassMobileHellucination\azure deployment\MMHWebSocketsAzure\MMHWebSocketsAzure\obj\Release\NodeWorkerRole\WorkerRole1.dll.config
-C:\Code\MassMobileHellucination\azure deployment\MMHWebSocketsAzure\MMHWebSocketsAzure\obj\Release\NodeWorkerRole\WorkerRole1.pdb

@@ -1,4 +1,0 @@
-Granting permissions for Network Service to the deployment directory...
-processed file: .
-Successfully processed 1 files; Failed processing 0 files
-OK

@@ -11,3 +11,6 @@ Start-AzureEmulator -Launch
 
 Import-AzurePublishSettingsFile "C:\Code\MassMobileHellucination\azure deployment\AzureWebSockets\mmh\a.publishsettings"
 
+
+
+Publish-AzureServiceProject –ServiceName mmh1234 –Location "North Central US” -Launch

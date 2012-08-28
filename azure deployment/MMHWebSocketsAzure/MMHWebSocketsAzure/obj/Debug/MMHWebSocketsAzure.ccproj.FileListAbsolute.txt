@@ -1,1 +1,0 @@
-C:\Code\MassMobileHellucination\azure deployment\MMHWebSocketsAzure\MMHWebSocketsAzure\bin\Debug\ServiceConfiguration.cscfg
