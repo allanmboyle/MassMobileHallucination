@@ -19,7 +19,6 @@ number of connections <div id="loadTestConnections">0</div>
 
     }
 
-
 	function stopClient() {
 		clearInterval(sendLoadDataTimer);
 	}
@@ -48,7 +47,7 @@ number of connections <div id="loadTestConnections">0</div>
             player.socket.emit("namechange", "Loren Carpenter " + Math.floor(Math.random()*9999));
             loadTestPlayers.push(player);
         }
-        document.getElementById("loadTestConnections").innerHTML = loadTestPlayers.length + 1;
+        document.getElementById("loadTestConnections").innerHTML = loadTestPlayers.length;
 
     }
 

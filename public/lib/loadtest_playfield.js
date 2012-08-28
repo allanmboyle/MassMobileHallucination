@@ -18,13 +18,16 @@ var LoadTestPlayfield = (function () {
 	var me = {};
 	var socket;
 
-    me.newUser 			= function (data) 	 { processNewUser(data) }
+    me.newUser 			=  function (data) 	 { processNewUser(data) }
     me.woosOut 			= function (data) 	 { processWoosOut(data) }
     me.players 			= function (players) { players(data) }
     me.positionUpdates 	= function (updates) {  }
     me.totalUpdates 	= function (updates) { processTotalUpdates(updates) }
     me.admin 			= function (message) { processAdminMessage(message) }
     me.processUserAnswer = function (answer) {}
+
+    me.nameChange  =  function (data) 	 {  }
+
 
 
     me.init = function (theSocket) {
