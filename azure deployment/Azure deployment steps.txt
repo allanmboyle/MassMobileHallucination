@@ -1,0 +1,13 @@
+Based on this link
+
+https://www.windowsazure.com/en-us/develop/nodejs/tutorials/app-using-socketio/
+
+
+cd "C:\Code\MassMobileHellucination\azure deployment\AzureWebSockets\mmh\WorkerRole1"
+
+Start-AzureEmulator -Launch
+
+
+
+Import-AzurePublishSettingsFile "C:\Code\MassMobileHellucination\azure deployment\AzureWebSockets\mmh\a.publishsettings"
+

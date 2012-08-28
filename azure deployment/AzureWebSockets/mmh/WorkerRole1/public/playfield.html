@@ -1,0 +1,155 @@
+<!DOCTYPE HTML>
+<html>
+    <head>
+        <title>Playfield</title>
+        <script src="/socket.io/socket.io.js"></script>
+        <script src="/lib/pong_playfield.js"></script>
+        <script src="/lib/intro_playfield.js"></script>
+        <script src="/lib/fairy_playfield.js"></script>
+        <script src="/lib/loadtest_playfield.js"></script>
+        <script src="/lib/animation.js"></script>
+        <link rel="stylesheet" href="../style.css" type="text/css" />
+        <script type="text/javascript"  src="knockout-2.0.0.js"> </script>
+        <script type="text/javascript"  src="jquery.min.js"> </script>
+        <script language="javascript" type="text/javascript" src="jquery.flot.js"></script>
+
+
+    </head>
+    
+    <body bgcolor="lightblue">
+        <div id="main">?</div>
+
+        <div id="fairy" style="display: none">
+            <div style="background-color: grey">Messages per second:
+                <span id="stats"></span>
+                </br>Time to process a packet:
+                <span id="timer">f</span>
+            </div>
+            <canvas id="playfield" width="900" height="600" bgcolor="gold"></canvas>
+            <div style="width: 100%; background-color: pink">THE END</div>
+            <div id="log"></div>
+            <div id="log2"></div>
+        </div>
+
+        <div id="intro" style="display: none">
+            <div style="font-size:50pt">MMH</div>
+            <div style="font-size:10pt" id="users">0</div>
+            <div style="font-size:30pt" id="name"></div>
+            
+            http://mmh.azure.com
+        </div>
+
+        <div id=pong style="display: none">
+            <canvas id="pongcanvas" class="pong" width="800" height="600"></canvas>
+            <table align="center" style="width:80%;font-family: Arial, Helvetica, sans-serif; font-size: medium">
+                <tr>
+                    <td>
+                        <div id="ponglog"></div>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <div id="ponglog1"></div>
+                    </td>
+                </tr>
+            </table>
+        </div>
+
+        <div id="loadtest" style="display: none">
+            <div style="width: 100%; height: 100%; background-color:#daa520;">
+                # aggregated accelerometer readings :<div id="loadTestOutput"></div><br/>
+                raw metrics<div id="loadTestMetricData"></div></br>
+                # active player socket connections<div id="loadTestNoOpenSockets"></div></br>
+                # dropped player socket connections<div id="loadTestDroppedConnections"></div></br>
+                # requests Per second<div id="loadTestRequestsPerSecond"></div></br>
+                <div id="chartRequestsPerSecond" style="width:1000px;height:300px;"></div>
+                <br/>
+                <div id="chartUserCount" style="width:1000px;height:300px;"></div>
+
+            </div>
+
+
+
+        </div>
+
+        <div id=worm style="display: none">
+            <div style="width: 100%; height: 100%; background-color: pink;">The worms crawl in and the worms crawl out.</div>
+        </div>
+        <script>
+            var currentGame = null;
+            var socket = io.connect("/playfield");
+
+            var gameConfig = {}
+            gameConfig.intro    = { section: "intro",   module: IntroPlayfield }; 
+            gameConfig.fairy    = { section: "fairy",   module: FairyPlayfield };
+            gameConfig.pong     = { section: "pong",    module: PongPlayfield };
+            gameConfig.loadtest = { section: "loadtest",module: LoadTestPlayfield };
+
+            // default starting game
+            changeGame("intro");
+
+            // Generic playfield functions
+            socket.on("changeGame", function (newGame) {
+                changeGame(newGame);
+            });
+
+            // Pass these on to the game
+            socket.on('updates', function (updates) {
+                currentGame.positionUpdates(updates);
+            });
+            socket.on('totals', function (totals) {
+                currentGame.totalUpdates(totals);
+            });
+            socket.on('newuser', function (data) {
+                currentGame.newUser(data);
+            });
+            socket.on('namechange', function (data) {
+                currentGame.nameChange(data);
+            });
+            socket.on('woosout', function (data) {
+                currentGame.woosOut(data);
+            });
+            socket.on('players', function (players) {
+                currentGame.initPlayers(players);
+            });
+            socket.on("admin", function (message) {
+                currentGame.admin(message);
+            });
+            socket.on("custom", function (data) {
+                currentGame.processCustomMessage(data);
+            });
+
+            function changeGame(newGame) {
+                // change the currentGame to new game and shutdown the old one.
+                if (currentGame) currentGame.shutdown();
+
+                // Testing a new launch model with fairy
+                if (newGame == "quiz" || newGame == "worm") {
+                    $("#main").load("/games/"+newGame+"/playfield.html", function () {
+                        currentGame = initPlayfield();
+                    });
+                } else {
+                
+        			if (!gameConfig[newGame]) {
+                        alert("Game '" + newGame + "' is not supported yet...");
+                        return;
+                    }
+                    
+                    if (!document.getElementById(gameConfig[newGame].section)) {
+                        alert("Weird, can't find the game section for " + newGame);
+                        return;
+                    }	
+
+                    document.getElementById("main").innerHTML = document.getElementById(gameConfig[newGame].section).innerHTML;
+                    currentGame = gameConfig[newGame].module;
+                    
+    				if (currentGame) { 
+    					currentGame.init(socket);
+    				} else {
+    					alert("Cannot initialize the current game. Maybe its not written yet?");
+    				}
+                }
+            }
+        </script>
+    </body>
+</html>
