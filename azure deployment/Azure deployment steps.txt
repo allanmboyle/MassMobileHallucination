@@ -5,15 +5,16 @@ https://www.windowsazure.com/en-us/develop/nodejs/tutorials/app-using-socketio/
 
 cd "C:\Code\MassMobileHellucination\azure deployment\AzureWebSockets"
 
-New-AzureServiceProject mmh123
+New-AzureServiceProject mmh
 
 Add-AzureNodeWorkerRole
 
 npm install
 
-
 Start-AzureEmulator -Launch
+Stop-AzureEmulator
+
 
 Import-AzurePublishSettingsFile "C:\Code\MassMobileHellucination\azure deployment\a.publishsettings"
 
-Publish-AzureServiceProject –ServiceName 1234mmh –Location "North Central US” -Launch
+Publish-AzureServiceProject –ServiceName aidantest1 –Location "North Central US” -Launch
