@@ -75,8 +75,8 @@
         Send an admin message to the load test agents (i.e - players )!
         This lets you start a load testing and ramp up the number of connections each player establishes to the server
     </div>
-    <textarea id = "loadTestSettings" rows="10" cols="30">{game:'loadTest',rampUpConnections:5, sendData :'true'}</textarea>
-    <input type=button onclick="changeLoadTestSettings();" value="Send message to load agents" />
+    <textarea id = "loadTestSettings" rows="10" cols="30">{game:'loadTest',rampUpConnections:5,clientSendFrequency:100,serverSendFrequency:100, sendData :'true'}</textarea>
+    <input type=button onclick="changeLoadTestSettings();" value="Send message to load agents and the server !!!" />
 
 </body>
 </html>

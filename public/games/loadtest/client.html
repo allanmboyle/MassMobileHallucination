@@ -10,6 +10,8 @@ number of connections <div id="loadTestConnections">0</div>
     var loadTestPlayers = [];
     var loadTestHasBegun = false;
 
+    var timer = null;
+
     var sendLoadDataTimer;
 
     function initClient(){
@@ -26,6 +28,11 @@ number of connections <div id="loadTestConnections">0</div>
     //kick off the load test or change the existing test run
     function changeLoadTestSettings(message){
         var rampUpCount = message.rampUpConnections;
+        var frequency = message.clientSendFrequency;
+
+
+        SEND_FREQUENCY = frequency;
+
         outputMessage("ramp up users by" + rampUpCount);
         addLoadTestUsers(rampUpCount);
         if (!loadTestHasBegun)
@@ -65,8 +72,13 @@ number of connections <div id="loadTestConnections">0</div>
             }
             loadTestPlayers[p].socket.emit("accel", accel);
         }
-        sendLoadDataTimer = setTimeout(sendLoadTestData, SEND_FREQUENCY);
 
+        //remove each time in case the send frequency has changed
+        if (timer !=undefined)
+        {
+            clearTimeout(timer);
+        }
+        timer= setTimeout(sendLoadTestData, SEND_FREQUENCY);
     }
 
     function outputMessage(message){
