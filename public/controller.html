@@ -10,7 +10,7 @@
 		function throttle() {
 			var frequency = document.getElementById('frequency').value;
 			var payload = {freq:frequency};
-            sendMessageToPlayers(payload);
+            changePlayersSettings(payload);
 		}
 		
 		// Tells the whole system to change the game to a different one. Effects the 
@@ -24,7 +24,7 @@
             var settings = document.getElementById('pongSettings').value;
             //need to encode the JSON
             var data = eval('(' + settings + ')');
-            sendAdminMessageToPlayfield(data);
+            changePlayfieldSettings(data);
         }
 
         // broadcast a message to  all load test agents
@@ -32,16 +32,21 @@
             var settings = document.getElementById('loadTestSettings').value;
             //need to encode the JSON
             var data = eval('(' + settings + ')');
-            sendMessageToPlayers(data);
+            changePlayersSettings(data);
+          //  changeServerSettings(data);
 
         }
 
-        function  sendMessageToPlayers(settings){
-            socket.emit("admin", { control: "changeSettings", data: settings});
+        function  changePlayersSettings(settings){
+            socket.emit("admin", { control: "changeSettings",
+                                    scope : "players",
+                                    data: settings});
         }
 
-        function  sendAdminMessageToPlayfield(settings){
-            socket.emit("playfield_admin", { control: "changeSettings", data: settings});
+        function  changePlayfieldSettings(settings){
+            socket.emit("admin", { control: "changeSettings",
+                                    scope : "playfield",
+                                    data: settings});
         }
 	</script>
 </head>
