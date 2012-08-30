@@ -21,6 +21,7 @@ var QuizPlayfield = (function (playfieldSocket) {
 	me.totalUpdates = function (updates) { }
 	me.shutdown = function () { }
 	me.admin = function(message) { }
+	me.nameChange = function() {}
 	
 	me.processCustomMessage = function (message) {
 		recordVote(message);
