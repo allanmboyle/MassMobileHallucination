@@ -34,8 +34,9 @@
 	var GOOD = "ROCKS!";
 	var BAD = "SUX!";
 
-	var WIGGLE_INTERVAL = 500;		// draw a worm dot every half a second
+	var WIGGLE_INTERVAL = 50;		// draw a worm dot every half a second
 	var TOTAL_WORM_TIME = 120000;	// total time represented on the chart, 2 minutes.
+	var FAST_FACTOR 	= 0.05;		// how fast to move towards the next value
 
 	function initPlayfield() {
 		WormPlayfield.init();
@@ -91,7 +92,7 @@
 	// Draw the next point along the worm.
 	function drawNextWiggle() {
 		var nextWormX = lastWormX + wormXwiggle; 
-		var nextWormY = lastWormY + (Math.floor(((WormPlayfield.averageWorm() + 90)/180)*ctx.canvas.height) - lastWormY)*.33;
+		var nextWormY = lastWormY + (Math.floor(((WormPlayfield.averageWorm() + 90)/180)*ctx.canvas.height) - lastWormY)*FAST_FACTOR;
 
 		// draw the line
 		ctx.lineWidth = 2;
