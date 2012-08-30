@@ -73,9 +73,10 @@ var MMH = (function () {
         {
 		if (me.clientHasAcceleromters()) {
 			startListeningForAccelerometers();
-		} else {
-			startListeningForMouseMovements();
 		}
+		//} else {
+			startListeningForMouseMovements();
+		//}
 
 		me.startSendingOrientationToServer();
 
@@ -216,6 +217,13 @@ var MMH = (function () {
                 playerLocation
 			);
 		};
+
+		// NOTE TO SELF: should this be in MMH on #main?
+		$("#main").bind("mousedown", function(e) {
+			var val = e.pageY/$("#main").height() * 180 - 90;
+			//alert("mainnn:  / " + e.pageY + " :: " + val);
+			storeOrientation(0, val, 0, 0, playerLocation);
+		});
 	}
 	
 	function stopListeningForMouseMovements() {

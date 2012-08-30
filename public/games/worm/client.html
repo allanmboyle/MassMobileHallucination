@@ -27,11 +27,6 @@
 <div class="line">&nbsp;</div>
 
 <script>
-// NOTE TO SELF: should this be in MMH on #main?
-	$("#back").click(function(e) {
-		MMH.storeOrientation(0, e.pageY/document.innerHeight * 180 - 90);
-	});
-
 	function movementCallback (accel) {
 		$(".line")[0].style.top = ((Math.floor(accel.tiltFB)+90)/180)*window.innerHeight + "px";
 	}
