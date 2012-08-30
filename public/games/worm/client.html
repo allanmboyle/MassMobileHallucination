@@ -23,12 +23,11 @@
 }
 </style>
 
-<div class="gradient fullscreen" id="a">&nbsp;</div>
+<div class="gradient fullscreen" id="back">&nbsp;</div>
 <div class="line">&nbsp;</div>
 
 <script>
 	function movementCallback (accel) {
-		// $("#a").text("up/down: " + Math.floor(accel.tiltFB) + " L/R: " +Math.floor(accel.tiltLR));
 		$(".line")[0].style.top = ((Math.floor(accel.tiltFB)+90)/180)*window.innerHeight + "px";
 	}
 
