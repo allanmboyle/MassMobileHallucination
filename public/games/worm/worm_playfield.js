@@ -14,7 +14,7 @@ var WormPlayfield = (function (playfieldSocket) {
 		// tell the server we don't want totals (only real time updates)
 		playfieldSocket.emit("admin", "yes_totals");
 		playfieldSocket.emit("admin", "no_updates");
-		playfieldSocket.emit("admin", {update_frequency: 333}); 
+		playfieldSocket.emit("admin", {update_frequency: 100}); 
 	}	
 	me.newUser = function (data) 	{ }
 	me.woosOut = function (data) 	{ }
