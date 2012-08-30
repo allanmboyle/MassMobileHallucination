@@ -81,7 +81,7 @@
 		// launch an drawing interval thread. The old one will be left running
 		// on a game refresh so don't start two!
 		if (!wormInterval) { 
-			setInterval(drawNextWiggle, WIGGLE_INTERVAL);
+			wormInterval = setInterval(drawNextWiggle, WIGGLE_INTERVAL);
 		}
 	}
 
@@ -106,7 +106,8 @@
 
 		if (lastWormX > ctx.canvas.width) {
 			clearInterval(wormInterval);
-		}
+			wormInterval = false;
+ 		}
 	}
 
 	function drawWormBackground() {
