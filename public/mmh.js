@@ -199,7 +199,7 @@ var MMH = (function () {
 		}
 	}
 
-	var SCALE_FACTOR = 1.3;
+	var SCALE_FACTOR = 1.8;
 	
 	// Scale this number up so that the user doesn't have to tilt the phone all the way to vertical 
 	// to get the top value.
@@ -212,7 +212,7 @@ var MMH = (function () {
 
 
 	function startListeningForMouseMovements() {
-		window.onmousemove = function(e) {
+		document.onmousemove = function(e) {
 			e = e || window.event;
 			storeOrientation(
 				(e.x / window.innerWidth ) * 180 - 90,
@@ -222,11 +222,27 @@ var MMH = (function () {
                 playerLocation
 			);
 		};
+
+		// listen also for mouse click for those devices which don't support
+		// mouse move. Will this work on a Windows Phone 7? No idea but hoping. It
+		// doesn't on an iPhone.
+		$(document).click(function(e) {
+   			storeOrientation(
+				(e.pageX / window.innerWidth ) * 180 - 90,
+				(e.pageY / window.innerHeight ) * 180 - 90,
+				0,
+				0 ,
+                playerLocation
+			);		
+		});
 	}
 	
 	function stopListeningForMouseMovements() {
 		document.onmousemove = null;
+		$(document).off('click');
 	}
+
+
 	
 	// This is just the last change recorded. The last one recorded gets sent
 	// according to the throttle.
