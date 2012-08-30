@@ -43,6 +43,8 @@ var PongPlayfield = (function () {
 
     var me = {};
     var socket;
+    var gameInterval;
+
     //
     // Publics
     //  
@@ -83,12 +85,14 @@ var PongPlayfield = (function () {
         document.body.addEventListener('keydown', onkeydown, false);
         document.body.addEventListener('keyup', onkeyup, false);
 
-        setInterval(gameLoop, config().gameLoopInterval);
+        if (!gameInterval) {
+            gameInterval = setInterval(gameLoop, config().gameLoopInterval);
+        }
     }
 
     me.shutdown = function () {
-        // stop the stats timer
-        //      clearTimeout(timer);
+        clearInterval(gameInterval);
+        gameInterval = false;
     }
 
     // place players randomly on the screen
