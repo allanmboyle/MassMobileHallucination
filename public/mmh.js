@@ -118,18 +118,10 @@ var MMH = (function () {
 
 	me.clientHasAcceleromters = function() {
         return gyroscopeDetected;
-
-/*
-		var accelerometerDevices = [
-			"iPhone",
-			"iPod",
-			"iPad"];
-		if (navigator.userAgent.indexOf("iPhone") != -1) {
-			return true;
-		}
-		return false;
-*/
 	}
+
+	me.storeOrientation = function (x,y) { 
+		storeOrientation(x,y, 0,0,playerLocation) }
 
 	//
 	// Private stuff
@@ -211,6 +203,8 @@ var MMH = (function () {
 	}
 
 
+	// Used to track the mouse on regular browsers.
+	// NOTE: document level events don't trigger. Need to use an object.
 	function startListeningForMouseMovements() {
 		document.onmousemove = function(e) {
 			e = e || window.event;
@@ -222,28 +216,12 @@ var MMH = (function () {
                 playerLocation
 			);
 		};
-
-		// listen also for mouse click for those devices which don't support
-		// mouse move. Will this work on a Windows Phone 7? No idea but hoping. It
-		// doesn't on an iPhone.
-		$(document).click(function(e) {
-   			storeOrientation(
-				(e.pageX / window.innerWidth ) * 180 - 90,
-				(e.pageY / window.innerHeight ) * 180 - 90,
-				0,
-				0 ,
-                playerLocation
-			);		
-		});
 	}
 	
 	function stopListeningForMouseMovements() {
 		document.onmousemove = null;
-		$(document).off('click');
 	}
 
-
-	
 	// This is just the last change recorded. The last one recorded gets sent
 	// according to the throttle.
 	function storeOrientation(tiltLR, tiltFB, dir, motionUD, location) {
