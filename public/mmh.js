@@ -173,7 +173,7 @@ var MMH = (function () {
 				var motUD = null;
 				
 				// call our orientation event handler
-				storeOrientation(tiltLR, tiltFB, dir, motUD,playerLocation);
+				storeOrientation(scaleFactor(tiltLR), scaleFactor(tiltFB), dir, motUD,playerLocation);
 				}, false);
 		} else if (window.OrientationEvent) {
 
@@ -194,10 +194,22 @@ var MMH = (function () {
 				// z is the vertical acceleration of the device
 				var motUD = eventData.z;
 
-				storeOrientation(tiltLR, tiltFB, dir, motUD,playerLocation);
+				storeOrientation(scaleFactor(tiltLR), scaleFactor(tiltFB), dir, motUD,playerLocation);
 				}, false);
 		}
 	}
+
+	var SCALE_FACTOR = 1.3;
+	
+	// Scale this number up so that the user doesn't have to tilt the phone all the way to vertical 
+	// to get the top value.
+	function scaleFactor(num) {
+		num *= SCALE_FACTOR;
+		if (num > 90) num = 90;
+		if (num < -90) num = -90;
+		return num;
+	}
+
 
 	function startListeningForMouseMovements() {
 		window.onmousemove = function(e) {
