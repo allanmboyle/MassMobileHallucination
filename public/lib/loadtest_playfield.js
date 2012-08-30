@@ -93,32 +93,28 @@ var LoadTestPlayfield = (function () {
 
         intervalId++;
         requestsOverTime.push([intervalId, message.messageCount]);
+        userCountOverTime.push([intervalId, numberOfUsers]);
+    }
 
+    function replotChart()
+    {
         var options = {
             series: { lines: { show: true },points: { show: true } }, // drawing is faster without shadows
             //yaxis: { min: 0, max: 500 },
             grid: {backgroundColor: { colors: ["#fff", "#eee"] }},
-            xaxis: {min: 0, max: 50}
+           // xaxis: {min: 0, max: 50}
         };
         var plot = $.plot($("#chartRequestsPerSecond"), [{label: "requests per 30 seconds",  data: requestsOverTime} ], options);
-
-
-        //user count chart
-
-        userCountOverTime.push([intervalId, numberOfUsers]);
 
         var options = {
             series: { lines: { show: true },points: { show: true } }, // drawing is faster without shadows
             yaxis: { min: 0, max: 300 },
             grid: {backgroundColor: { colors: ["#fff", "#eee"] }},
-            xaxis: {min: 0, max: 50}
+         //   xaxis: {min: 0, max: 50}
         };
         var plot = $.plot($("#chartUserCount"), [{label: "user count per 30 seconds",  data: userCountOverTime} ], options);
 
-
     }
-
-
 
     function processNewUser()
     {
@@ -141,12 +137,8 @@ var LoadTestPlayfield = (function () {
 	// write the stats to the playfield
 	function stats() {
 		callsInThisPeriod = numberOfCalls - lastCount;
-	//	document.getElementById("stats").innerHTML = callsInThisPeriod;
-	//	lastCount = numberOfCalls;
-    //
-	//	document.getElementById("timer").innerHTML = totalTime/times;
-//		totalTime=0;times=0;
-  //
+
+        replotChart();
 		timer = setTimeout(stats, 1000);
 	}
 	
