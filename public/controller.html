@@ -33,8 +33,13 @@
             //need to encode the JSON
             var data = eval('(' + settings + ')');
             changePlayersSettings(data);
-          //  changeServerSettings(data);
+            changeServerSettings(data);
+        }
 
+        function  changeServerSettings(data){
+            socket.emit("admin", { control: "changeSettings",
+                scope : "server",
+                data: data});
         }
 
         function  changePlayersSettings(settings){
