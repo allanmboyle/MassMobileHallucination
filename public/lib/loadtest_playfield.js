@@ -49,6 +49,14 @@ var LoadTestPlayfield = (function () {
 
     me.initPlayers = function (players) {}
 
+    me.downloadChartData = function()
+    {
+        DownloadJSON2CSV(requestsOverTime,'time(sec),number requests');
+        DownloadJSON2CSV(userCountOverTime,'time(sec),connections');
+        DownloadJSON2CSV(heapTotalOverTime,'time(sec),heap total');
+        DownloadJSON2CSV(heapUsedOverTime,'time(sec),heap used');
+
+    }
 
     var numberOfUsers = 0;
     var numberDroppedUsers = 0;
@@ -102,6 +110,34 @@ var LoadTestPlayfield = (function () {
             incrementalInterval = 0;
             incrementalMessageCount = 0;
             redrawCharts();
+        }
+    }
+
+
+    function DownloadJSON2CSV(objArray,headings)
+    {
+        var array = typeof objArray != 'object' ? JSON.parse(objArray) : objArray;
+        var str = headings  + '\r\n';
+
+        for (var i = 0; i < array.length; i++) {
+            var line = '';
+            for (var index in array[i]) {
+                if(line != '') line += ','
+
+                line += array[i][index];
+            }
+
+            str += line + '\r\n';
+        }
+
+        if (navigator.appName != 'Microsoft Internet Explorer')
+        {
+            window.open('data:text/csv;charset=utf-8,' + escape(str));
+        }
+        else
+        {
+            var popup = window.open('','csv','');
+            popup.document.body.innerHTML = '<pre>' + str + '</pre>';
         }
     }
 
