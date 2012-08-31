@@ -1,0 +1,5 @@
+settings
+
+{game:'loadTest',rampUpConnections:5,clientSendFrequency:100,serverSendFrequency:100, sendData :'true'}
+
+deployed to Azure running web sockets - 2 browsers ( chrome & FF ) got to 50 ish  connections  FF crapped out after approx 5 minutes
