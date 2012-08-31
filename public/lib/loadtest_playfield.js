@@ -86,31 +86,46 @@ var LoadTestPlayfield = (function () {
     var userCountOverTime = [];
 
     var intervalId = 0;
+    var maxYAxis  = 100;
+
 
 	function processAdminMessage(message) {
 
         document.getElementById("loadTestMetricData").innerHTML = JSON.stringify(message);
 
-        intervalId++;
+        //convert interval to  seconds...
+        intervalId = intervalId + (message.interval/1000);
+
+
         requestsOverTime.push([intervalId, message.messageCount]);
         userCountOverTime.push([intervalId, numberOfUsers]);
+
     }
+
+
 
     function replotChart()
     {
+
+        if ((intervalId/maxYAxis) >= .8)
+        {
+            maxYAxis = (maxYAxis * 10);
+        }
+
+
         var options = {
-            series: { lines: { show: true },points: { show: true } }, // drawing is faster without shadows
+            series: { lines: { show: true },points: { show: false } }, // drawing is faster without shadows
             //yaxis: { min: 0, max: 500 },
-            grid: {backgroundColor: { colors: ["#fff", "#eee"] }},
-           // xaxis: {min: 0, max: 50}
+            grid: {backgroundColor: { colors: ["#fff", "#eee"] }}
+            ,            xaxis: {min: 0, max: maxYAxis}
         };
         var plot = $.plot($("#chartRequestsPerSecond"), [{label: "requests per 30 seconds",  data: requestsOverTime} ], options);
 
         var options = {
-            series: { lines: { show: true },points: { show: true } }, // drawing is faster without shadows
+            series: { lines: { show: true },points: { show: false } }, // drawing is faster without shadows
             yaxis: { min: 0, max: 300 },
-            grid: {backgroundColor: { colors: ["#fff", "#eee"] }},
-         //   xaxis: {min: 0, max: 50}
+            grid: {backgroundColor: { colors: ["#fff", "#eee"] }}
+            ,            xaxis: {min: 0, max: maxYAxis}
         };
         var plot = $.plot($("#chartUserCount"), [{label: "user count per 30 seconds",  data: userCountOverTime} ], options);
 
@@ -139,7 +154,7 @@ var LoadTestPlayfield = (function () {
 		callsInThisPeriod = numberOfCalls - lastCount;
 
         replotChart();
-		timer = setTimeout(stats, 1000);
+		timer = setTimeout(stats, 5000);
 	}
 	
 	return me;
