@@ -25,7 +25,6 @@ Get-ChildItem $source -Recurse -Exclude $exclude | Copy-Item -Destination {Join-
 $fso = New-Object -ComObject scripting.filesystemobject
  
 $fso.DeleteFolder($dest + '\.idea')
-$fso.DeleteFolder($dest + '\azure deployment')
 $fso.DeleteFolder($dest + '\node_modules')
 cd $dest
 
