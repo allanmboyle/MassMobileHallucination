@@ -63,6 +63,9 @@ var LoadTestPlayfield = (function () {
 
     var requestsOverTime = [];
     var userCountOverTime = [];
+    var heapTotalOverTime = [];
+    var heapUsedOverTime = [];
+
 
     var intervalId = 0;
     var maxXAxis = 100; //default time line X axis to 100 seconds...
@@ -88,6 +91,13 @@ var LoadTestPlayfield = (function () {
             intervalId += incrementalInterval;
             requestsOverTime.push([intervalId / 1000, incrementalMessageCount]);
             userCountOverTime.push([intervalId / 1000, numberOfUsers]);
+
+            //slight fudge here but i'll just plot the last measurements for the heap rather
+            //than totalling and averaging...
+
+            heapTotalOverTime.push([intervalId / 1000, message.memoryUsage.heapTotal])
+            heapUsedOverTime.push([intervalId / 1000, message.memoryUsage.heapUsed])
+
 
             incrementalInterval = 0;
             incrementalMessageCount = 0;
@@ -126,7 +136,7 @@ var LoadTestPlayfield = (function () {
             }
         };
         var plot = $.plot($("#chartRequestsPerSecond"), [{
-            label: "requests per 30 seconds",
+            label: "total requests per period",
             data: requestsOverTime
         }], options);
 
@@ -156,10 +166,43 @@ var LoadTestPlayfield = (function () {
             }
         };
         var plot = $.plot($("#chartUserCount"), [{
-            label: "user count per 30 seconds",
+            label: "active connections",
             data: userCountOverTime
         }], options);
 
+
+        //cpu chart
+        var options = {
+            series: {
+                lines: {
+                    show: true
+                },
+                points: {
+                    show: true
+                }
+            }, // drawing is faster without shadows
+//            yaxis: {
+//                min: 0,
+//                max: 300
+//            },
+            grid: {
+                backgroundColor: {
+                    colors: ["#fff", "#eee"]
+                }
+            },
+            xaxis: {
+                min: 0,
+                max: maxXAxis
+            }
+        };
+        var plot = $.plot($("#chartCPU"), [{
+            label: "heap used",
+            data: heapUsedOverTime
+        },
+            {
+                label: "heap total",
+                data: heapTotalOverTime
+            }], options);
     }
 
     function processNewUser() {
