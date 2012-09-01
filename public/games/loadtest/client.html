@@ -4,6 +4,8 @@
 <br/>
 <div id="loadtestErrors"></div>
 <br/>
+Number of messages sent <div id="loadtestCountSendMessages"></div>
+<br/>
 
 <div id="loadtestControllerMessages"></div>
 <br/>
@@ -13,7 +15,10 @@
     var loadTestPlayers = [];
     var loadTestHasBegun = false;
     var timer = null;
+
     var sendLoadDataTimer;
+    var sendMessageCount = 0;
+    var keepSendingData = true;
 
     function initClient() {
 
@@ -28,6 +33,18 @@
     function changeLoadTestSettings(message) {
         var rampUpCount = message.rampUpConnections;
         var frequency = message.clientSendFrequency;
+
+        keepSendingData = message.sendData;
+
+
+
+        if (!keepSendingData)
+        {
+            outputMessage("[Controller says stop sending data!]");
+            clearInterval(sendLoadDataTimer);
+            return;
+        }
+
 
         //send frequency configurable from controller
         SEND_FREQUENCY = frequency;
@@ -76,7 +93,8 @@
                 playerLocation: "left"
             }
             try{
-            loadTestPlayers[p].socket.emit("accel", accel);
+                sendMessageCount++;
+                loadTestPlayers[p].socket.emit("accel", accel);
             }
             catch(err)
             {
@@ -84,11 +102,18 @@
             }
         }
 
+        document.getElementById("loadtestCountSendMessages").innerHTML = sendMessageCount;
+
         //remove each time in case the send frequency has changed
         if (timer != undefined) {
             clearTimeout(timer);
         }
+
+        if (keepSendingData)
+        {
         timer = setTimeout(sendLoadTestData, SEND_FREQUENCY);
+        }
+
     }
 
     function outputMessage(message) {

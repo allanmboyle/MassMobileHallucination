@@ -51,10 +51,7 @@ var LoadTestPlayfield = (function () {
 
     me.downloadChartData = function()
     {
-        DownloadJSON2CSV(requestsOverTime,'time(sec),number requests');
-        DownloadJSON2CSV(userCountOverTime,'time(sec),connections');
-        DownloadJSON2CSV(heapTotalOverTime,'time(sec),heap total');
-        DownloadJSON2CSV(heapUsedOverTime,'time(sec),heap used');
+       DownloadJSON2CSV(allDataOverTime,'time(sec),active connections, number requests,heap total, heap used');
 
     }
 
@@ -74,6 +71,7 @@ var LoadTestPlayfield = (function () {
     var heapTotalOverTime = [];
     var heapUsedOverTime = [];
 
+    var allDataOverTime=[];   //one giant array that I can download as a csv
 
     var intervalId = 0;
     var maxXAxis = 100; //default time line X axis to 100 seconds...
@@ -97,14 +95,20 @@ var LoadTestPlayfield = (function () {
         //if the reporting interval time has been exceeded redraw graphs and reset counters
         if (incrementalInterval >= reportingInterval) {
             intervalId += incrementalInterval;
-            requestsOverTime.push([intervalId / 1000, incrementalMessageCount]);
-            userCountOverTime.push([intervalId / 1000, numberOfUsers]);
+
+            var intervalIdInSeconds =  intervalId / 1000;
+
+            requestsOverTime.push([intervalIdInSeconds, incrementalMessageCount]);
+            userCountOverTime.push([intervalIdInSeconds, numberOfUsers]);
 
             //slight fudge here but i'll just plot the last measurements for the heap rather
             //than totalling and averaging...
 
-            heapTotalOverTime.push([intervalId / 1000, message.memoryUsage.heapTotal])
-            heapUsedOverTime.push([intervalId / 1000, message.memoryUsage.heapUsed])
+            heapTotalOverTime.push([intervalIdInSeconds, message.memoryUsage.heapTotal])
+            heapUsedOverTime.push([intervalIdInSeconds, message.memoryUsage.heapUsed])
+
+
+            allDataOverTime.push([intervalIdInSeconds,numberOfUsers,incrementalMessageCount, message.memoryUsage.heapTotal, message.memoryUsage.heapUsed])
 
 
             incrementalInterval = 0;
