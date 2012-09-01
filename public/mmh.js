@@ -58,7 +58,7 @@ var MMH = (function () {
 
     me.setPlayerLocation = function (location) {
         playerLocation = location;
-        };
+    };
 
     me.getPlayerLocation = function () {
         return playerLocation;
@@ -67,19 +67,17 @@ var MMH = (function () {
 
     // listen for movements and start sending them to the server. Optionally
 	// send them to a callback as well.
-	me.listenForMovements = function (clientCallback, preProcessCallback) {
+	me.listenForMovements = function (preProcessCallback, postProcessor) {
         try {
 			if (me.clientHasAccelerometers()) {
 				startListeningForAccelerometers(accelerometerDeviceListener, accelerometerMozDeviceListener);
 			}
 			// listen for the mouse as well as gyroscopes (can't hurt!)
 			startListeningForMouseMovements();
-		
-			me.startSendingOrientationToServer();
 
 			// save the client callback if they have passed in one.
-			clientCallbackFunction = (clientCallback)? clientCallback : null;
-			preProcessCallbackFunction = (preProcessCallback)? preProcessCallback : null; 
+			preProcessCallbackFunction = (preProcessCallback)? preProcessCallback : function (a) { return a; }; 
+			postProcessCallback = (postProcessor)? postProcessor : function () {}; 
         } catch(error) {
             alert(error);
         }
@@ -100,6 +98,8 @@ var MMH = (function () {
 		orientationTimer = setInterval(sendOrientationToGameServer, SEND_FREQUENCY);
 	}
 	
+	me.sendOrientationToServer = sendOrientationToGameServer;
+
 	me.stopSendingOrientationToServer = function() {
 		clearTimeout(orientationTimer);
 	}
@@ -129,14 +129,13 @@ var MMH = (function () {
 	//
     var playerLocation = "right"; // default players to RHS but player can change
 	var socket = null;
-	var SEND_FREQUENCY = 300; // can get throttled
+	var SEND_FREQUENCY = 300; // can get throttled from server
 	var accel = {};
 	var orientationTimer = null;
-	var clientCallbackFunction = null;
 	var preProcessCallbackFunction = null;
+	var postProcessor = null;
 
     function handleOrientation(e){
-
         // can fire with null values on devices with no gyroscope
         if (e.alpha != undefined && e.beta != undefined && e.gamma != undefined)
         {
@@ -254,29 +253,26 @@ var MMH = (function () {
 	// This is just the last change recorded. The last one recorded gets sent
 	// according to the throttle.
 	function storeOrientation(tiltLR, tiltFB, dir, motionUD, location) {
-		accel = {
-			tiltLR: tiltLR,
-			tiltFB: tiltFB,
-			dir: dir,
-			motionUD: motionUD,
-            playerLocation : location
-		}
+		accel = preProcessCallbackFunction ({
+			tiltLR: 		tiltLR,
+			tiltFB: 		tiltFB,
+			dir: 			dir,
+			motionUD: 		motionUD,
+            playerLocation: location
+		});
+
+		// See if the user wants to do anything after a value has been captured
+		postProcessCallback();
 	}
 
 	//
 	// This is a periodic function.
 	//
 	function sendOrientationToGameServer() {
-		// give the client a chance to effect the values before they are sent.
-		if (preProcessCallbackFunction) { accel = preProcessCallbackFunction(accel); }
-
 		// send the current data we have at this point in time 
 		// note, it does not send every reading we have had since the last send.
 		console.log("sending to server: " + accel.tiltFB + "/" + accel.tiltLR);
 		socket.emit("accel", accel);
-	
-		// callback the client if the user has requeted it	
-		if (clientCallbackFunction) { clientCallbackFunction(accel);	}
 	}
 
 	function sendAnswerToServer(data){

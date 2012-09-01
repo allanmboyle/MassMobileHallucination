@@ -49,32 +49,42 @@
 
 <script>
 	var side;
+	var lastTilt, nextTilt;
+
 	function initClient() {
 		// We don't want MMH to do anything
 		setSideColors();
 	    MMH.init(socket);
-	    MMH.listenForMovements(null, pongValuesProcessor);
+	    MMH.listenForMovements(pongValuesProcessor, postProcessor);
 	}
 
 	function stopClient() {
 		MMH.stopListeningForMovements();
-		MMH.stopSendingOrientationToServer();
 	}
 
 	// The mmh detectors convert all detected values to +90 to -90. We want
 	// that from +1 to -1 for pong becuase its only an up for down.
 	function pongValuesProcessor(accel) {
 		accel.tiltFB = (accel.tiltFB >= 0)? 1 : -1;
-
-		if (accel.tiltFB > 0)  { 
-			$(".up_half .big_word").removeClass("pressed")
-			$(".down_half .big_word").addClass("pressed")
-		} else {
-			$(".down_half .big_word").removeClass("pressed")
-			$(".up_half .big_word").addClass("pressed")
-		}
-
+		nextTilt = accel.tiltFB;
 		return accel;
+	}
+
+	function postProcessor() {
+		if (nextTilt != lastTilt) {
+			// if there is a new value
+			if (nextTilt > 0)  { 
+				$(".up_half .big_word").removeClass("pressed")
+				$(".down_half .big_word").addClass("pressed")
+			} else {
+				$(".down_half .big_word").removeClass("pressed")
+				$(".up_half .big_word").addClass("pressed")
+			}
+			lastTilt = nextTilt;
+
+			// send to the server just the changes
+			MMH.sendOrientationToServer();
+		}
 	}
 
 	function setSideColors() {
