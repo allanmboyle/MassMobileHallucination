@@ -3,6 +3,14 @@
  * Pong Play field
  *
  * Copyright (c) 2012 MYOB Australia Ltd.
+ *
+ * TODO:
+ *      slow move towards the desired speed, not instant jump
+ *      change bounce angle of ball dy depending on where it hit the paddle
+ *      let ball hit wall before its a "miss"
+ *      check for hitting corners of the paddle - up to center of ball
+ *          as opposed to a 1/3 of the way into the paddle in its middle
+ *
  */
 var Settings = (function () {
     var me = {};
@@ -28,7 +36,7 @@ var Settings = (function () {
     var _settings = {
         radius: 20,
         dx: 2.0,
-        dy: 5.0,
+        dy: BALL_MAX_SPEED,
         paddleHeight: 100,
         paddleWidth: 25,
         gameLoopInterval: 30,
@@ -103,6 +111,9 @@ var PongPlayfield = (function () {
     //
     // Privates 
     //
+
+    var PADDLE_MAX_SPEED = 8;
+    var BALL_MAX_SPEED = 5;
 
     var config = function () {
         return Settings.getSettings();
@@ -422,15 +433,16 @@ var PongPlayfield = (function () {
         document.getElementById("ponglog1").innerHTML = values;
     }
 
+    // client data is -1 or +1 so the proportion of ups versus downs determins the speed
     function processTotalUpdates(totals) {
-
-        //user input currently calibrated to +5 to -5 but maybe this should change??
+console.log("updating totals")
         if (totals.left.totalTiltFB != 0) {
-            game.player1Input = (totals.left.totalTiltFB / totals.left.count) / 90 * 5;
+            game.player1Input = (totals.left.totalTiltFB / totals.left.count) * PADDLE_MAX_SPEED;
         }
 
         if (totals.right.totalTiltFB != 0) {
-            game.player2Input = (totals.right.totalTiltFB / totals.right.count) / 90 * 5;
+            game.player2Input = (totals.right.totalTiltFB / totals.right.count) * PADDLE_MAX_SPEED;
+console.log("player 2 input: " + game.player2Input);
         }
 
     }
