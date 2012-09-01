@@ -2,7 +2,6 @@
 //
 // Share functions that are needed by many of the MassMobileHallucination clients.
 //
-// TODO stop sending movements to server on request. Ie. some games don't need it.
 var MMH = (function () {
 	
 	var me = {};
@@ -68,25 +67,27 @@ var MMH = (function () {
 
     // listen for movements and start sending them to the server. Optionally
 	// send them to a callback as well.
-	me.listenForMovements = function (clientCallback) {
-        try
-        {
-		if (me.clientHasAcceleromters()) {
-			startListeningForAccelerometers();
-		}
-		//} else {
+	me.listenForMovements = function (clientCallback, preProcessCallback) {
+        try {
+			if (me.clientHasAccelerometers()) {
+				startListeningForAccelerometers(accelerometerDeviceListener, accelerometerMozDeviceListener);
+			}
+			// listen for the mouse as well as gyroscopes (can't hurt!)
 			startListeningForMouseMovements();
-		//}
+		
+			me.startSendingOrientationToServer();
 
-		me.startSendingOrientationToServer();
-
-		// save the client callback if they have passed in one.
-		if (clientCallback) clientCallbackFunction = clientCallback;
-        }
-        catch(error)
-        {
+			// save the client callback if they have passed in one.
+			if (clientCallback) { clientCallbackFunction = clientCallback; }
+			if (preProcessCallback) { preProcessCallbackFunction = preProcessCallback; }
+        } catch(error) {
             alert(error);
         }
+	}
+
+	me.stopListeningForMovements = function () {
+		stopListeningForMouseMovements();
+		stopListeningForAccelerometers();
 	}
 	
 	// from the start stop game stuff.
@@ -117,7 +118,7 @@ var MMH = (function () {
     // you have been warned !
     // this is UGLY and will be fixed up later
 
-	me.clientHasAcceleromters = function() {
+	me.clientHasAccelerometers = function() {
         return gyroscopeDetected;
 	}
 
@@ -129,10 +130,11 @@ var MMH = (function () {
 	//
     var playerLocation = "right"; // default players to RHS but player can change
 	var socket = null;
-	var SEND_FREQUENCY = 100; // can get throttled
+	var SEND_FREQUENCY = 200; // can get throttled
 	var accel = {};
 	var orientationTimer = null;
 	var clientCallbackFunction = null;
+	var preProcessCallbackFunction = null;
 
     function handleOrientation(e){
 
@@ -147,48 +149,64 @@ var MMH = (function () {
         }
     }
 
+    function accelerometerMozDeviceListener(eventData) {
+		// x is the left-to-right tilt from -1 to +1, so we need to convert to degress
+		var tiltLR = eventData.x * 90;
+		
+		// y is the front-to-back tilt from -1 to +1, so we need to convert to degress
+		// We also need to invert the value so tilting the device towards us (forward) 
+		// results in a positive value. 
+		var tiltFB = eventData.y * -90;
+		
+		// MozOrientation does not provide this data
+		var dir = null;
+		
+		// z is the vertical acceleration of the device
+		var motUD = eventData.z;
+
+		storeOrientation(scaleFactor(tiltLR), scaleFactor(tiltFB), dir, motUD,playerLocation);
+	}
+
+    // event handler which deals with accelerometer events
+    function accelerometerDeviceListener(eventData) {
+    	console.log("accelerometer movement detected");
+
+		// gamma is the left-to-right tilt in degrees, where right is positive
+		var tiltLR = eventData.gamma;
+
+		// beta is the front-to-back tilt in degrees, where front is positive
+		var tiltFB = eventData.beta;
+		
+		// alpha is the compass direction the device is facing in degrees
+		var dir = eventData.alpha
+		
+		// deviceorientation does not provide this data
+		var motUD = null;
+		
+		// call our orientation event handler
+		storeOrientation(scaleFactor(tiltLR), scaleFactor(tiltFB), dir, motUD,playerLocation);
+    }
+
+    var stopListeningForAccelorometersHandler;
+    function stopListeningForAccelerometers() {
+    	if (stopListeningForAccelorometersHandler) {
+    		stopListeningForAccelorometersHandler();
+    	}
+    }
 
 	// Listening for accelerometer changes
-	function startListeningForAccelerometers() {
+	// SRA: I have no idea when either of these gets called.
+	function startListeningForAccelerometers(accelHandler, accelMozHandler) {
 		if (window.DeviceOrientationEvent) {
-			// Listen for the deviceorientation event and handle the raw data
-			window.addEventListener('deviceorientation', function(eventData) {
-				// gamma is the left-to-right tilt in degrees, where right is positive
-				var tiltLR = eventData.gamma;
-
-				// beta is the front-to-back tilt in degrees, where front is positive
-				var tiltFB = eventData.beta;
-				
-				// alpha is the compass direction the device is facing in degrees
-				var dir = eventData.alpha
-				
-				// deviceorientation does not provide this data
-				var motUD = null;
-				
-				// call our orientation event handler
-				storeOrientation(scaleFactor(tiltLR), scaleFactor(tiltFB), dir, motUD,playerLocation);
-				}, false);
+			window.addEventListener('deviceorientation', accelerometerDeviceListener, false);
 		} else if (window.OrientationEvent) {
+			window.addEventListener('MozOrientation', accelMozHandler, false);
+		}
 
-			//alert("This browser needs a little work before it will work properly");
-			//document.getElementById("doEvent").innerHTML = "MozOrientation";
-			window.addEventListener('MozOrientation', function(eventData) {
-				// x is the left-to-right tilt from -1 to +1, so we need to convert to degress
-				var tiltLR = eventData.x * 90;
-				
-				// y is the front-to-back tilt from -1 to +1, so we need to convert to degress
-				// We also need to invert the value so tilting the device towards us (forward) 
-				// results in a positive value. 
-				var tiltFB = eventData.y * -90;
-				
-				// MozOrientation does not provide this data
-				var dir = null;
-				
-				// z is the vertical acceleration of the device
-				var motUD = eventData.z;
-
-				storeOrientation(scaleFactor(tiltLR), scaleFactor(tiltFB), dir, motUD,playerLocation);
-				}, false);
+		// A sweet little closure from SRA! WOO HOO!
+		stopListeningForAccelorometersHandler = function() {
+			window.removeEventListener('deviceorientation', accelHandler, false);
+			window.removeEventListener('MozOrientation', accelMozHandler, false);
 		}
 	}
 
@@ -207,32 +225,36 @@ var MMH = (function () {
 	// Used to track the mouse on regular browsers.
 	// NOTE: document level events don't trigger. Need to use an object.
 	function startListeningForMouseMovements() {
-		document.onmousemove = function(e) {
-			e = e || window.event;
+		$(document).mousemove(function(e) {
+			console.log("mouse move detected");
 			storeOrientation(
-				(e.x / window.innerWidth ) * 180 - 90,
-				(e.y / window.innerHeight ) * 180 - 90,
+				(e.pageX / $(document).width()) * 180 - 90,
+				(e.pageY / $(document).height()) * 180 - 90,
 				0,
 				0 ,
                 playerLocation
 			);
-		};
+		});
 
 		// NOTE TO SELF: should this be in MMH on #main?
-		$("#main").bind("mousedown", function(e) {
-			var val = e.pageY/$("#main").height() * 180 - 90;
-			//alert("mainnn:  / " + e.pageY + " :: " + val);
-			storeOrientation(0, val, 0, 0, playerLocation);
+		$(document).mousedown(function(e) {
+			console.log("mouse down detected");
+			var x = (e.pageX / $(document).width()) * 180 - 90;
+			var y = (e.pageY / $(document).height()) * 180 - 90;
+			storeOrientation(x, y, 0, 0, playerLocation);
 		});
 	}
 	
 	function stopListeningForMouseMovements() {
+		// TODO: change to jquery
 		document.onmousemove = null;
+		document.mousedown = null;
 	}
 
 	// This is just the last change recorded. The last one recorded gets sent
 	// according to the throttle.
 	function storeOrientation(tiltLR, tiltFB, dir, motionUD, location) {
+console.log("storing y: " + tiltFB);
 		accel = {
 			tiltLR: tiltLR,
 			tiltFB: tiltFB,
@@ -246,16 +268,16 @@ var MMH = (function () {
 	// This is a periodic function.
 	//
 	function sendOrientationToGameServer() {
+		// give the client a chance to effect the values before they are sent.
+		if (preProcessCallbackFunction) { accel = preProcessCallbackFunction(accel); }
+
 		// send the current data we have at this point in time 
 		// note, it does not send every reading we have had since the last send.
+console.log("accel tiltFB: " + accel.tiltFB);
 		socket.emit("accel", accel);
-		
-		clientMovementCallback(accel);
-	}
 	
-	// Call the cilents call back if they are interested in using the movements.
-	function clientMovementCallback(accel) {
-		if (clientCallbackFunction) clientCallbackFunction(accel);
+		// callback the client if the user has requeted it	
+		if (clientCallbackFunction) { clientCallbackFunction(accel);	}
 	}
 
 	function sendAnswerToServer(data){

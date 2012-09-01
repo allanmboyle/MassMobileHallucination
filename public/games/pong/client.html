@@ -1,33 +1,47 @@
-<div>
-	<div style="background-color: #afeeee; height: 100%; width: 100%;">
-        For this game its either up or down, add a nice image or animation later
-        </br></br></br>
-    	<div id="updownIndicator" style="font-size:xx-large;"></div>
-    </div>
-</div>
+<style>
+	.up_half { 
+		background-color: rgb(250, 120,50);
+		height: 50%;
+		width: 100%;
+	}
+	.down_half {
+		background-color: rgb(250, 30, 150);
+		height: 50%;
+		width: 100%;
+	}
+	.big_word {
+		color: midnightblue;
+		font-size: 60pt;
+		opacity: 0.6;
+		text-align: center;
+		vertical-align: text-bottom;
+	}
+ 
+	.pressed {
+		border: double;
+		border-color: blue;
+	}
+</style>
+
+<div class="up_half"><div class="big_word">UP</div></div>
+<div class="down_half"><div class="big_word">DOWN</div></div>
 
 <script>
 	function initClient() {
+		// We don't want MMH to do anything
 	    var side = getPlayerLocation();
 	    MMH.init(socket);
-	    MMH.listenForMovements(updownCallback);
+	    MMH.listenForMovements(null, pongValuesProcessor);
 	}
 
 	function stopClient() {
 		MMH.stopSendingOrientationToServer();
 	}
 
-	function updownCallback (accel) {
-	    if (accel.tiltFB != undefined)
-		{
-	       if (accel.tiltFB < 0)
-	       {
-	           document.getElementById("updownIndicator").innerHTML = "UP";
-	       }
-	        else
-	       {
-	           document.getElementById("updownIndicator").innerHTML = "DOWN";
-	       }
-	    }
+	// The mmh detectors convert all detected values to +90 to -90. We want
+	// that from +1 to -1 for pong becuase its only an up for down.
+	function pongValuesProcessor(accel) {
+		accel.tiltFB = (accel.tiltFB >= 0)? 1 : -1;
+		return accel;
 	}
 </script>
