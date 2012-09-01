@@ -90,7 +90,8 @@ var MMH = (function () {
 	
 	// from the start stop game stuff.
 	me.shutdown = function () {
-		stopSendingOrientationToServer();
+		me.stopListeningForMovements();
+		me.stopSendingOrientationToServer();
 	}
 	
 	me.startSendingOrientationToServer = function () {
@@ -129,7 +130,7 @@ var MMH = (function () {
 	//
     var playerLocation = "right"; // default players to RHS but player can change
 	var socket = null;
-	var SEND_FREQUENCY = 300; // can get throttled from server
+	var SEND_FREQUENCY = 50; // can get throttled from server
 	var accel = {};
 	var orientationTimer = null;
 	var preProcessCallbackFunction = null;
@@ -262,7 +263,7 @@ var MMH = (function () {
 		});
 
 		// See if the user wants to do anything after a value has been captured
-		postProcessCallback();
+		postProcessCallback(accel);
 	}
 
 	//
