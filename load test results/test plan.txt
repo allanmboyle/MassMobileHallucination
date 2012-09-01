@@ -1,0 +1,11 @@
+test plan
+*********
+
+location	concurrent	serversend freq	clientsend freq	comment
+
+azure		20		200		200		websockets - lets look at req/sec and the CPU
+azure		20		100		200		websockets - lets look at req/sec and the CPU
+azure		20		100		100		websockets - lets look at req/sec and the CPU
+azure		20		50		100		websockets - lets look at req/sec and the CPU
+
+azure		60 ( 3 laptops)		at whatever seems optimal - lets check out CPU, req/sec and dropped conns...

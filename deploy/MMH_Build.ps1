@@ -1,8 +1,7 @@
 ﻿
-
 #Import-AzurePublishSettingsFile –PublishSettingsFile "C:/testdeploy/mysettings.publishsettings" 
 
-$serviceName = "MMHFriday"
+$serviceName = "MMHWebSockets"
 
 $workingFolder = "C:\test"
 $pathToSource = "C:\Code\MassMobileHellucination"
@@ -23,15 +22,16 @@ $exclude = @('*.pdb','*.config')
 Get-ChildItem $source -Recurse -Exclude $exclude | Copy-Item -Destination {Join-Path $dest $_.FullName.Substring($source.length)}
 
 $fso = New-Object -ComObject scripting.filesystemobject
- 
+
+#clean up some duff folders...
 $fso.DeleteFolder($dest + '\.idea')
 $fso.DeleteFolder($dest + '\node_modules')
 cd $dest
 
 npm install
 
-Remove-AzureService 
+#Remove-AzureService
+#Remove-AzureStorageAccount -StorageAccountName  $serviceName
 
-Remove-AzureStorageAccount -StorageAccountName  $serviceName
 Publish-AzureServiceProject –ServiceName $serviceName –Location "North Central US” -Launch
 
