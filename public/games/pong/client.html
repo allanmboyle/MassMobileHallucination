@@ -57,6 +57,7 @@
 	}
 
 	function stopClient() {
+		MMH.stopListeningForMovements();
 		MMH.stopSendingOrientationToServer();
 	}
 
@@ -78,7 +79,6 @@
 
 	function setSideColors() {
 		side = getPlayerLocation();
-		console.log("side: " + side);
 		if (side == "left") {
 			$(".up_half").addClass("left_side_up");
 			$(".down_half").addClass("left_side_down");

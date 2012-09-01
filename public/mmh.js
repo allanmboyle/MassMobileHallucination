@@ -78,8 +78,8 @@ var MMH = (function () {
 			me.startSendingOrientationToServer();
 
 			// save the client callback if they have passed in one.
-			if (clientCallback) { clientCallbackFunction = clientCallback; }
-			if (preProcessCallback) { preProcessCallbackFunction = preProcessCallback; }
+			clientCallbackFunction = (clientCallback)? clientCallback : null;
+			preProcessCallbackFunction = (preProcessCallback)? preProcessCallback : null; 
         } catch(error) {
             alert(error);
         }
@@ -93,7 +93,6 @@ var MMH = (function () {
 	// from the start stop game stuff.
 	me.shutdown = function () {
 		stopSendingOrientationToServer();
-		
 	}
 	
 	me.startSendingOrientationToServer = function () {
@@ -130,7 +129,7 @@ var MMH = (function () {
 	//
     var playerLocation = "right"; // default players to RHS but player can change
 	var socket = null;
-	var SEND_FREQUENCY = 200; // can get throttled
+	var SEND_FREQUENCY = 300; // can get throttled
 	var accel = {};
 	var orientationTimer = null;
 	var clientCallbackFunction = null;
@@ -196,6 +195,7 @@ var MMH = (function () {
 
 	// Listening for accelerometer changes
 	// SRA: I have no idea when either of these gets called.
+	// Update: Aidan reckons the Moz one is not used by modern browsers.
 	function startListeningForAccelerometers(accelHandler, accelMozHandler) {
 		if (window.DeviceOrientationEvent) {
 			window.addEventListener('deviceorientation', accelerometerDeviceListener, false);
@@ -247,14 +247,13 @@ var MMH = (function () {
 	
 	function stopListeningForMouseMovements() {
 		// TODO: change to jquery
-		document.onmousemove = null;
-		document.mousedown = null;
+		$(document).unbind("mousemove");
+		$(document).unbind("mousedown");
 	}
 
 	// This is just the last change recorded. The last one recorded gets sent
 	// according to the throttle.
 	function storeOrientation(tiltLR, tiltFB, dir, motionUD, location) {
-console.log("storing y: " + tiltFB);
 		accel = {
 			tiltLR: tiltLR,
 			tiltFB: tiltFB,
@@ -273,7 +272,7 @@ console.log("storing y: " + tiltFB);
 
 		// send the current data we have at this point in time 
 		// note, it does not send every reading we have had since the last send.
-console.log("accel tiltFB: " + accel.tiltFB);
+		console.log("sending to server: " + accel.tiltFB + "/" + accel.tiltLR);
 		socket.emit("accel", accel);
 	
 		// callback the client if the user has requeted it	
