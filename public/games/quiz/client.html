@@ -48,15 +48,18 @@
 </div>
 
 <script>
+	function vote(letter) {
+		$(".quizbutton").removeClass("selectedButton");
+		$('.quizbutton[value|="'+letter+'"]').addClass("selectedButton");
+		// Tell the server via custom message what our selection is
+		socket.emit("custom", letter);
+	}
 
-function vote(letter) {
-	$(".quizbutton").removeClass("selectedButton");
-	$('.quizbutton[value|="'+letter+'"]').addClass("selectedButton");
-	// Tell the server via custom message what our selection is
-	socket.emit("custom", letter);
-}
+	// must implement this
+	function initClient() {
+		MMH.init(socket);
+	}
 
-// must implement this
-function initClient() {
-}
+	function stopClient() {
+	}
 </script>

@@ -69,6 +69,8 @@ var PongPlayfield = (function () {
     me.players = function (players) {
         //not used
     }
+    me.nameChange = function() {};
+
     me.totalUpdates = function (totals) {
         processTotalUpdates(totals);
     }
@@ -88,8 +90,9 @@ var PongPlayfield = (function () {
     me.init = function (theSocket) {
         socket = theSocket;
         // this game is only interested in totals, not individual updates...
-        socket.emit("admin", "yes_totals");
+        socket.emit("admin", "no_totals");
         socket.emit("admin", "no_updates");
+        socket.emit("admin", "yes_uniques");
 
         initialiseGameVariables();
 
@@ -195,8 +198,6 @@ var PongPlayfield = (function () {
         return result;
         ;
     }
-
-
 
     function movePaddles() {
         //apply changes to paddle but make sure they  stays inside the board !
@@ -438,16 +439,20 @@ var PongPlayfield = (function () {
 
     // client data is -1 or +1 so the proportion of ups versus downs determins the speed
     function processTotalUpdates(totals) {
-console.log("updating totals")
-        if (totals.left.totalTiltFB != 0) {
+        if (totals.left.count > 0) {
             game.player1Input = (totals.left.totalTiltFB / totals.left.count) * PADDLE_MAX_SPEED;
+        } else {
+            game.player1Input = 0;
         }
 
-        if (totals.right.totalTiltFB != 0) {
+        if (totals.right.count > 0) {
             game.player2Input = (totals.right.totalTiltFB / totals.right.count) * PADDLE_MAX_SPEED;
-console.log("player 2 input: " + game.player2Input);
+        } else {
+            game.player2Input = 0;
         }
-
+ 
+        console.log("player right speed: " + game.player2Input);
+        console.log("player left  speed: " + game.player1Input);
     }
     return me;
 }(Settings));

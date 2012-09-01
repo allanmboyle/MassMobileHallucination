@@ -30,9 +30,16 @@
 	function movementCallback (accel) {
 		$(".line")[0].style.top = ((Math.floor(accel.tiltFB)+90)/180)*window.innerHeight + "px";
 	}
-
-    function initClient() {
+    
+	// must implement this
+	function initClient() {
 		MMH.init(socket);
-		MMH.listenForMovements(movementCallback);		
-    }
+	    MMH.listenForMovements(null, movementCallback);
+	    MMH.startSendingOrientationToServer();
+	}
+
+	function stopClient() {
+		MMH.shutdown();
+	}
+
 </script>
