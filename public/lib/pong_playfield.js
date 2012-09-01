@@ -12,6 +12,10 @@
  *          as opposed to a 1/3 of the way into the paddle in its middle
  *
  */
+
+// module level
+var BALL_MAX_SPEED = 5;
+
 var Settings = (function () {
     var me = {};
 
@@ -113,7 +117,6 @@ var PongPlayfield = (function () {
     //
 
     var PADDLE_MAX_SPEED = 8;
-    var BALL_MAX_SPEED = 5;
 
     var config = function () {
         return Settings.getSettings();
