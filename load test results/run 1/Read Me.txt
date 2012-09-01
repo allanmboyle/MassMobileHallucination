@@ -1,6 +1,0 @@
-settings
-
-{game:'loadTest',rampUpConnections:5,clientSendFrequency:100,serverSendFrequency:100, sendData :'true'}
-
-deployed to Azure running web sockets - one browser ( Internet Explorer) so this was falling back to long polling which worked
-. got up to 60 connections  IE crapped out after approx 4 minutes
