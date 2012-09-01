@@ -1,25 +1,46 @@
 <style>
 	.up_half { 
-		background-color: rgb(250, 120,50);
 		height: 50%;
 		width: 100%;
+		overflow: hidden;
+		margin: 0px;
+		padding: 0px;
 	}
 	.down_half {
-		background-color: rgb(250, 30, 150);
 		height: 50%;
 		width: 100%;
 	}
+	.left_side_up {
+		background-color: FireBrick;
+	}
+	.left_side_down {
+		background-color: IndianRed;
+	}
+	.right_side_up {
+		background-color: ForestGreen;
+	}
+	.right_side_down {
+		background-color: lightSeaGreen;
+	}
+
 	.big_word {
 		color: midnightblue;
+		position: relative;
+		top: 10%;
+		left: 10%;
+		width: 80%;
+		height: 80%;
 		font-size: 60pt;
-		opacity: 0.6;
+		opacity: 0.4;
 		text-align: center;
-		vertical-align: text-bottom;
+		vertical-align: middle;
 	}
  
 	.pressed {
-		border: double;
-		border-color: blue;
+		border-style: inset;
+		border-radius: 1px;
+		border-color: black;
+		opacity: 0.9;
 	}
 </style>
 
@@ -27,9 +48,10 @@
 <div class="down_half"><div class="big_word">DOWN</div></div>
 
 <script>
+	var side;
 	function initClient() {
 		// We don't want MMH to do anything
-	    var side = getPlayerLocation();
+		setSideColors();
 	    MMH.init(socket);
 	    MMH.listenForMovements(null, pongValuesProcessor);
 	}
@@ -42,6 +64,28 @@
 	// that from +1 to -1 for pong becuase its only an up for down.
 	function pongValuesProcessor(accel) {
 		accel.tiltFB = (accel.tiltFB >= 0)? 1 : -1;
+
+		if (accel.tiltFB > 0)  { 
+			$(".up_half .big_word").removeClass("pressed")
+			$(".down_half .big_word").addClass("pressed")
+		} else {
+			$(".down_half .big_word").removeClass("pressed")
+			$(".up_half .big_word").addClass("pressed")
+		}
+
 		return accel;
 	}
+
+	function setSideColors() {
+		side = getPlayerLocation();
+		console.log("side: " + side);
+		if (side == "left") {
+			$(".up_half").addClass("left_side_up");
+			$(".down_half").addClass("left_side_down");
+		} else {
+			$(".up_half").addClass("right_side_up");
+			$(".down_half").addClass("right_side_down");
+		}
+	}
+
 </script>
