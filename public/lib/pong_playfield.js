@@ -362,16 +362,28 @@ var PongPlayfield = (function () {
         }
 
         //left wall
-        if ((game.ball.x + dx - config().radius) <= (config().paddleWidth)) {
+        if ((game.ball.x + dx - config().radius) <= (config().paddleWidth) && dx < 0) {
             // if the right paddle is in positing bounce otherwise its out
             var posy = game.ball.y + dy;
 
-            if ((posy >= game.paddle.leftY) && (posy <= game.paddle.leftY + config().paddleHeight)) {
+            // ball distance form top corner of left paddle
+            var cx = game.ball.x - config().paddleWidth;
+            var cy = game.ball.y - game.paddle.leftY;
+            var ctd = Math.sqrt(Math.pow(cx,2) + Math.pow(cy,2));
+
+            // ball distance form bottom corner of right paddle
+            cy = game.ball.y - (game.paddle.leftY + config().paddleHeight);
+            var cbd = Math.sqrt(Math.pow(cx,2) + Math.pow(cy,2));
+            
+            if (ctd <= config().radius || cbd <= config().radius) {
+                dx = -dx;
+            } else if ((posy >= game.paddle.leftY) && (posy <= game.paddle.leftY + config().paddleHeight)) {
                 //bounce!
                 dx = -dx;
             } else {
-                //ball needs to be 1/3 or the radius past paddle
-                if (config().paddleWidth - (game.ball.x + dx - config().radius) >= .3 * config().radius) {
+                // ball needs to be 1/3 or the radius past paddle
+                //if (config().paddleWidth - (game.ball.x + dx - config().radius) >= .3 * config().radius) {
+                if (game.ball.x - config().radius + dx <= 0) {
                     pointOver = true;
                     game.score.player2++;
                     game.lastPointScorer = "p2";
