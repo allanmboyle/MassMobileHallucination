@@ -180,9 +180,9 @@ var PongPlayfield = (function () {
     function generateStartingCoordinatesForBall(lastPointScorer)
     {
         var x =   400;
-        var y = getRandomInt(280,340);
+        var y = getRandomInt(120,340);
         var dx  = config().dx;
-        var dy =  config().dy ;
+        var dy =  config().dy;
         if (lastPointScorer == "p1")
         {
             dx = Math.abs(dx) * -1;

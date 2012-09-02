@@ -42,20 +42,51 @@
 		border-color: black;
 		opacity: 0.9;
 	}
+	.hidden { display: none;}
+	.auditorium {
+		width: 100%; height: 100%;
+		background-color: orange;
+		font-size: 50pt;
+		text-align: center;
+		vertical-align: text-bottom;
+	}
+	.aud_left {
+		width: 30%; height: 30%;
+		float: left;
+		border: 3px outset;
+		margin-left: 10%
+	}
+	.aud_right {
+		width: 30%; height: 30%;
+		float: right;
+		margin-right: 10%;
+		border: 3px outset;
+	}
 </style>
 
-<div class="up_half"><div class="big_word">UP</div></div>
-<div class="down_half"><div class="big_word">DOWN</div></div>
+<div class="auditorium">
+	<div>Which Side of The Auditorium Are You Sitting?</div>
+	<div class="aud_left" onclick="selectSide('left');">Left</div>
+	<div class="aud_right" onclick="selectSide('right');">Right</div>
+</div>
+<div class="up_half hidden"><div class="big_word">UP</div></div>
+<div class="down_half hidden"><div class="big_word">DOWN</div></div>
 
 <script>
 	var side;
 	var lastTilt, nextTilt;
 
+	function selectSide(side) {
+		setSideColors(side);
+	    MMH.listenForMovements(pongValuesProcessor, postProcessor);		
+	    $(".auditorium").addClass("hidden");
+	    $(".up_half").removeClass("hidden");
+	    $(".down_half").removeClass("hidden");
+	    // note: we don't get mmh to send for us, that we do in post()
+	}
+
 	function initClient() {
-		// We don't want MMH to do anything
-		setSideColors();
 	    MMH.init(socket);
-	    MMH.listenForMovements(pongValuesProcessor, postProcessor);
 	}
 
 	function stopClient() {
@@ -82,13 +113,14 @@
 			}
 			lastTilt = nextTilt;
 
-			// send to the server just the changes
+			// send to the server only if change
 			MMH.sendOrientationToServer();
 		}
 	}
 
-	function setSideColors() {
-		side = getPlayerLocation();
+	function setSideColors(side) {
+		MMH.setPlayerLocation(side);
+
 		if (side == "left") {
 			$(".up_half").addClass("left_side_up");
 			$(".down_half").addClass("left_side_down");
@@ -97,5 +129,4 @@
 			$(".down_half").addClass("right_side_down");
 		}
 	}
-
 </script>

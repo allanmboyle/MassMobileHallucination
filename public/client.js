@@ -19,17 +19,9 @@ socket.on('changeSettings', function (data) {
 });
 
 socket.on('changeGame', function (game) {
-    changeGame(game);
+    // not sure what to do if the game is intro for now!?
+    if (game != "intro") changeGame(game);
 });
-
-/* MAY NOT NEED THIS YET
-socket.on('userMessage', function (message) {
-    //this is fired when the palyfield targets a single user....
-    //e.g. for millionaire we need to quit people from the game if they get the wrong answers...
-    alert('message from server');
-    alert(message);
-});
-*/
 
 //
 // client helper functions
@@ -66,8 +58,7 @@ function changeName() {
     socket.emit("namechange", document.getElementById('username').value);
 }
 
-
-
-
-
+function getGame() {
+    socket.emit("getgame");
+}
 
