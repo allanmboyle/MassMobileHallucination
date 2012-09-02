@@ -12,7 +12,7 @@ MMH.performSlowCrappyGyroscopeDetection();
 // 
 // Socket messages received by each client
 //
-var socket = io.connect('/players');
+var socket = io.connect('/players', {'sync disconnect on unload' : true});
 
 socket.on('changeSettings', function (data) {
     changeSettings(data);
