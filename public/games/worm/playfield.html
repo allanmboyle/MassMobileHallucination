@@ -3,14 +3,12 @@
 	.wormsplash {
 		font-size: 40pt;
 		font-weight: 400;
-		font-family: inherit;
 		text-align: center;
-		background-color: gold;
-		width: 100%;
-		height: 100%;
+		padding-top: 30%;
+		width: 100%;		
 	}
 	.wormworm {
-		width: 100%; height: 95%; 
+		width: 100%; height: 100%; 
 		margin: 0px;
 		padding: 0px;
 		overflow: hidden;
@@ -23,15 +21,14 @@
 	}
 </style>
 
-<div class="wormsplash rounded-corners">
+<div class="wormsplash tron_white rounded-corners">
 	THE GREAT DEBATE
 </div>
-
 <canvas class="wormworm hideme" id="wormcanvas" ></canvas>
 
 <script src="/games/worm/worm_playfield.js"></script>
 <script>
-	var GOOD = "ROCKS!";
+	var GOOD = "ROX!";
 	var BAD = "SUX!";
 
 	var WIGGLE_INTERVAL = 50;		// draw a worm dot every half a second
@@ -45,19 +42,20 @@
 		setTimeout(function () {
 			$(".wormsplash").fadeOut(2000, function() {
 				$(".wormsplash").addClass("hideme");
-				$(".wormworm").fadeIn(3000, function() {
-					startWorming();
-				});
 				$(".wormworm").removeClass("hideme");
+				$(".wormworm").hide();
+				startWorming();
+				$(".wormworm").fadeIn(1500, function() {
+				});
 			})	
-		}, 1000); //8000
+		}, 5000); //8000
 
 		return WormPlayfield;
 	}
 
 	function shutdown() {
 		// stop worming
-		clearInterval(wormInerval);
+		clearInterval(wormInterval);
 	}
 
 	var canvas;
@@ -115,7 +113,7 @@
 		ctx.fillStyle = "rgb(200,90,90)";
 		ctx.fillRect (0, 0, ctx.canvas.width, ctx.canvas.height/2);
 		 
-		ctx.fillStyle = "rgba(90, 90, 200, 0.5)";
+		ctx.fillStyle = "rgb(90, 90, 200)";
 		ctx.fillRect (0, ctx.canvas.height/2, ctx.canvas.width, ctx.canvas.height);
 
 		ctx.fillStyle = "rgb(10,10,10)";
