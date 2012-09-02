@@ -1,7 +1,7 @@
 
 Question that need answering !
 
-(1) How quickly can a single client with a ope open socket send data to Azure Using Long Polling ?
+(1) How quickly can a single client with an open socket send data to Azure Using Long Polling ?
 
 Answer: The fastest send rate I can record is 21 messages per second . 
 	The client time was set to 10ms so in theory it should be sending 100 per second but the actual throughput was 20 per second.
@@ -14,38 +14,37 @@ At 100ms send rate my iPhone is clocking up 2 messages per second, at 200ms its 
 
 Assuming we set the client send frequency yo 200ms expect to see 1 message per second ...
 
-
-(2) Cool , now tell me how far can I safely push a sinlge browser (lets look at both Chrome & IE ) with multiple conenctions over long polling? This will tell me
+(2) Cool , now tell me how far can I safely push a single browser (look at both Chrome & IE ) with multiple conenctions over long polling? This will tell me
 how far to push the browser when doing a load test. Lets set the send rate to 100ms.
-
 
 Answer:
 
-Internet Explorer 9 can only suport 2 concurrent connections (even when the client send rate is set to 500ms after that they just drop out !
-Chrome 21 also drops after 2 connections, whats going on ???
+You can push IE and Chrome to 20 connections but it takes time (600seconds)  step up one at a time
+Chrome 21 you can get 15 concurrent on my laptop (500 ms client send rate) but you need to ramp up slowlyit took 500 seconds to get to this!
+
+IE9 can get up to 20 after 600 secs but the graph isnt as smooth as chrome - very spikey and some 10 second samples have no messages as it steps up 
+got 22 connections comfortably sending at 300 m/s
+
+IE 15 users - send rate 130 per second
+chrome 15 users send rate - 150 messages per second
+
+The send rate is pretty similar for chrome and IE but IE had a few 10 second intervals with no messages recieved..
 
 
-15 clients with chrome but takes 500secs to get there
-500 seconds
+(3) When running with 20 connections(the max safe limit) how many messages per second can the client send ?
 
-
-
-
-(3) When running with 25 connections(the max safe limit) how many messages per second can the client send ?
 
 (4) How do you measure the time it takes to aggregate and total messages on the server, SImon metioned he did this already ?
+
 
 (5) Run some load tests on Azure ramping up to say 500 users - how does the CPU / responsiveness change when you bring up and down 
 the server send frequency
 
+
 (6) What is the affect of running on a larger VM in azure - does it have bigger CPU's or just more, if its more there will be no difference
 
 
-to do
+10am build tomorrow morning 
 
-- change dy on ball bounce 1 in the middle and 5 at the 5 top and bottom
-- hit the wall before its before 
-
-10am 
 
 
