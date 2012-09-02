@@ -5,7 +5,7 @@
  * Copyright (c) 2012 MYOB Australia Ltd.
  *
  * TODO:
- *      [SRA] slow move towards the desired speed, not instant jump
+ *      [DONE] slow move towards the desired speed, not instant jump
  *      [AC]  change bounce angle of ball dy depending on where it hit the paddle
  *      [AC]  let ball hit wall before its a "miss"
  *      [SRA] check for hitting corners of the paddle - up to center of ball
@@ -185,7 +185,7 @@ var PongPlayfield = (function () {
         var x =   400;
         var y = getRandomInt(120,340);
         var dx  = config().dx;
-        var dy =  config().dy;
+        var dy =  getRandomInt(1, config().dy);
         if (lastPointScorer == "p1")
         {
             dx = Math.abs(dx) * -1;
@@ -239,14 +239,14 @@ var PongPlayfield = (function () {
             game.player2Speed *= (1 - ACCELERATION_FACTOR); // slow the paddle to 0 if no players
         }
 
-        console.log("player right actual speed: " + game.player2Speed);
-        console.log("player left  actual speed: " + game.player1Speed);
+        //console.log("player right actual speed: " + game.player2Speed);
+        //console.log("player left  actual speed: " + game.player1Speed);
     }
 
     function gameLoop() {
         if (config().debugMode) {
             outputDebugInfoToPlayfield();
-        }
+        } 
         drawBoard();
         movePaddles();
         drawBall();
@@ -329,17 +329,31 @@ var PongPlayfield = (function () {
         //right wall
         // is the edge of the ball in the hit zone
 
-        if ((game.ball.x + dx + config().radius) >= (game.board.height - config().paddleWidth)) {
+        if ((game.ball.x + dx + config().radius) >= (game.board.height - config().paddleWidth) && dx > 0) {
             // if the right paddle is in positing bounce otherwise its out
             var posy = game.ball.y + dy;
 
-            //is the Y position in between the paddles
-            if ((posy >= game.paddle.rightY) && (posy <= game.paddle.rightY + config().paddleHeight)) {
-                //bounce!
+            // ball distance form top corner of right paddle
+            var cx = (game.board.height - config().paddleWidth) - game.ball.x;
+            var cy = game.ball.y - game.paddle.rightY;
+            var ctd = Math.sqrt(Math.pow(cx,2) + Math.pow(cy,2));
+
+            // ball distance form bottom corner of right paddle
+            cy = game.ball.y - (game.paddle.rightY + config().paddleHeight);
+            var cbd = Math.sqrt(Math.pow(cx,2) + Math.pow(cy,2));
+
+            // start some checking of collisions
+            if (ctd <= config().radius || cbd <= config().radius) {
+                // will we hit the top corner of the paddle
+                dx = -dx;
+            } else if ((posy >= game.paddle.rightY) && (posy <= game.paddle.rightY + config().paddleHeight)) {
+                // Y is between the paddles so bounce!
                 dx = -dx;
             } else {
                 //ball needs to be 1/3 or the radius past paddle
-                if ((game.ball.x + dx + config().radius) - (game.board.height - config().paddleWidth) > .3 * config().radius) {
+                // if ((game.ball.x + dx + config().radius) - (game.board.height - config().paddleWidth) > .3 * config().radius) {
+                if (game.ball.x+dx+config().radius >= game.board.height) {
+                    // hit the wall.                   
                     pointOver = true;
                     game.score.player1++;
                     game.lastPointScorer = "p1";
@@ -392,30 +406,35 @@ var PongPlayfield = (function () {
     }
 
     function onkeydown(e) {
-
         switch (e.keyCode) {
             //Q
             case 81:
             {
-                game.player1Input = -5;
+                game.player1Speed = -5;
                 break;
             }
             //A
             case 65:
             {
-                game.player1Input = +5;
+                game.player1Speed = +5;
                 break;
             }
             //L
             case 76:
             {
-                game.player2Input = +5;
+                game.player2Speed = 5;
                 break;
             }
             //P
             case 80:
             {
-                game.player2Input = -5;
+                game.player2Speed = -5;
+                break;
+            }
+            //r
+            case 82:
+            {
+                pointOver();
                 break;
             }
             case 32:
@@ -478,8 +497,8 @@ var PongPlayfield = (function () {
             game.player2Input = 0;
         }
  
-        console.log("player right input speed: " + game.player2Input);
-        console.log("player left  input speed: " + game.player1Input);
+        //console.log("player right input speed: " + game.player2Input);
+        //console.log("player left  input speed: " + game.player1Input);
     }
     return me;
 }(Settings));
