@@ -14,9 +14,9 @@
  */
 
 // module level
-var BALL_MAX_SPEED          = 5;    // maximum speed the ball can go in the Y direction
+var BALL_MAX_SPEED          = 6;    // maximum speed the ball can go in the Y direction
 var ACCELERATION_FACTOR     = 0.12; // how fast to move to the next paddle speed
-var PADDLE_MAX_SPEED        = 8;    // speed paddles move up or down. Should be faster than ball speed.
+var PADDLE_MAX_SPEED        = 7;    // speed paddles move up or down. Should be faster than ball speed.
 
 var Settings = (function () {
     var me = {};
@@ -323,12 +323,11 @@ var PongPlayfield = (function () {
         //Y coordinate update is dead easy if the ball hits the roof or the floor just reverse it
         if (game.ball.y + dy > game.board.width - config().radius || game.ball.y + dy - config().radius < 0) {
             dy = -dy;
+            return;
         }
-        game.ball.y += dy;
 
         //right wall
         // is the edge of the ball in the hit zone
-
         if ((game.ball.x + dx + config().radius) >= (game.board.height - config().paddleWidth) && dx > 0) {
             // if the right paddle is in positing bounce otherwise its out
             var posy = game.ball.y + dy;
@@ -397,6 +396,7 @@ var PongPlayfield = (function () {
 
         if (!pointOver) {
             game.ball.x += dx;
+            game.ball.y += dy;
             return;
         }
 
