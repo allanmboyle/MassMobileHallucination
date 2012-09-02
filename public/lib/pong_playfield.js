@@ -6,9 +6,9 @@
  *
  * TODO:
  *      [DONE] slow move towards the desired speed, not instant jump
- *      [AC]  change bounce angle of ball dy depending on where it hit the paddle
- *      [AC]  let ball hit wall before its a "miss"
- *      [SRA] check for hitting corners of the paddle - up to center of ball
+ *      [DONE]  change bounce angle of ball dy depending on where it hit the paddle
+ *      [DONE]  let ball hit wall before its a "miss"
+ *      [DONE] check for hitting corners of the paddle - up to center of ball
  *            as opposed to a 1/3 of the way into the paddle in its middle
  *
  */
@@ -346,9 +346,11 @@ var PongPlayfield = (function () {
             if (ctd <= config().radius || cbd <= config().radius) {
                 // will we hit the top corner of the paddle
                 dx = -dx;
+                dy = deflectDY(game.paddle.rightY);
             } else if ((posy >= game.paddle.rightY) && (posy <= game.paddle.rightY + config().paddleHeight)) {
                 // Y is between the paddles so bounce!
                 dx = -dx;
+                dy = deflectDY(game.paddle.rightY);
             } else {
                 //ball needs to be 1/3 or the radius past paddle
                 // if ((game.ball.x + dx + config().radius) - (game.board.height - config().paddleWidth) > .3 * config().radius) {
@@ -377,9 +379,11 @@ var PongPlayfield = (function () {
             
             if (ctd <= config().radius || cbd <= config().radius) {
                 dx = -dx;
+                dy = deflectDY(game.paddle.leftY);
             } else if ((posy >= game.paddle.leftY) && (posy <= game.paddle.leftY + config().paddleHeight)) {
                 //bounce!
                 dx = -dx;
+                dy = deflectDY(game.paddle.leftY);
             } else {
                 // ball needs to be 1/3 or the radius past paddle
                 //if (config().paddleWidth - (game.ball.x + dx - config().radius) >= .3 * config().radius) {
@@ -397,6 +401,14 @@ var PongPlayfield = (function () {
         }
 
         game.state = gameState.PointOver;
+    }
+
+    // Change the y-oriented delta value based on a bounce off a position
+    // on the paddle.
+    function deflectDY(paddleY) {
+        var delta = game.ball.y - (paddleY + config().paddleHeight/2);
+        var percent = delta/(config().paddleHeight/2 + config().radius);
+        return BALL_MAX_SPEED * percent;
     }
 
     function initialiseGameVariables() {
