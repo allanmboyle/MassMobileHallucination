@@ -223,7 +223,7 @@ var MMH = (function () {
 	// Used to track the mouse on regular browsers.
 	// NOTE: document level events don't trigger. Need to use an object.
 	function startListeningForMouseMovements() {
-		$("#main").mousemove(function(e) {
+		var handler = function(e) {
 			storeOrientation(
 				(e.pageX / $(document).width()) * 180 - 90,
 				(e.pageY / $(document).height()) * 180 - 90,
@@ -231,14 +231,11 @@ var MMH = (function () {
 				0 ,
                 playerLocation
 			);
-		});
+		};
 
-		$("#main").mousedown(function(e) {
-			console.log("mouse down detected");
-			var x = (e.pageX / $(document).width()) * 180 - 90;
-			var y = (e.pageY / $(document).height()) * 180 - 90;
-			storeOrientation(x, y, 0, 0, playerLocation);
-		});
+		$("#main").mousemove(handler);
+		$("#main").mouseover(handler);
+		$("#main").mousedown(handler);
 	}
 	
 	function stopListeningForMouseMovements() {
