@@ -14,7 +14,9 @@
  */
 
 // module level
-var BALL_MAX_SPEED = 5;
+var BALL_MAX_SPEED          = 5;    // maximum speed the ball can go in the Y direction
+var ACCELERATION_FACTOR     = 0.12; // how fast to move to the next paddle speed
+var PADDLE_MAX_SPEED        = 8;    // speed paddles move up or down. Should be faster than ball speed.
 
 var Settings = (function () {
     var me = {};
@@ -118,9 +120,6 @@ var PongPlayfield = (function () {
     //
     // Privates 
     //
-
-    var PADDLE_MAX_SPEED = 8;
-
     var config = function () {
         return Settings.getSettings();
     }
@@ -141,6 +140,10 @@ var PongPlayfield = (function () {
     var game = {
         player1Input: 0,
         player2Input: 0,
+        player1Speed: 0,
+        player2Speed: 0,
+        countLeftPlayers: 0,
+        countRightPlayers: 0,
         state : gameState.NotStarted
     }
     game.board = {
@@ -201,7 +204,12 @@ var PongPlayfield = (function () {
 
     function movePaddles() {
         //apply changes to paddle but make sure they  stays inside the board !
-        var newpaddle1Y = game.paddle.leftY + game.player1Input;
+
+        // Change the paddle speed based on the input
+        updatePaddleSpeed();
+
+        // Move the paddles
+        var newpaddle1Y = game.paddle.leftY + game.player1Speed;
         if (newpaddle1Y < 0) {
             newpaddle1Y = 0;
         } else if (newpaddle1Y + config().paddleHeight > game.board.width) {
@@ -209,13 +217,30 @@ var PongPlayfield = (function () {
         }
         game.paddle.leftY = newpaddle1Y;
 
-        var newpaddle2Y = game.paddle.rightY + game.player2Input;
+        var newpaddle2Y = game.paddle.rightY + game.player2Speed;
         if (newpaddle2Y < 0) {
             newpaddle2Y = 0;
         } else if (newpaddle2Y + config().paddleHeight > game.board.width) {
             newpaddle2Y = game.board.width - config().paddleHeight;
         }
         game.paddle.rightY = newpaddle2Y;
+    }
+
+    // move the paddle speed slowly towards the desired speed
+    function updatePaddleSpeed() {
+        if (game.countLeftPlayers > 0) {
+            game.player1Speed = game.player1Speed + (game.player1Speed - game.player1Input) * ACCELERATION_FACTOR;
+        } else {
+            game.player1Speed *= (1 - ACCELERATION_FACTOR); // slow the paddle to 0 if no players
+        }
+        if (game.countRightPlayers > 0) {
+            game.player2Speed = game.player2Speed + (game.player2Input - game.player2Speed) * ACCELERATION_FACTOR;
+        } else {
+            game.player2Speed *= (1 - ACCELERATION_FACTOR); // slow the paddle to 0 if no players
+        }
+
+        console.log("player right actual speed: " + game.player2Speed);
+        console.log("player left  actual speed: " + game.player1Speed);
     }
 
     function gameLoop() {
@@ -439,20 +464,22 @@ var PongPlayfield = (function () {
 
     // client data is -1 or +1 so the proportion of ups versus downs determins the speed
     function processTotalUpdates(totals) {
-        if (totals.left.count > 0) {
+        game.countLeftPlayers = totals.left.count;
+        if (game.countLeftPlayers > 0) {
             game.player1Input = (totals.left.totalTiltFB / totals.left.count) * PADDLE_MAX_SPEED;
         } else {
             game.player1Input = 0;
         }
 
-        if (totals.right.count > 0) {
+        game.countRightPlayers = totals.right.count;
+        if (game.countRightPlayers > 0) {
             game.player2Input = (totals.right.totalTiltFB / totals.right.count) * PADDLE_MAX_SPEED;
         } else {
             game.player2Input = 0;
         }
  
-        console.log("player right speed: " + game.player2Input);
-        console.log("player left  speed: " + game.player1Input);
+        console.log("player right input speed: " + game.player2Input);
+        console.log("player left  input speed: " + game.player1Input);
     }
     return me;
 }(Settings));
