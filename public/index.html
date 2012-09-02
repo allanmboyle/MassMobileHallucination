@@ -10,25 +10,16 @@
     </head>
     <body>
         <div id="main" class="fullscreen">
-            <h1>The Mass Mobile Hallucination Game.</h1>
+            Welcome to the mass mobile experiment.
 
-            Welcome aboard ! just 2 questions before you can start
-            </br>
-            </br>
-
-            Your name :
-            <input type=text onchange="changeName()" id=username />
-            <br/>
-            <br/>
-
-            What side fo the room are you seated on ? :
-            <input type="radio" name="location" id="playerLocationLeft" onclick="setPlayerLocation('left');" value="Left" /> Left
-            <input type="radio" name="location" id="playerLocationRight" onclick="setPlayerLocation('right');" value="Right" checked />  Right
-
-            <br/>
-
+            Please wait hold...
             <div id="log"></div>
         </div>
         <script src="client.js"></script>
+        <script>
+        $(document).ready(function() {
+            setTimeout(getGame, 5000);
+        });
+        </script>
     </body>
 </html>

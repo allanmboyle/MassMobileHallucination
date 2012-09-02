@@ -168,8 +168,6 @@ var MMH = (function () {
 
     // event handler which deals with accelerometer events
     function accelerometerDeviceListener(eventData) {
-    	console.log("accelerometer movement detected");
-
 		// gamma is the left-to-right tilt in degrees, where right is positive
 		var tiltLR = eventData.gamma;
 
@@ -225,8 +223,7 @@ var MMH = (function () {
 	// Used to track the mouse on regular browsers.
 	// NOTE: document level events don't trigger. Need to use an object.
 	function startListeningForMouseMovements() {
-		$(document).mousemove(function(e) {
-			console.log("mouse move detected");
+		$("#main").mousemove(function(e) {
 			storeOrientation(
 				(e.pageX / $(document).width()) * 180 - 90,
 				(e.pageY / $(document).height()) * 180 - 90,
@@ -236,8 +233,7 @@ var MMH = (function () {
 			);
 		});
 
-		// NOTE TO SELF: should this be in MMH on #main?
-		$(document).mousedown(function(e) {
+		$("#main").mousedown(function(e) {
 			console.log("mouse down detected");
 			var x = (e.pageX / $(document).width()) * 180 - 90;
 			var y = (e.pageY / $(document).height()) * 180 - 90;
@@ -272,7 +268,7 @@ var MMH = (function () {
 	function sendOrientationToGameServer() {
 		// send the current data we have at this point in time 
 		// note, it does not send every reading we have had since the last send.
-		console.log("sending to server: " + accel.tiltFB + "/" + accel.tiltLR);
+		console.log("Sending tilt to server: " + accel.tiltFB + "/" + accel.tiltLR);
 		socket.emit("accel", accel);
 	}
 

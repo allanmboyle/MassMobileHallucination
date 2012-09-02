@@ -5,11 +5,11 @@
  * Copyright (c) 2012 MYOB Australia Ltd.
  *
  * TODO:
- *      slow move towards the desired speed, not instant jump
- *      change bounce angle of ball dy depending on where it hit the paddle
- *      let ball hit wall before its a "miss"
- *      check for hitting corners of the paddle - up to center of ball
- *          as opposed to a 1/3 of the way into the paddle in its middle
+ *      [SRA] slow move towards the desired speed, not instant jump
+ *      [AC]  change bounce angle of ball dy depending on where it hit the paddle
+ *      [AC]  let ball hit wall before its a "miss"
+ *      [SRA] check for hitting corners of the paddle - up to center of ball
+ *            as opposed to a 1/3 of the way into the paddle in its middle
  *
  */
 
@@ -180,9 +180,9 @@ var PongPlayfield = (function () {
     function generateStartingCoordinatesForBall(lastPointScorer)
     {
         var x =   400;
-        var y = getRandomInt(280,340);
+        var y = getRandomInt(120,340);
         var dx  = config().dx;
-        var dy =  config().dy ;
+        var dy =  config().dy;
         if (lastPointScorer == "p1")
         {
             dx = Math.abs(dx) * -1;
