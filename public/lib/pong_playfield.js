@@ -229,7 +229,7 @@ var PongPlayfield = (function () {
     // move the paddle speed slowly towards the desired speed
     function updatePaddleSpeed() {
         if (game.countLeftPlayers > 0) {
-            game.player1Speed = game.player1Speed + (game.player1Speed - game.player1Input) * ACCELERATION_FACTOR;
+            game.player1Speed = game.player1Speed + (game.player1Input - game.player1Speed) * ACCELERATION_FACTOR;
         } else {
             game.player1Speed *= (1 - ACCELERATION_FACTOR); // slow the paddle to 0 if no players
         }
