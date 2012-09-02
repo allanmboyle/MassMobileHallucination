@@ -1,7 +1,7 @@
 ﻿
 #Import-AzurePublishSettingsFile –PublishSettingsFile "C:/testdeploy/mysettings.publishsettings" 
 
-$serviceName = "MMHWebSockets"
+$serviceName = "techedpong"
 
 $workingFolder = "C:\test"
 $pathToSource = "C:\Code\MassMobileHellucination"
