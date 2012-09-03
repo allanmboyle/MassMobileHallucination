@@ -1,15 +1,19 @@
-<div id="loadTestStatus">Please leave this page open !</div>
-<br/>number of connections
-<div id="loadTestConnections">0</div>
+<div  class="loadtestwelcome tron_white">PLEASE leave this page open !</div>
 <br/>
-<div id="loadtestErrors"></div>
+<div id="loadTestStatus"  style="font-size: large;text-align: center;color:red;">Waiting for instructions...</div>
 <br/>
-Number of messages sent <div id="loadtestCountSendMessages"></div>
-<br/>
-
-<div id="loadtestControllerMessages"></div>
-<br/>
-
+<p class="tron_white">number of connections :
+<div id="loadTestConnections" class="tron_white">0</div>
+</p>
+<p class="tron_white">Number of Errors :
+<div id="loadtestErrors" class="tron_white">0</div>
+</p>
+<p class="tron_white">
+Number of messages sent to the Server : <div class="tron_white" id="loadtestCountSendMessages">0</div>
+</p>
+<p class="tron_white">
+Controller Messages :<div id="loadtestControllerMessages" class="tron_white"></div>
+</p>
 <script>
     var SEND_FREQUENCY = 100;
     var loadTestPlayers = [];
@@ -31,26 +35,33 @@ Number of messages sent <div id="loadtestCountSendMessages"></div>
 
     //kick off the load test or change the existing test run
     function changeLoadTestSettings(message) {
-        var rampUpCount = message.rampUpConnections;
+
+        var rampUpCount = message.rampUpConnectionsBy;
+        var maxConnections = message.maxConnections;
         var frequency = message.clientSendFrequency;
 
         keepSendingData = message.sendData;
 
-
-
-        if (!keepSendingData)
+    if (!keepSendingData)
         {
             outputMessage("[Controller says stop sending data!]");
             clearInterval(sendLoadDataTimer);
+            document.getElementById("loadTestStatus").innerHTML = "Stopping transmission ....";
             return;
         }
-
 
         //send frequency configurable from controller
         SEND_FREQUENCY = frequency;
 
-        outputMessage("[Controller says ramp up by " + rampUpCount + " connections ]");
-        addLoadTestUsers(rampUpCount);
+        outputMessage("[Controller says ramp up by " + rampUpCount + " connections,maxConnections is " + maxConnections + " ]");
+
+        //if we haven't already reached the max user count ramp up by the rampUpCount
+         if (loadTestPlayers.length <= maxConnections)
+         {
+             addLoadTestUsers(rampUpCount);
+             document.getElementById("loadTestStatus").innerHTML = "Ramping Up....";
+         }
+
         if (!loadTestHasBegun) {
             document.getElementById("loadTestStatus").innerHTML = "Sending data....";
 

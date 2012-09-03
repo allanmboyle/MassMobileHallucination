@@ -1,11 +1,8 @@
-
-#updownIndicator {
-    width: 50%;
-    margin: 0px auto;
-}
-
-
-
+/*
+ * Share styles for MME. 
+ *
+ * If you have game specific styles they should go in the individual directories.
+ */
 
 /*The following is required to make a DIV fill screen in IE 9...*/  
 /*give the body height:100% so that its child    elements can have percentage heights*/  
@@ -36,6 +33,15 @@ div.fullscreen{
 .welcome {
     margin-top: 20%;
     font-size: 400%;
+    font-weight: 600;
+    background-color: #000033;
+    text-align: center;
+}
+
+
+.loadtestwelcome {
+    margin-top: 10%;
+    font-size: 300%;
     font-weight: 600;
     background-color: #000033;
     text-align: center;

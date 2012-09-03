@@ -51,13 +51,21 @@ var LoadTestPlayfield = (function () {
 
     me.downloadChartData = function()
     {
-       DownloadJSON2CSV(allDataOverTime,'time(sec),active connections, number requests,heap total, heap used');
+       DownloadJSON2CSV(allDataOverTime,'time(sec),active connections, number requests,heap total, heap used,.LoggingLevel,send time,processed time');
 
     }
+
+    //turns the logging up and down use carefully !
+    me.toggleLogging = function(){
+        detailedLogging = !detailedLogging;
+    }
+
 
     var numberOfUsers = 0;
     var numberDroppedUsers = 0;
     var reportingInterval = 10000; // aggregate all server readings for 10 seconds before charting
+    var detailedLogging = false;
+
 
     processTotalUpdates = function (totals) {
 
@@ -84,13 +92,21 @@ var LoadTestPlayfield = (function () {
     // Server has sent through another measurement
     function processAdminMessage(message) {
 
+        var now = new Date().getTime();
         document.getElementById("loadTestMetricData").innerHTML = JSON.stringify(message);
 
-
         //aggregate all the data and redraw the graphs every 10 seconds..
-
         incrementalInterval += message.interval;
         incrementalMessageCount += message.messageCount;
+
+        if (detailedLogging)
+        {
+            // to figure out if data is data is flowing smoothly to the server and down the playfield
+            // you can log every packet that arrives and when it arrived but this will get very big very quick !
+
+            allDataOverTime.push([intervalId/1000,numberOfUsers,incrementalMessageCount, message.memoryUsage.heapTotal,
+                message.memoryUsage.heapUsed,'Each Call', message.sendtime,now]);
+        }
 
         //if the reporting interval time has been exceeded redraw graphs and reset counters
         if (incrementalInterval >= reportingInterval) {
@@ -108,8 +124,8 @@ var LoadTestPlayfield = (function () {
             heapUsedOverTime.push([intervalIdInSeconds, message.memoryUsage.heapUsed])
 
 
-            allDataOverTime.push([intervalIdInSeconds,numberOfUsers,incrementalMessageCount, message.memoryUsage.heapTotal, message.memoryUsage.heapUsed])
-
+            allDataOverTime.push([intervalIdInSeconds,numberOfUsers,incrementalMessageCount, message.memoryUsage.heapTotal,
+                message.memoryUsage.heapUsed,'Aggregated',message.sendtime,now]);
 
             incrementalInterval = 0;
             incrementalMessageCount = 0;
