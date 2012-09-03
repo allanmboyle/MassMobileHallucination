@@ -59,6 +59,15 @@ div.fullscreen{
     text-align: center;
 }
 
+
+.loadtestwelcome {
+    margin-top: 10%;
+    font-size: 300%;
+    font-weight: 600;
+    background-color: #000033;
+    text-align: center;
+}
+
 .tron_black {
     color: midnightblue;
     text-shadow: 0 0 5px rgba(21, 171, 195, 0.7);
