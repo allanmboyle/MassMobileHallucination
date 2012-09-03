@@ -1,21 +1,3 @@
-canvas.pong {
-    padding-left: 100; 
-    padding-right: 10; 
-    margin-left: auto; 
-    margin-right: auto; 
-    display: block; 
-
-    border: 1px solid #0b2629;
-    box-shadow: 0px 0px 50px rgba(0,240,255,0.4);
-    -webkit-box-shadow: 0px 0px 50px rgba(0,240,255,0.4);
-}
-
-.blah {
-    padding-top: 50px;
-    background-color: black !important;
-    height: 100%;
-}
-
 
 #updownIndicator {
     width: 50%;
@@ -70,47 +52,3 @@ div.fullscreen{
     text-shadow: 0 0 20px rgba(100, 100, 200, 0.8);
     font-family: "Bitstream Vera Sans Mono", monospace;
 }
-
-        #millionaireLeft {
-            position: absolute;
-            left: 0;
-            width: 150px;
-        }
-        #millionaireRight {
-            position: absolute;
-            right: 0;
-            width: 150px;
-        }
-        #millionaireMiddle {
-            margin: 0 150px 0 150px;
-            background-color :Black;
-            font-family: Arial;
-            font-size: xx-large;
-            color: #FFFFFF;
-        }
-
-
-
-/*millionaire styles for index.html*/
- #millButton
-            {
-                width: 73px;
-                height: 37px;
-            }
-            
-#millcontainer {
-    display: table;
-    width: 500px; 
-    vertical-align: middle; 
-    text-align: center; 
-    }
-
-  #millrow  {
-    display: table-row;
-
-    }
-
-  #millleft, #millright {
-    display: table-cell;
-    }
-

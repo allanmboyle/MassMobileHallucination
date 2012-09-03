@@ -53,10 +53,9 @@ var Settings = (function () {
 }());
 
 
-var PongPlayfield = (function () {
+var PongPlayfield = (function (playfieldSocket) {
 
     var me = {};
-    var socket;
     var gameInterval;
 
     //
@@ -89,12 +88,11 @@ var PongPlayfield = (function () {
         //not used
     }
 
-    me.init = function (theSocket) {
-        socket = theSocket;
+    me.init = function () {
         // this game is only interested in totals, not individual updates...
-        socket.emit("admin", "no_totals");
-        socket.emit("admin", "no_updates");
-        socket.emit("admin", "yes_uniques");
+        playfieldSocket.emit("admin", "no_totals");
+        playfieldSocket.emit("admin", "no_updates");
+        playfieldSocket.emit("admin", "yes_uniques");
 
         initialiseGameVariables();
 
@@ -526,4 +524,4 @@ var PongPlayfield = (function () {
         //console.log("player left  input speed: " + game.player1Input);
     }
     return me;
-}(Settings));
+}(socket));

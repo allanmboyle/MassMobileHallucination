@@ -1,0 +1,28 @@
+<style>
+canvas.pong {
+    padding-left: 100; 
+    padding-right: 10; 
+    margin-left: auto; 
+    margin-right: auto; 
+    display: block; 
+    margin-top: 10px;
+    border: 1px solid #0b2629;
+    box-shadow: 0px 0px 50px rgba(0,240,255,0.4);
+    -webkit-box-shadow: 0px 0px 50px rgba(0,240,255,0.4);
+}
+</style>
+
+<div id="pong">
+    <canvas id="pongcanvas" class="pong" width=800 height=600></canvas>
+</div>
+
+<script src="/games/pong/animation.js"></script>
+<script src="/games/pong/pong_playfield.js"></script>
+
+<script>
+    // mandatory init function
+    function initPlayfield() {
+        PongPlayfield.init();
+        return PongPlayfield;
+    }
+</script>

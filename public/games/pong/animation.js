@@ -9,14 +9,12 @@ var ANIMATION = (function () {
     }
 
 	me.circle = function(x,y,r,colour, img) {
-/*        
 	  _canvas.beginPath();
 	  _canvas.arc(x, y, r, 0, Math.PI*2, true);
 	  _canvas.closePath();
 	  _canvas.fillStyle   = colour;
 	  _canvas.fill();
-*/      
-      _canvas.drawImage(img, x-r-2,y-r-2);
+      // _canvas.drawImage(img, x-r-2,y-r-2);
     }
 
     me.rectangle = function(x,y,w,h,colour) {
