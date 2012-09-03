@@ -74,8 +74,8 @@
 	<p class="aud_left" onclick="selectSide('left');">Left<br/>Side</p>
 	<p class="aud_right" onclick="selectSide('right');">Right<br/>Side</p>
 </div>
-<div class="up_half hidden"><div class="big_word">UP</div></div>
-<div class="down_half hidden"><div class="big_word">DOWN</div></div>
+<div class="up_half hidden" onclick="clickedUp();"><div class="big_word">UP</div></div>
+<div class="down_half hidden" onclick="clickedDown();"><div class="big_word">DOWN</div></div>
 
 <script>
 	var side;
@@ -89,6 +89,9 @@
 	    $(".down_half").removeClass("hidden");
 	    // note: we don't get mmh to send for us, that we do in post()
 	}
+
+	function clickedUp() { MMH.storeOrientation(0,-1); }
+	function clickedDown() { MMH.storeOrientation(0,+1); }
 
 	function initClient() {
 	    MMH.init(socket);
