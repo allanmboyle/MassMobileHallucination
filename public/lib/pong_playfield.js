@@ -303,7 +303,8 @@ var PongPlayfield = (function () {
 
     function drawBall(){
         //white ball
-        ANIMATION.circle(game.ball.x, game.ball.y, config().radius, '#FFFFFF');
+        ANIMATION.circle(game.ball.x, game.ball.y, config().radius, '#FFFFFF', document.getElementById("ball_image"));
+
     }
 
     function drawBoard(){
