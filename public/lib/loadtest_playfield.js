@@ -51,7 +51,7 @@ var LoadTestPlayfield = (function () {
 
     me.downloadChartData = function()
     {
-       DownloadJSON2CSV(allDataOverTime,'time(sec),active connections, number requests,heap total, heap used');
+       DownloadJSON2CSV(allDataOverTime,'time(sec),active connections, number requests,heap total, heap used,send time,processed time');
 
     }
 
@@ -84,13 +84,26 @@ var LoadTestPlayfield = (function () {
     // Server has sent through another measurement
     function processAdminMessage(message) {
 
+
+        var now = new Date().getTime();
+
         document.getElementById("loadTestMetricData").innerHTML = JSON.stringify(message);
 
 
+        console.log(now);
+
         //aggregate all the data and redraw the graphs every 10 seconds..
+
+
 
         incrementalInterval += message.interval;
         incrementalMessageCount += message.messageCount;
+
+
+        // to figure out if data is flowing through smoothly i'm gonna store every packet from the server along with the time I processed it...
+
+        allDataOverTime.push([intervalId/1000,numberOfUsers,incrementalMessageCount, message.memoryUsage.heapTotal, message.memoryUsage.heapUsed, message.sendtime,now]);
+
 
         //if the reporting interval time has been exceeded redraw graphs and reset counters
         if (incrementalInterval >= reportingInterval) {
@@ -108,7 +121,7 @@ var LoadTestPlayfield = (function () {
             heapUsedOverTime.push([intervalIdInSeconds, message.memoryUsage.heapUsed])
 
 
-            allDataOverTime.push([intervalIdInSeconds,numberOfUsers,incrementalMessageCount, message.memoryUsage.heapTotal, message.memoryUsage.heapUsed])
+        //    allDataOverTime.push([intervalIdInSeconds,numberOfUsers,incrementalMessageCount, message.memoryUsage.heapTotal, message.memoryUsage.heapUsed])
 
 
             incrementalInterval = 0;
