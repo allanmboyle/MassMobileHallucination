@@ -265,7 +265,7 @@ var MMH = (function () {
 	function sendOrientationToGameServer() {
 		// send the current data we have at this point in time 
 		// note, it does not send every reading we have had since the last send.
-		console.log("Sending tilt to server: " + accel.tiltFB + "/" + accel.tiltLR);
+	//	console.log("Sending tilt to server: " + accel.tiltFB + "/" + accel.tiltLR);
 		socket.emit("accel", accel);
 	}
 
