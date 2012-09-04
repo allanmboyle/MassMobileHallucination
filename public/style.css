@@ -32,8 +32,8 @@ div.fullscreen{
 
 .welcome {
     margin-top: 20%;
-    font-size: 400%;
-    font-weight: 600;
+    font-size: 50px;
+    font-weight: 200;
     background-color: #000033;
     text-align: center;
 }
@@ -46,6 +46,14 @@ div.fullscreen{
     background-color: #000033;
     text-align: center;
 }
+
+.rounded-corners {
+     -moz-border-radius: 20px;
+    -webkit-border-radius: 20px;
+    -khtml-border-radius: 20px;
+    border-radius: 20px;
+}
+
 
 .tron_black {
     color: midnightblue;
