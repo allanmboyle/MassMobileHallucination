@@ -157,6 +157,8 @@ var PongPlayfield = (function (playfieldSocket) {
         state : gameState.NotStarted
     }
     game.board = {
+        top_corner: 0,
+        left_corner: 0,
         width: 0,
         height: 0
     }
