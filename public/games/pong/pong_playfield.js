@@ -325,7 +325,8 @@ var PongPlayfield = (function (playfieldSocket) {
     }
 
     function drawScore(score) {
-        ANIMATION.setText("44px Verdana", score.player1 + "  :  " + score.player2, 340, 50, '#fff');
+        // To centre the score go from the middle back a paddle width and you basically have it. Weird, I know, but it works!
+        ANIMATION.setText("44px Verdana", score.player1 + "  :  " + score.player2, game.board.height/2-config().paddleHeight/2, 50, '#fff');
     }
 
     function checkBounce() {
