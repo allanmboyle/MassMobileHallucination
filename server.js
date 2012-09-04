@@ -27,7 +27,7 @@ if (!useLongPolling) {
     io.enable('browser client etag'); // apply etag caching logic based on version number
     io.enable('browser client gzip'); // gzip the file
     io.set('transports', [ // enable all transports (optional if you want flashsocket)
-        'websocket', 'flashsocket', 'htmlfile', 'xhr-polling', 'jsonp-polling', ]);
+        'websocket', 'flashsocket', 'htmlfile', 'xhr-polling', 'jsonp-polling' ]);
 
 } else {
     //long polling
