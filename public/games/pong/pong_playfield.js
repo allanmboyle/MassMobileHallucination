@@ -537,10 +537,8 @@ var PongPlayfield = (function (playfieldSocket) {
         }
  
         // update the player number on the screen
-        $(".playercount").text("# players: " + game.countRightPlayers + game.countLeftPlayers);
-
-        //console.log("player right input speed: " + game.player2Input);
-        //console.log("player left  input speed: " + game.player1Input);
+        var totalPlayers = game.countRightPlayers + game.countLeftPlayers; 
+        $(".playercount").text("Players: " + totalPlayers);
     }
     return me;
 }(socket));
