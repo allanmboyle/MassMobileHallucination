@@ -3,11 +3,6 @@
 // 
 // @simonraikallen 2012
 // 
-//require('nodetime').profile({
-//    accountKey: '07fabeb6bfe11b0f216aee2e0e275184dc97037d',
-//    appName: 'Node.js MMH'
-//});
-
 var express = require('express');
 var server = express.createServer(),
     io = require('socket.io').listen(server),
