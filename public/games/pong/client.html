@@ -93,16 +93,8 @@
 	    // note: we don't get mmh to send for us, that we do in post()
 	}
 
-	function clickedUp() { debug('UP'); MMH.storeOrientation(0,-1);
-        try{MMH.sendOrientationToServer();
-        }
-        catch(err)
-        {
-            debug(err.message);
-        }
-
-        }
-	function clickedDown() { debug('down');MMH.storeOrientation(0,+1);}
+	function clickedUp() {  MMH.storeOrientation(0,-1);}
+	function clickedDown() {MMH.storeOrientation(0,+1);}
 
 	function initClient() {
 	    MMH.init(socket);
