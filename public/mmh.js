@@ -85,7 +85,9 @@ var MMH = (function () {
 
 	me.stopListeningForMovements = function () {
 		stopListeningForMouseMovements();
-		stopListeningForAccelerometers();
+		if (me.clientHasAccelerometers()) {
+			stopListeningForAccelerometers();
+		}
 	}
 	
 	// from the start stop game stuff.
@@ -239,9 +241,9 @@ var MMH = (function () {
 	}
 	
 	function stopListeningForMouseMovements() {
-		// TODO: change to jquery
-		$(document).unbind("mousemove");
-		$(document).unbind("mousedown");
+		$("#main").unbind("mousemove");
+		$("#main").unbind("mousedown");
+		$("#main").unbind("mouseover");
 	}
 
 	// This is just the last change recorded. The last one recorded gets sent
