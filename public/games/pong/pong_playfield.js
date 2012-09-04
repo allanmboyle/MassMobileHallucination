@@ -84,10 +84,6 @@ var PongPlayfield = (function (playfieldSocket) {
         }
     }
 
-    me.processUserAnswer = function (answer) {
-        //not used
-    }
-
     var canvas;
     var ctx;
 
@@ -196,7 +192,7 @@ var PongPlayfield = (function (playfieldSocket) {
     {
         var x       = game.board.height / 2 ;
         var y       = getRandomInt(game.board.width/4,game.board.width*3/4);
-        var dxx     = Math.abs(dx); // start with the old one, not the original
+        var dxx     = Math.abs(dx); // start with the old one, not the original to allow changes
         var dy      = getRandomInt(1, config().dy);
 
         dxx *= (lastPointScorer == "p1")? -1 : 1; 
@@ -206,8 +202,12 @@ var PongPlayfield = (function (playfieldSocket) {
 
     // Add some speed to the ball in either direction its travelling
     function speedUpBall(speedX) {
-        if (dx > 0) { dx += speedX ;}
-        else { dx -= speedX; }
+        if (dx > 0) { 
+            if (dx + speedX > 0) dx += speedX ;
+        }
+        else { 
+            if (dx - speedX < 0) dx -= speedX; 
+        }
     }
 
     function movePaddles() {
@@ -515,10 +515,12 @@ var PongPlayfield = (function (playfieldSocket) {
     }
 
     function outputDebugInfoToPlayfield() {
+        /*
         var values = 'X = ' + game.ball.x + '   y=' + game.ball.y + ' dx=' + dx + ' dy=' + dy + '  game.paddle.rightY=' + game.paddle.rightY;
         document.getElementById("ponglog").innerHTML = values;
         var values = 'player1Input = ' + game.player1Input + '   player2Input = ' + game.player2Input;
         document.getElementById("ponglog1").innerHTML = values;
+        */
     }
 
     // client data is -1 or +1 so the proportion of ups versus downs determins the speed
