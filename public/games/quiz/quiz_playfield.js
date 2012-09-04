@@ -20,7 +20,7 @@ var QuizPlayfield = (function (playfieldSocket) {
 	me.positionUpdates = function (updates) { }
 	me.totalUpdates = function (updates) { }
 	me.shutdown = function () { }
-	me.admin = function(message) { }
+	me.admin = function(message) { processAdminMessage(message);}
 	me.nameChange = function() {}
 	
 	me.processCustomMessage = function (message) {
@@ -66,6 +66,36 @@ var QuizPlayfield = (function (playfieldSocket) {
 			delete userVotes[data.id];
 		}	
 	}
+
+
+    function processAdminMessage(message)
+    {
+        alert(JSON.stringify(message))    ;
+
+        if (message.game != "quiz"){
+            return;
+        }
+
+        switch(message.action)
+        {
+        case "showVotes":
+            showVotes();
+            break;
+        case "showCorrectAnswer":
+            showCorrectAnswer();
+            break;
+       case "nextQuestion":
+           nextQuestion();
+             break;
+        default:
+            //
+        }
+
+
+
+
+
+    }
 
 	function recordVote(message) {
 		// overrides any previous vote so you can only provide 
