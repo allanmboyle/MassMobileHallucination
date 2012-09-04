@@ -88,11 +88,23 @@ var PongPlayfield = (function (playfieldSocket) {
         //not used
     }
 
+    var canvas;
+    var ctx;
+
     me.init = function () {
         // this game is only interested in totals, not individual updates...
         playfieldSocket.emit("admin", "no_totals");
         playfieldSocket.emit("admin", "no_updates");
         playfieldSocket.emit("admin", "yes_uniques");
+
+        var surroundingdiv  = document.getElementById("pong");
+        canvas              = document.getElementById("pongcanvas");
+        ctx                 = canvas.getContext("2d");
+
+        ANIMATION.setCanvas(ctx);
+
+        // canvas should fill its surrounding div size
+        setCanvasSize($(surroundingdiv).width(), $(surroundingdiv).height());
 
         initialiseGameVariables();
 
@@ -410,14 +422,18 @@ var PongPlayfield = (function (playfieldSocket) {
         return BALL_MAX_SPEED * percent;
     }
 
+    // change the size of the canvas, and make the board match;
+    function setCanvasSize(x,y) {
+        ctx.canvas.width = x;
+        ctx.canvas.height = y;
+        
+        // board starts off same size as canvas
+        // NOTE: x and y are reversed because Aidan is a freak! :-)
+        game.board.width = y;
+        game.board.height = x;
+    }
+
     function initialiseGameVariables() {
-        var ctx = document.getElementById("pongcanvas").getContext("2d");
-        ANIMATION.setCanvas(ctx);
-        var canvas =  document.getElementById("pongcanvas");
-
-        game.board.height = canvas.width;
-        game.board.width = canvas.height;
-
         var startingPosition = generateStartingCoordinatesForBall(game.lastPointScorer);
 
         game.ball.x = startingPosition.x;
@@ -520,6 +536,9 @@ var PongPlayfield = (function (playfieldSocket) {
             game.player2Input = 0;
         }
  
+        // update the player number on the screen
+        $(".playercount").text("# players: " + game.countRightPlayers + game.countLeftPlayers);
+
         //console.log("player right input speed: " + game.player2Input);
         //console.log("player left  input speed: " + game.player1Input);
     }

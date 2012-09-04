@@ -1,21 +1,43 @@
 <style>
+.pong_main {
+    background-color: yellow;
+    width: 100%;
+    height: 100%;
+    top: 0px: left: 0px;
+    text-align: center;
+}
 canvas.pong {
-    padding-left: 100; 
-    padding-right: 10; 
+    /*
     margin-left: auto; 
     margin-right: auto; 
     display: block; 
-    margin-top: 10px;
-    border: 1px solid #0b2629;
+    */
+    border: 2px solid #0b2629;
     box-shadow: 0px 0px 50px rgba(0,240,255,0.4);
     -webkit-box-shadow: 0px 0px 50px rgba(0,240,255,0.4);
 }
+.status_bar {
+    position: relative;
+    height: 50px;
+    width: 100%;
+    bottom: -50px;
+    border: 2px;
+    color: white;
+    font-weight: 400;
+}
+.logo           { float: right; }
+.playercount    { float: left;}
+.url            { width: 100%; text-align: center;}
 </style>
 
-<div id="pong">
-    <canvas id="pongcanvas" class="pong" width=800 height=600></canvas>
+<div id="pong" class="pong_main">
+    <canvas id="pongcanvas" class="pong" ></canvas>
+    <div class="status_bar">
+        <div class="playercount">&nbsp;</div>
+        <div class="url">http://mme.cloudapp.net</div>
+        <div class="logo"><img height="25px" src="images/myob.png" /></div>
+    </div>
 </div>
-
 <script src="/games/pong/animation.js"></script>
 <script src="/games/pong/pong_playfield.js"></script>
 
@@ -23,6 +45,7 @@ canvas.pong {
     // mandatory init function
     function initPlayfield() {
         PongPlayfield.init();
+
         return PongPlayfield;
     }
 </script>
