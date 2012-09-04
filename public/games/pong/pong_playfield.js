@@ -196,23 +196,18 @@ var PongPlayfield = (function (playfieldSocket) {
     {
         var x       = game.board.height / 2 ;
         var y       = getRandomInt(game.board.width/4,game.board.width*3/4);
-        var dx      = config().dx;
+        var dxx     = Math.abs(dx); // start with the old one, not the original
         var dy      = getRandomInt(1, config().dy);
 
-        if (lastPointScorer == "p1")
-        {
-            dx = Math.abs(dx) * -1;
-        }
-        else
-        {
-            dx = Math.abs(dx);
-        }
-        var result = {x :x,
-                      y : y,
-                      dx : dx,
-                      dy:dy}  ;
-        return result;
-        ;
+        dxx *= (lastPointScorer == "p1")? -1 : 1; 
+
+        return {x :x, y : y, dx : dxx, dy:dy};
+    }
+
+    // Add some speed to the ball in either direction its travelling
+    function speedUpBall(speedX) {
+        if (dx > 0) { dx += speedX ;}
+        else { dx -= speedX; }
     }
 
     function movePaddles() {
@@ -480,6 +475,8 @@ var PongPlayfield = (function (playfieldSocket) {
                 pointOver();
                 break;
             }
+            case 188: { speedUpBall(-2); break; }
+            case 190: { speedUpBall(+2); break; }
             case 32:
             {
                 alert('temp pause for debugging...');
