@@ -57,6 +57,10 @@
 		socket.emit("custom", letter);
 	}
 
+    function clearVotes(){
+        $(".quizbutton").removeClass("selectedButton");
+    }
+
 	// must implement this
 	function initClient() {
 		MMH.init(socket);
@@ -64,4 +68,13 @@
 
 	function stopClient() {
 	}
+
+    // message from the controller !!
+    function updateGameSettings(message){
+        if (message.game != undefined && message.game == "quiz") {
+            if (message.action = "nextQuestion"){
+                clearVotes();
+            }
+        }
+    }
 </script>

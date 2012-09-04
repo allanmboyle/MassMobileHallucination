@@ -68,10 +68,7 @@ var QuizPlayfield = (function (playfieldSocket) {
 	}
 
 
-    function processAdminMessage(message)
-    {
-        alert(JSON.stringify(message))    ;
-
+    function processAdminMessage(message){
         if (message.game != "quiz"){
             return;
         }
@@ -90,11 +87,6 @@ var QuizPlayfield = (function (playfieldSocket) {
         default:
             //
         }
-
-
-
-
-
     }
 
 	function recordVote(message) {
