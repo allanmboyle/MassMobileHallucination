@@ -1,8 +1,9 @@
-//
-// Mass Mobile Hallucination
-// 
-// @simonraikallen 2012
-// 
+/*
+ * Mass Mobile Hallucination.
+ *
+ * Copyright (c) 2012 MYOB Australia Ltd.
+ *
+ */
 var express = require('express');
 var server = express.createServer(),
     io = require('socket.io').listen(server),

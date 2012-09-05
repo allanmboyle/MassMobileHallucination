@@ -2,7 +2,7 @@
  * Mass Mobile Hallucination.
  * Copyright (c) 2012 MYOB Australia Ltd.
  * 
- * worm_playfield.js - implementation of the worm game.
+ *  implementation of the worm game.
  */
 var WormPlayfield = (function (playfieldSocket) {
 	var me = {};

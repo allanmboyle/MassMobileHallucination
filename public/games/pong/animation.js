@@ -1,4 +1,10 @@
-
+/*
+ * Mass Mobile Hallucination.
+ *
+ * Copyright (c) 2012 MYOB Australia Ltd.
+ *
+ * Drawing stuff on the canvas
+ */
 var ANIMATION = (function () {
 	
 	var me = {};
