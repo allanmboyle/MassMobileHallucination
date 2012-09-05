@@ -1,13 +1,12 @@
 MassMobileHallucination (aka the MASS MOBILE EXPERIMENT)
 
-
-___  ______  ___ _____
-|  \/  ||  \/  ||  ___|
-| .  . || .  . || |__
-| |\/| || |\/| ||  __|
-| |  | || |  | || |___
-\_|  |_/\_|  |_/\____/
-
+        :::   :::         :::   :::       ::::::::::
+      :+:+: :+:+:       :+:+: :+:+:      :+:
+    +:+ +:+:+ +:+     +:+ +:+:+ +:+     +:+
+   +#+  +:+  +#+     +#+  +:+  +#+     +#++:++#
+  +#+       +#+     +#+       +#+     +#+
+ #+#       #+#     #+#       #+#     #+#
+###       ###     ###       ###     ##########
 
 
 A game for playing with lots of people on mobiles looking at the same web page at the same time.
