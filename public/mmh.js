@@ -228,7 +228,8 @@ var MMH = (function () {
 		var handler = function(e) {
 			storeOrientation(
 				(e.pageX / $(document).width()) * 180 - 90,
-				(e.pageY / $(document).height()) * 180 - 90,
+//               (e.pageY / $(document).height()) * 180 - 90,
+                (e.pageY / $("#main").innerHeight()) * 180 - 90,
 				0,
 				0 ,
                 playerLocation
