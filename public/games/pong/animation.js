@@ -41,6 +41,28 @@ var ANIMATION = (function () {
         _canvas.fillText(text, x, y);
     }
 
+    me.dottedMiddleLine = function(height,width,colour,depthFromEdges ) {
+
+        var currentPoint = depthFromEdges;
+
+        _canvas.beginPath();
+        _canvas.strokeStyle =colour;
+        _canvas.lineWidth   = 4;
+        _canvas.moveTo( width / 2, depthFromEdges );
+
+        while ( currentPoint < height -depthFromEdges ) {
+            currentPoint += 6;
+            _canvas.lineTo( width / 2, currentPoint );
+
+            currentPoint += 10;
+            _canvas.moveTo( width / 2, currentPoint );
+        }
+
+        _canvas.stroke();
+    }
+
+
+
     me.clear =function (x,y,w,h) {
  	 _canvas.clearRect(x, y, w, h);
  	 _canvas.fillStyle   = '#FFFFFF'; // set canvas background color

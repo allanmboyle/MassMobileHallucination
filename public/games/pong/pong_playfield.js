@@ -316,16 +316,21 @@ var PongPlayfield = (function (playfieldSocket) {
     }
 
     function drawBoard(){
-        ANIMATION.clear(0, 0, game.board.height, game.board.width);
+        ANIMATION.clear(0, 0, game.board.width, game.board.height);
 
         //black background
         ANIMATION.rectangleWithOpacity(0, 0, game.board.height, game.board.width, '00', '00', '00', boardOpacity);
+        console.log(game.board.width,game.board.height);
+
+        ANIMATION.dottedMiddleLine(game.board.width,game.board.height,'#aaa',70);
     }
 
     function drawScore(score) {
         // To centre the score go from the middle back a paddle width and you basically have it. Weird, I know, but it works!
-        ANIMATION.setText("44px Verdana", score.player1 + "  :  " + score.player2, game.board.height/2-config().paddleHeight/2, 50, '#fff');
+        ANIMATION.setText("44px Verdana", score.player1 + " : " + score.player2, game.board.height/2-config().paddleHeight/2, 50, '#fff');
+
     }
+
 
     function checkBounce() {
         var pointOver = false;
