@@ -115,7 +115,10 @@
 			$(".answerrow").removeClass("correct_answer");
 			QuizPlayfield.clearVotes();
 
-			$("#q").text((q+1) + ": " + questions[q].q);
+
+            document.getElementById("q").innerHTML = (q+1) + ": " + questions[q].q;
+
+            //    $("#q").text((q+1) + ": " + questions[q].q);
 			$("#a1").text(questions[q].a[0]);
 			$("#a2").text(questions[q].a[1]);
 			$("#a3").text(questions[q].a[2]);
