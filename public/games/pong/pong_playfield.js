@@ -104,6 +104,10 @@ var PongPlayfield = (function (playfieldSocket) {
 
         initialiseGameVariables();
 
+        // set the starting paddle positions
+        game.paddle.leftY = game.board.width/2 - config().paddleHeight/2,
+        game.paddle.rightY = game.board.width/2 - config().paddleHeight/2,
+
         //listen for keyboard input ( just for debugging folks !)
         document.body.addEventListener('keydown', onkeydown, false);
         document.body.addEventListener('keyup', onkeyup, false);
@@ -168,7 +172,7 @@ var PongPlayfield = (function (playfieldSocket) {
         y: 0
     }
     game.paddle = {
-        leftY: 0,
+        leftY: 0, 
         rightY: 0
     }
 
@@ -186,7 +190,6 @@ var PongPlayfield = (function (playfieldSocket) {
     function getRandomInt (min, max) {
         return Math.floor(Math.random() * (max - min + 1)) + min;
     }
-
 
     function generateStartingCoordinatesForBall(lastPointScorer)
     {
@@ -302,10 +305,10 @@ var PongPlayfield = (function (playfieldSocket) {
 
     function drawPaddles(){
         //player one left paddle
-        ANIMATION.rectangle(config().paddleWidth/2, game.paddle.leftY, config().paddleWidth/2, config().paddleHeight, '#EF4E2F');
+        ANIMATION.rectangle(config().paddleWidth/2, game.paddle.leftY, config().paddleWidth/2, config().paddleHeight, '#ffffff');
 
         //player two right paddle
-        ANIMATION.rectangle(game.board.height - config().paddleWidth, game.paddle.rightY, config().paddleWidth/2, config().paddleHeight, '#9c6ba0');
+        ANIMATION.rectangle(game.board.height - config().paddleWidth, game.paddle.rightY, config().paddleWidth/2, config().paddleHeight, '#ffffff');
     }
 
     function drawBall(){
@@ -441,7 +444,7 @@ var PongPlayfield = (function (playfieldSocket) {
         game.ball.y = startingPosition.y;
         dx = startingPosition.dx;
         dy = startingPosition.dy;
-
+        
         game.state = gameState.InPlay;
     }
 
