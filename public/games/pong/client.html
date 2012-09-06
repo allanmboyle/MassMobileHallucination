@@ -45,7 +45,10 @@
 	}
    
 	.up.rhs {
-		background:#91c95b url(/images/arrow-up.png) center center no-repeat;
+		background:#9c6ba0 url(/images/arrow-up.png) center center no-repeat;
+	}
+	.down.rhs {
+		background:#9c6ba0 url(/images/arrow-down.png) center center no-repeat;
 	}
 	.pressed {
 	/*	border-style: inset;
@@ -80,7 +83,7 @@
 		float: right;
 		margin-right: 10%;
 		opacity:0.6;
-		background-color: #91c95b;
+		background-color: #9c6ba0;
 	}
 	.aud_right:hover, .aud_left:hover  {
 		opacity:1;
@@ -109,6 +112,10 @@
 	    $(".auditorium").addClass("hidden");
 	    $(".up_half").removeClass("hidden");
 	    $(".down_half").removeClass("hidden");
+			if (side == "right") {
+				$(".big_word").addClass("rhs");
+				
+			} else {}
 	    // note: we don't get mmh to send for us, that we do in post()
 	}
 
