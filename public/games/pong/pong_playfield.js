@@ -320,13 +320,12 @@ var PongPlayfield = (function (playfieldSocket) {
         //blue background 
         ANIMATION.rectangleWithOpacity(0, 0, game.board.height, game.board.width, '0', '182', '220', boardOpacity);
 
-        ANIMATION.dottedMiddleLine(game.board.height,game.board.width,'#fff', 70);
+        ANIMATION.dottedVerticalLine(game.board.height/2, 20, game.board.width-70, '#fff');
     }
 
     function drawScore(score) {
-        // To centre the score go from the middle back a paddle width and you basically have it. Weird, I know, but it works!
-        ANIMATION.setText("44px Verdana", score.player1 + " : " + score.player2, game.board.height/2-config().paddleHeight/2, 50, '#fff');
-
+        ANIMATION.setText("44px Verdana", score.player1, game.board.height/2 - 20, 50, 'right', '#fff');
+        ANIMATION.setText("44px Verdana", score.player2, game.board.height/2 + 20, 50, 'left',  '#fff');
     }
 
 

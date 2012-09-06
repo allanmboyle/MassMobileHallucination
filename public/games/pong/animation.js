@@ -40,29 +40,28 @@ var ANIMATION = (function () {
         _canvas.fill();
     }
 
-    me.setText = function(font,text,x,y, colour)
+    me.setText = function(font, text, x, y, alignment, colour)
     {
         _canvas.fillStyle = colour;
         _canvas.font = font;
+        _canvas.textAlign = alignment;
         _canvas.fillText(text, x, y);
     }
 
-    me.dottedMiddleLine = function(width,height,colour,depthFromEdges ) {
-
-        var FUDGE_FACTOR = 3; // distance to move the line to match the score's colon.
-        var currentPoint = depthFromEdges;
+    me.dottedVerticalLine = function(x, y, height, colour ) {
+        var currentPoint = y;
 
         _canvas.beginPath();
         _canvas.strokeStyle = colour;
         _canvas.lineWidth   = 5;
-        _canvas.moveTo( width / 2 + FUDGE_FACTOR, depthFromEdges );
+        _canvas.moveTo( x, y );
 
-        while ( currentPoint < height -depthFromEdges ) {
+        while ( currentPoint < y+height ) {
             currentPoint += 6;
-            _canvas.lineTo( width / 2 + FUDGE_FACTOR, currentPoint );
+            _canvas.lineTo(x, currentPoint);
 
             currentPoint += 10;
-            _canvas.moveTo( width / 2 + FUDGE_FACTOR, currentPoint );
+            _canvas.moveTo(x, currentPoint );
         }
 
         _canvas.stroke();
