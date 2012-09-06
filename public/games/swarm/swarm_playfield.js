@@ -4,6 +4,11 @@
  *
  * Copyright (c) 2012 MYOB Australia Ltd.
  *
+ *
+ * TO DO
+ * ADD MME.CLOUDAPP.NET URL
+ * Add real players to the swarm
+ *
  */
 
 var SwarmPlayField = (function (playfieldSocket) {
