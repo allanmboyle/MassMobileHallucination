@@ -100,7 +100,8 @@
                 if (currentGame) currentGame.shutdown();
 
                 // Testing a new launch model one by one...
-                if (newGame == "quiz" || newGame == "worm" || newGame == "pong" || newGame == "presentation") {
+                if (newGame == "quiz" || newGame == "worm" || newGame == "pong" || newGame == "presentation"
+                        || newGame == "swarm") {
                     $("#main").load("/games/"+newGame+"/playfield.html", function () {
                         currentGame = initPlayfield();
                     });

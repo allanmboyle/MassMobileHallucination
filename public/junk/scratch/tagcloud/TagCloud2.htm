@@ -1,0 +1,122 @@
+
+<html>
+<head>
+    <title>Rotating 3D Tag Cloud in JavaScript</title>
+    <script src="jquery.min.js"></script>
+
+    <style type="text/css">
+        body{background:#DDD;color:#000;}
+        a{color:#009;}
+        a:hover{color:#00F;}
+        address{font-family:Georgia;font-style:normal;text-align:right;}
+        #tagcloud{
+            background:#FFF;
+            border:1px solid #000;
+            font:14px Verdana,sans-serif;
+            height:400px;
+            overflow:hidden;
+            position:relative;
+            width:400px;
+        }
+        #tagcloud ul,#tagcloud li{
+            list-style:none;
+            margin:0;
+            padding:0;
+        }
+        #tagcloud a{
+            /* background:#FFF;
+       border:1px solid #FFF; */
+            color:#000;
+            left:50%;
+            line-height:1.2em;
+            margin:-0.6em 0 0 0;
+            padding:0 0.2em;
+            position:absolute;
+            text-align:center;
+            text-decoration:none;
+            top:50%;
+        }
+        #tagcloud a:hover{
+            background:#FFF;
+            border:1px solid #00F;
+            z-index:1000 !important;
+        }
+    </style>
+</head>
+<body>
+
+<h1>Rotating 3D Tag Cloud in JavaScript</h1>
+
+<div id="tagcloud" onmousemove="//stepping = (event.clientY - container.offsetTop) / container.offsetHeight * 0.2 - 0.1;">
+    <ul id="detags">
+        <li><a href="#">ajax</a></li>
+        <li><a href="#">bücher</a></li>
+        </ul>
+</div>
+
+<script type="text/javascript">
+
+    var a = 0, b = 0, e;
+    var offA = 0, stepping = 0.009;
+    var container = document.getElementById("tagcloud");
+
+    window.onload = function()
+    {
+               LoadEmUp();
+    }
+
+    var timer = null;
+
+    function LoadEmUp(){
+
+        if (timer!=null)
+        {
+            clearInterval(timer);
+        }
+
+        e = container.getElementsByTagName("A");
+        for (var i = e.length - 1; i >= 0; i--)
+        {
+            e[i].tcAngle = i * Math.PI * 2 / e.length;
+        }
+
+        timer = setInterval(function()
+        {
+            for (var i = e.length - 1; i >= 0; i--)
+            {
+                var angle = e[i].tcAngle + offA;
+                x = 50 + Math.sin(angle) * 20;
+                y = 50 + Math.cos(angle) * 40;
+                tcSize = Math.round(20 - Math.sin(angle) * 10);
+
+//			y = (y - 50) * (200 - x * 2) * 0.01 + 50;
+
+                e[i].style.fontSize = tcSize + "px";
+                e[i].style.zIndex = tcSize;
+                e[i].style.left = (container.offsetWidth * x / 100 - e[i].offsetWidth / 2) + "px";
+                e[i].style.top  = y + "%";
+            }
+            offA += stepping;
+        }, 17);
+    }
+
+</script>
+
+<script>
+    function AddItem()
+    {
+        var clr = '#' + (Math.random() * 0xFFFFFF << 0).toString(16);
+
+        $("#detags").append("<li><a href='#'>FOOOO</a></li>");
+        LoadEmUp();
+                                          ng
+    }
+
+
+</script>
+
+<input type=button onclick="AddItem();" value='ADD'>
+
+
+</body>
+</html>
