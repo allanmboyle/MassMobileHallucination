@@ -5,8 +5,16 @@
  */
 
 /*The following is required to make a DIV fill screen in IE 9...*/  
-/*give the body height:100% so that its child    elements can have percentage heights*/  
-body{ height:100% }  /*this is what we want the div to look like*/  
+/*give the body height:100% so that its child    elements can have percentage heights*/
+
+Html, body {
+
+    Overflow:hidden;
+
+}
+
+
+body{ height:100% }  /*this is what we want the div to look like*/
 
 div.fullscreen{    
     display:block;    /*set the div in the top-left corner of the screen*/    
