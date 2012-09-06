@@ -337,8 +337,10 @@ var PongPlayfield = (function (playfieldSocket) {
         }
 
         //right wall
-        // is the edge of the ball in the hit zone
-        if ((game.ball.x + dx + config().radius) >= (game.board.height - config().paddleWidth) && dx > 0) {
+        // is the edge of the ball in the hit zone and not between bat and wall
+        if ((game.ball.x + dx + config().radius) >= (game.board.height - config().paddleWidth) && 
+            game.ball.x + dx < game.board.height - config().paddleWidth * 0.75 && 
+            dx > 0) {
             // if the right paddle is in positing bounce otherwise its out
             var posy = game.ball.y + dy;
 
@@ -360,20 +362,18 @@ var PongPlayfield = (function (playfieldSocket) {
                 // Y is between the paddles so bounce!
                 dx = -dx;
                 dy = deflectDY(game.paddle.rightY);
-            } else {
-                //ball needs to be 1/3 or the radius past paddle
-                // if ((game.ball.x + dx + config().radius) - (game.board.height - config().paddleWidth) > .3 * config().radius) {
-                if (game.ball.x+dx+config().radius >= game.board.height) {
-                    // hit the wall.                   
-                    pointOver = true;
-                    game.score.player1++;
-                    game.lastPointScorer = "p1";
-                }
             }
+        } else if (game.ball.x+dx+config().radius >= game.board.height) {
+            // hit the wall.                   
+            pointOver = true;
+            game.score.player1++;
+            game.lastPointScorer = "p1";
         }
 
         //left wall
-        if ((game.ball.x + dx - config().radius) <= (config().paddleWidth) && dx < 0) {
+        if ((game.ball.x + dx - config().radius) <= (config().paddleWidth) && 
+            game.ball.x + dx > config().paddleWidth * 0.75 &&
+            dx < 0) {
             // if the right paddle is in positing bounce otherwise its out
             var posy = game.ball.y + dy;
 
@@ -393,15 +393,12 @@ var PongPlayfield = (function (playfieldSocket) {
                 //bounce!
                 dx = -dx;
                 dy = deflectDY(game.paddle.leftY);
-            } else {
-                // ball needs to be 1/3 or the radius past paddle
-                //if (config().paddleWidth - (game.ball.x + dx - config().radius) >= .3 * config().radius) {
-                if (game.ball.x - config().radius + dx <= 0) {
-                    pointOver = true;
-                    game.score.player2++;
-                    game.lastPointScorer = "p2";
-                }
             }
+        } else if (game.ball.x - config().radius + dx <= 0) {
+            // hit the wall?
+            pointOver = true;
+            game.score.player2++;
+            game.lastPointScorer = "p2";
         }
 
         if (!pointOver) {
