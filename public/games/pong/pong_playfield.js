@@ -323,7 +323,7 @@ var PongPlayfield = (function (playfieldSocket) {
         ANIMATION.rectangleWithOpacity(0, 0, game.board.height, game.board.width, '00', '00', '00', boardOpacity);
         console.log(game.board.width,game.board.height);
 
-        ANIMATION.dottedMiddleLine(game.board.width,game.board.height,'#aaa',70);
+  //      ANIMATION.dottedMiddleLine(game.board.width,game.board.height,'#aaa',70);
 //=======
         //blue background 
         ANIMATION.rectangleWithOpacity(0, 0, game.board.height, game.board.width, '0', '182', '220', boardOpacity);
