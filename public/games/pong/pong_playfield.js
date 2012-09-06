@@ -305,7 +305,7 @@ var PongPlayfield = (function (playfieldSocket) {
         ANIMATION.rectangle(0, game.paddle.leftY, config().paddleWidth, config().paddleHeight, '#EF4E2F');
 
         //player two green paddle
-        ANIMATION.rectangle(game.board.height - config().paddleWidth, game.paddle.rightY, config().paddleWidth, config().paddleHeight, '#91c95b');
+        ANIMATION.rectangle(game.board.height - config().paddleWidth, game.paddle.rightY, config().paddleWidth, config().paddleHeight, '#9c6ba0');
 
     }
 
