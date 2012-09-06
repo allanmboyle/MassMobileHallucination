@@ -1,16 +1,17 @@
 <style>
+	#main, .auditorium { background: url(/images/grid-bg.gif) top left repeat;}
 	.up_half { 
 		height: 50%;
 		width: 100%;
 		overflow: hidden;
-		margin: 0px;
+		margin: 0px;	
 		padding: 0px;
 	}
 	.down_half {
 		height: 50%;
 		width: 100%;
 	}
-	.left_side_up {
+	/*.left_side_up {
 		background-color: FireBrick;
 	}
 	.left_side_down {
@@ -21,11 +22,12 @@
 	}
 	.right_side_down {
 		background-color: lightSeaGreen;
-	}
+	}*/
 
 	.big_word {
 		color: midnightblue;
 		position: relative;
+		
 		top: 10%;
 		left: 10%;
 		width: 80%;
@@ -35,48 +37,67 @@
 		text-align: center;
 		vertical-align: middle;
 	}
- 
+	.up{
+		background:#ef4e2f url(/images/arrow-up.png) center center no-repeat;
+	}
+	.down{
+		background:#ef4e2f url(/images/arrow-down.png) center center no-repeat;
+	}
+   
+	.up.rhs {
+		background:#91c95b url(/images/arrow-up.png) center center no-repeat;
+	}
 	.pressed {
-		border-style: inset;
+	/*	border-style: inset;
 		border-radius: 1px;
-		border-color: black;
-		opacity: 0.9;
+		border-color: black;*/
+		opacity: 1;
 	}
 	.hidden { display: none;}
+	.auditorium h2{
+		font-size:35px;
+		padding:0 30px;
+	}
 	.auditorium {
 		position: absolute;
 		top: 0; left: 0;
 		width: 100%; height: 100%;
-		background-color: midnightblue;
-		font-size: 20px;
+		/*background-color: midnightblue;*/
+		font-size: 25px;
 		font-weight: 200;
 		text-align: center;
 		vertical-align: text-bottom;
 	}
 	.aud_left {
-		width: 30%; height: 30%;
+		width: 35%;
 		float: left;
-		border: 3px solid;
 		margin-left: 10%;
-		background-color: red;
+		opacity:0.6;
+		background-color: #ef4e2f;
 	}
 	.aud_right {
-		width: 30%; height: 30%;
+		width: 35%;
 		float: right;
 		margin-right: 10%;
-		border: 3px solid;
-		background-color: green;
+		opacity:0.6;
+		background-color: #91c95b;
+	}
+	.aud_right:hover, .aud_left:hover  {
+		opacity:1;
+	}
+	p.aud_right, p.aud_left {
+		padding: 50px 0;
 	}
 </style>
 
 <div class="auditorium tron_white">
-	<p>Which MYOB Office Are You?</p>
-	<p class="aud_left rounded-corners" onclick="selectSide('left');">BWD</p>
-	<p class="aud_right rounded-corners" onclick="selectSide('right');">SYD</p>
+	<h2>Which MYOB Office Are You?</h2>
+	<p class="aud_left" onclick="selectSide('left');">LEFT</p>
+	<p class="aud_right" onclick="selectSide('right');">RIGHT</p>
 </div>
 
-<div class="up_half hidden" onclick="clickedUp();"><div class="big_word">UP</div></div>
-<div class="down_half hidden" onclick="clickedDown();"><div class="big_word">DOWN</div></div>
+<div class="up_half hidden" onclick="clickedUp();"><div class="big_word up"></div></div>
+<div class="down_half hidden" onclick="clickedDown();"><div class="big_word down"></div></div>
 
 <script>
 	var side;

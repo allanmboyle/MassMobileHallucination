@@ -302,10 +302,10 @@ var PongPlayfield = (function (playfieldSocket) {
 
     function drawPaddles(){
         //player one red paddle
-        ANIMATION.rectangle(0, game.paddle.leftY, config().paddleWidth, config().paddleHeight, '#f00');
+        ANIMATION.rectangle(0, game.paddle.leftY, config().paddleWidth, config().paddleHeight, '#EF4E2F');
 
         //player two green paddle
-        ANIMATION.rectangle(game.board.height - config().paddleWidth, game.paddle.rightY, config().paddleWidth, config().paddleHeight, '#629632');
+        ANIMATION.rectangle(game.board.height - config().paddleWidth, game.paddle.rightY, config().paddleWidth, config().paddleHeight, '#91c95b');
 
     }
 
@@ -318,11 +318,17 @@ var PongPlayfield = (function (playfieldSocket) {
     function drawBoard(){
         ANIMATION.clear(0, 0, game.board.width, game.board.height);
 
+//<<<<<<< HEAD
         //black background
         ANIMATION.rectangleWithOpacity(0, 0, game.board.height, game.board.width, '00', '00', '00', boardOpacity);
         console.log(game.board.width,game.board.height);
 
         ANIMATION.dottedMiddleLine(game.board.width,game.board.height,'#aaa',70);
+//=======
+        //blue background 
+        ANIMATION.rectangleWithOpacity(0, 0, game.board.height, game.board.width, '0', '182', '220', boardOpacity);
+				//ANIMATION.rectangleWithOpacity(0, 0, game.board.height, game.board.width, '#00b6dc', boardOpacity);
+//>>>>>>> Pong: change background to blue play field. Update control design
     }
 
     function drawScore(score) {
