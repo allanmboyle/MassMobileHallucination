@@ -314,23 +314,18 @@ var PongPlayfield = (function (playfieldSocket) {
     function drawBall(){
         //white ball
         ANIMATION.circle(game.ball.x, game.ball.y, config().radius, '#FFFFFF', document.getElementById("ball_image"));
-
     }
 
     function drawBoard(){
         ANIMATION.clear(0, 0, game.board.height, game.board.width);
-
-        //blue background 
-        ANIMATION.rectangleWithOpacity(0, 0, game.board.height, game.board.width, '0', '182', '220', boardOpacity);
-
-        ANIMATION.dottedVerticalLine(game.board.height/2, 20, game.board.width-70, '#fff');
+        ANIMATION.rectangleWithOpacity(0, 0, game.board.height, game.board.width, '0', '182', '220', boardOpacity); //blue bg
+        ANIMATION.dottedVerticalLine(game.board.height/2, 20, game.board.width-35, '#fff');
     }
 
     function drawScore(score) {
         ANIMATION.setText("44px Verdana", score.player1, game.board.height/2 - 20, 50, 'right', '#fff');
         ANIMATION.setText("44px Verdana", score.player2, game.board.height/2 + 20, 50, 'left',  '#fff');
     }
-
 
     function checkBounce() {
         var pointOver = false;
