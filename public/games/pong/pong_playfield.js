@@ -544,6 +544,8 @@ var PongPlayfield = (function (playfieldSocket) {
         var text = "";
         if (totalPlayers == 1) {
             text = "1 lonely player"
+        } else if (totalPlayers == 0) {
+            text = "Everyone's gone :-("
         } else {
             text = totalPlayers + " players"
         }
