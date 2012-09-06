@@ -541,7 +541,13 @@ var PongPlayfield = (function (playfieldSocket) {
  
         // update the player number on the screen
         var totalPlayers = game.countRightPlayers + game.countLeftPlayers; 
-        $(".playercount").text("Players: " + totalPlayers);
+        var text = "";
+        if (totalPlayers == 1) {
+            text = "1 lonely player"
+        } else {
+            text = totalPlayers + " players"
+        }
+        $(".playercount").text(text);
     }
     return me;
 }(socket));
