@@ -47,21 +47,22 @@ var ANIMATION = (function () {
         _canvas.fillText(text, x, y);
     }
 
-    me.dottedMiddleLine = function(height,width,colour,depthFromEdges ) {
+    me.dottedMiddleLine = function(width,height,colour,depthFromEdges ) {
 
+        var FUDGE_FACTOR = 3; // distance to move the line to match the score's colon.
         var currentPoint = depthFromEdges;
 
         _canvas.beginPath();
-        _canvas.strokeStyle =colour;
-        _canvas.lineWidth   = 4;
-        _canvas.moveTo( width / 2, depthFromEdges );
+        _canvas.strokeStyle = colour;
+        _canvas.lineWidth   = 5;
+        _canvas.moveTo( width / 2 + FUDGE_FACTOR, depthFromEdges );
 
         while ( currentPoint < height -depthFromEdges ) {
             currentPoint += 6;
-            _canvas.lineTo( width / 2, currentPoint );
+            _canvas.lineTo( width / 2 + FUDGE_FACTOR, currentPoint );
 
             currentPoint += 10;
-            _canvas.moveTo( width / 2, currentPoint );
+            _canvas.moveTo( width / 2 + FUDGE_FACTOR, currentPoint );
         }
 
         _canvas.stroke();

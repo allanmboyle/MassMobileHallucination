@@ -44,7 +44,7 @@ var Settings = (function () {
         dx: 2.0,
         dy: BALL_MAX_SPEED,
         paddleHeight: 100,
-        paddleWidth: 25,
+        paddleWidth: 50,
         gameLoopInterval: 30,
         debugMode: false
     }
@@ -301,12 +301,11 @@ var PongPlayfield = (function (playfieldSocket) {
     }
 
     function drawPaddles(){
-        //player one red paddle
-        ANIMATION.rectangle(0, game.paddle.leftY, config().paddleWidth, config().paddleHeight, '#EF4E2F');
+        //player one left paddle
+        ANIMATION.rectangle(config().paddleWidth/2, game.paddle.leftY, config().paddleWidth/2, config().paddleHeight, '#EF4E2F');
 
-        //player two green paddle
-        ANIMATION.rectangle(game.board.height - config().paddleWidth, game.paddle.rightY, config().paddleWidth, config().paddleHeight, '#9c6ba0');
-
+        //player two right paddle
+        ANIMATION.rectangle(game.board.height - config().paddleWidth, game.paddle.rightY, config().paddleWidth/2, config().paddleHeight, '#9c6ba0');
     }
 
     function drawBall(){
@@ -316,15 +315,12 @@ var PongPlayfield = (function (playfieldSocket) {
     }
 
     function drawBoard(){
-        ANIMATION.clear(0, 0, game.board.width, game.board.height);
-
-
-        console.log(game.board.width,game.board.height);
-
-        ANIMATION.dottedMiddleLine(game.board.width,game.board.height,'#aaa',70);
+        ANIMATION.clear(0, 0, game.board.height, game.board.width);
 
         //blue background 
         ANIMATION.rectangleWithOpacity(0, 0, game.board.height, game.board.width, '0', '182', '220', boardOpacity);
+
+        ANIMATION.dottedMiddleLine(game.board.height,game.board.width,'#fff', 70);
     }
 
     function drawScore(score) {
