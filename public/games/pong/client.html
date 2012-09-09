@@ -133,8 +133,12 @@
 
 	// The mmh detectors convert all detected values to +90 to -90. We want
 	// that from +1 to -1 for pong becuase its only an up for down.
+	// We also want to flip/reverse the results so that when the front of the handset
+	// tilts up (i.e., forward tilt) the up button is pressed. 
+	// In addition, we want the pivot point to be higher up (back tilt) so its more
+	// comfortable in a seated position.
 	function pongValuesProcessor(accel) {
-		accel.tiltFB = (accel.tiltFB >= 0)? 1 : -1;
+		accel.tiltFB = (accel.tiltFB >= 45)? -1 : 1;
 		nextTilt = accel.tiltFB;
 		return accel;
 	}
