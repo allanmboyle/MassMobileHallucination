@@ -863,6 +863,8 @@ var Reveal = (function(){
 			var slide = document.querySelector( '#' + name );
 
 			if( slide ) {
+
+                alert('new slide loading !');
 				// Find the position of the named slide and navigate to it
 				var indices = Reveal.getIndices( slide );
 				navigateTo( indices.h, indices.v );
@@ -1002,6 +1004,7 @@ var Reveal = (function(){
 	}
 	function navigateRight() {
 		// Prioritize revealing fragments
+        //alert(indexh+1);
 		if( overviewIsActive() || nextFragment() === false ) {
 			slide( indexh + 1, 0 );
 		}

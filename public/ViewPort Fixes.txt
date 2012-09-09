@@ -1,0 +1,25 @@
+http://stackoverflow.com/questions/9236376/windows-phone-viewport-meta-tag
+
+
+<meta name="MobileOptimized" content="640">
+
+
+
+http://stackoverflow.com/questions/12157219/how-to-disable-zooming-in-windows-mobile
+
+
+
+http://stackoverflow.com/questions/5555125/viewport-tag-syntax
+try commas instead of semi colons'
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" / >
+
+
+
+
+android...
+http://davidbcalhoun.com/2010/viewport-metatag
+
+<meta name="viewport" content="target-densitydpi=device-dpi" />
+
+
+<meta content="minimum-scale=1.0, width=device-width, maximum-scale=1.0, user-scalable=no" name="viewport" />
