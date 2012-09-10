@@ -20,9 +20,11 @@
         </div>
         <script src="client.js"></script>
         <script>
+        var iDevice = false;
         $(document).ready(function() {
             //sneak in the iPhone view port...
             if (navigator.userAgent.match(/iPhone/i) || navigator.userAgent.match(/iPad/i)) {
+                iDevice = true;
                 var viewportmeta = document.querySelector('meta[name="viewport"]');
                 if (viewportmeta) {
                     viewportmeta.content = 'width=device-width; initial-scale=1; maximum-scale=1; minimum-scale=1; user-scalable=no;';

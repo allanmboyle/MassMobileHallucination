@@ -127,8 +127,13 @@
 	var lastTilt, nextTilt;
 
 	// bind mouse down for iphone (or other swipey devices)
-	//$(".up_half").bind('touchstart', clickedUp);
-	//$(".down_half").bind('touchstart', clickedDown);
+	if (iDevice) {
+		$(".up_half").removeAttr('onclick');
+		$(".down_half").removeAttr('onclick');
+
+		$(".up_half").bind('touchstart', clickedUp);
+		$(".down_half").bind('touchstart', clickedDown);
+	}
 
 	function selectSide(side) {
 		setSideColors(side);
