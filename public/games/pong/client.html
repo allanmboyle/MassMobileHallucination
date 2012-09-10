@@ -128,7 +128,7 @@
 
 	function selectSide(side) {
 		setSideColors(side);
-	    MMH.listenForMovements(pongValuesProcessor, postProcessor);		
+	    MMH.listenForMovements(pongValuesProcessor, postProcessor, false);		
 	    $(".auditorium").addClass("hidden");
 	    $(".up_half").removeClass("hidden");
 	    $(".down_half").removeClass("hidden");

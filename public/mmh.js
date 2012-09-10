@@ -67,9 +67,9 @@ var MMH = (function () {
 
     // listen for movements and start sending them to the server. Optionally
 	// send them to a callback as well.
-	me.listenForMovements = function (preProcessCallback, postProcessor) {
+	me.listenForMovements = function (preProcessCallback, postProcessor, use_accelerometers) {
         try {
-			if (me.clientHasAccelerometers()) {
+			if (use_accelerometers && me.clientHasAccelerometers()) {
 				startListeningForAccelerometers(accelerometerDeviceListener, accelerometerMozDeviceListener);
 			}
 			// listen for the mouse as well as gyroscopes (can't hurt!)
