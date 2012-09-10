@@ -229,7 +229,8 @@ var MMH = (function () {
 			storeOrientation(
 				(e.pageX / $(document).width()) * 180 - 90,
 //               (e.pageY / $(document).height()) * 180 - 90,
-                (e.pageY / $("#main").innerHeight()) * 180 - 90,
+                //we have flipped the direction of the arrows on pong, I'm reversing everything here
+                ((e.pageY / $("#main").innerHeight()) * 180 - 90 ) *-1,
 				0,
 				0 ,
                 playerLocation

@@ -138,8 +138,13 @@
 	// In addition, we want the pivot point to be higher up (back tilt) so its more
 	// comfortable in a seated position.
 	function pongValuesProcessor(accel) {
-		accel.tiltFB = (accel.tiltFB >= 45)? -1 : 1;
-		nextTilt = accel.tiltFB;
+
+        // if user is using the buttons they are sending -1 & +1 so no calibration needed
+        if((accel.tiltFB !=1 )&& (accel.tiltFB !=-1 ))
+        {
+		    accel.tiltFB = (accel.tiltFB >= 45)? -1 : 1;
+        }
+            nextTilt = accel.tiltFB;
 		return accel;
 	}
 
