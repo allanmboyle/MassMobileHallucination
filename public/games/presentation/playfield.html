@@ -84,4 +84,12 @@
                 transition: Reveal.getQueryHash().transition || 'default' // default/cube/page/concave/linear(2d)
             });
 
+            Reveal.addEventListener( 'slidechanged', function( event ) {
+                var nextindexh;
+                //var nextindexv;
+                    nextindexh = event.indexh;
+                  //  nextindexv = event.indexv + 1;
+                   PresentationPlayField.changingToSlide(nextindexh);
+                    }
+            );
         </script>

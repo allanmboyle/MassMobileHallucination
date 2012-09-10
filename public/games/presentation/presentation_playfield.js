@@ -8,14 +8,13 @@
 
 var PresentationPlayField = (function (playfieldSocket) {
     var me = {};
-    //
-    // Publics
-    //
+
     me.init = function () {
-        // tell the server we don't want totals (only real time updates)
         playfieldSocket.emit("admin", "no_updates");
+        playfieldSocket.emit("admin", "no_totals");
+
     }
-    me.newUser = function (data) 	{ /* doesn't matter if new come */}
+    me.newUser = function (data) 	{ /* doesn't matter  */}
     me.woosOut = function (data) 	{  }
     me.positionUpdates = function (updates) { }
     me.totalUpdates = function (updates) { }
@@ -26,6 +25,13 @@ var PresentationPlayField = (function (playfieldSocket) {
 
     me.initPlayers = function (players) {
         // can ignore this. Just need totals
+    }
+
+    me.changingToSlide = function(slideNumber){
+       var data = {};
+        data.game="presso";
+        data.slide = slideNumber;
+       playfieldSocket.emit("sendToPlayers",data);
     }
 
     return me;

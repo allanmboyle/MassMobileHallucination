@@ -1,4 +1,5 @@
-<h1 style="font-size: 20pt;color: #ffffff;">Tech Ed Presentation Client Handset </h1>
+
+<div id="dynamicContent" style="font-size: 20pt;color: #ffffff;">.......</div>
 <script>
 
 	function initClient() {
@@ -8,5 +9,15 @@
 	function stopClient() {
 		MMH.stopListeningForMovements();
 	}
+
+    function updateGameSettings(message) {
+        if (message.game != undefined && message.game == "presso") {
+            showSlide(message.slide);
+        }
+    }
+    function showSlide(slideId)
+    {
+        document.getElementById("dynamicContent").innerText ="SLIDE " + slideId;
+    }
 
 </script>
