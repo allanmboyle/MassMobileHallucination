@@ -126,6 +126,10 @@
 	var side;
 	var lastTilt, nextTilt;
 
+	// bind mouse down for iphone (or other swipey devices)
+	$(".up_half").bind('touchstart', clickedUp);
+	$(".down_half").bind('touchstart', clickedUp);
+
 	function selectSide(side) {
 		setSideColors(side);
 	    MMH.listenForMovements(pongValuesProcessor, postProcessor, false);		
