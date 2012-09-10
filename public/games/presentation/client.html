@@ -1,5 +1,23 @@
 
 <div id="dynamicContent" style="font-size: 20pt;color: #ffffff;">.......</div>
+
+
+<div id="slidedeck" style="display: none">
+
+    <div id=slide0>This is the the client content for slide 0
+    <p>BLAH BLAH BLAH</p>
+    </div>
+
+    <div id=slide1>This is the the client content for slide 1</div>
+
+    <div id=slide2>This is the the client content for slide 2</div>
+
+    <div id=slide3>This is the the client content for slide 3</div>
+
+
+</div>
+
+
 <script>
 
 	function initClient() {
@@ -15,9 +33,20 @@
             showSlide(message.slide);
         }
     }
+
+    //swap out the contents of the divs..
     function showSlide(slideId)
     {
-        document.getElementById("dynamicContent").innerText ="SLIDE " + slideId;
+        var content = document.getElementById("slide" + slideId).innerHTML;
+        if (content !=null)
+        {
+            document.getElementById("dynamicContent").innerHTML =content;
+        }
+        else
+        {
+            document.getElementById("dynamicContent").innerHTML ="";
+        }
+
     }
 
 </script>

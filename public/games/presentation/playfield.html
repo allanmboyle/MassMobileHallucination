@@ -1,95 +1,78 @@
+<script src="/games/presentation/presentation_playfield.js"></script>
+<script>
+    // mandatory init function
+    function initPlayfield() {
+        PresentationPlayField.init();
 
-     <script src="/games/presentation/presentation_playfield.js"></script>
+        return PresentationPlayField;
+    }
+</script>
+<div class="reveal">
+    <!-- Used to fade in a background when a specific slide state is reached
+    -->
+    <div class="state-background"></div>
+    <!-- Any section element inside of this container is displayed as
+    a slide -->
+    <div class="slides">
+        <section>
+            <h1>The Mass Mobile Experiment</h1>
+        </section>
+        <section>
+            <h1>Background</h1>
+        </section>
+        <section>
+            <h1>Technology</h1>
+        </section>
+        <section>
+            <h1>Architecture</h1>
 
-    <script>
-        // mandatory init function
-        function initPlayfield() {
-            PresentationPlayField.init();
+            <p>to do add diagram here</p>
+        </section>
+        <section>
+            <h1>Node.js</h1>
+        </section>
+        <section>
+            <h1>node.js & Azure</h1>
+        </section>
+        <section>
+            <h1>?</h1>
+        </section>
+        <section>
+            <h2>Spectacular image!</h2>
+            <a class="image" href="http://hakim.se/experiments/html5/breakdom/" target="_blank">
+                <img width="320" height="412" src="https://s3.amazonaws.com/hakim-static/reveal-js/breakdom.png" alt="BreakDOM game screenshot">
+            </a>
+        </section>
+    </div>
+    <!-- The navigational controls UI -->
+    <aside class="controls"> <a class="left" href="#">&#x25C4;</a>
+        <a class="right" href="#">&#x25BA;</a>
+        <a class="up" href="#">&#x25B2;</a> <a class="down" href="#">&#x25BC;</a>
+    </aside>
+    <!-- Presentation progress bar -->
+    <div class="progress"><span></span>
+    </div>
+</div>
+<script src="/games/presentation/lib/js/head.min.js"></script>
+<!--<script src="js/reveal.min.js"></script>-->
+<script src="/games/presentation/js/reveal.js"></script>
+<script>
 
-            return PresentationPlayField;
-        }
+    Reveal.initialize({
+        controls: true,
+        progress: true,
+        history: true,
 
-    </script>
+        theme: Reveal.getQueryHash().theme || 'default', // available themes are in /css/theme
+        transition: Reveal.getQueryHash().transition || 'default' // default/cube/page/concave/linear(2d)
+    });
 
-        <div class="reveal">
-            <!-- Used to fade in a background when a specific slide state is reached -->
-            <div class="state-background"></div>
-            <!-- Any section element inside of this container is displayed as a slide -->
-            <div class="slides">
-
-                <section>
-                    <h1>The Mass Mobile Experiment</h1>
-                </section>
-
-                <section>
-                    <h1>Background</h1>
-                </section>
-
-                <section>
-                    <h1>Technology</h1>
-                </section>
-
-                <!-- Example of nested vertical slides -->
-                <section>
-                    <h1>Architecture</h1>
-                    <p>to do add diagram here</p>
-                </section>
-
-                <section>
-                    <h1>Node.js</h1>
-                </section>
-
-                <section>
-                    <h1>node.js & Azure</h1>
-                </section>
-
-                <section>
-                    <h1>?</h1>
-                </section>
-                <section>
-                    <h2>Spectacular image!</h2>
-                    <a class="image" href="http://hakim.se/experiments/html5/breakdom/" target="_blank">
-                        <img width="320" height="412" src="https://s3.amazonaws.com/hakim-static/reveal-js/breakdom.png" alt="BreakDOM game screenshot">
-                    </a>
-                </section>
-            </div>
-
-            <!-- The navigational controls UI -->
-            <aside class="controls">
-                <a class="left" href="#">&#x25C4;</a>
-                <a class="right" href="#">&#x25BA;</a>
-                <a class="up" href="#">&#x25B2;</a>
-                <a class="down" href="#">&#x25BC;</a>
-            </aside>
-
-            <!-- Presentation progress bar -->
-            <div class="progress"><span></span></div>
-
-        </div>
-
-        <script src="/games/presentation/lib/js/head.min.js"></script>
-        <!--<script src="js/reveal.min.js"></script>-->
-        <script src="/games/presentation/js/reveal.js"></script>
-
-        <script>
-
-            // Full list of configuration options available here:
-            // https://github.com/hakimel/reveal.js#configuration
-            Reveal.initialize({
-                controls: true,
-                progress: true,
-                history: true,
-
-                theme: Reveal.getQueryHash().theme || 'default', // available themes are in /css/theme
-                transition: Reveal.getQueryHash().transition || 'default' // default/cube/page/concave/linear(2d)
-            });
-
-            Reveal.addEventListener( 'slidechanged', function( event ) {
-                var nextindexh;
-                //var nextindexv;
-                    nextindexh = event.indexh;
-                  //  nextindexv = event.indexv + 1;
-                   PresentationPlayField.changingToSlide(nextindexh);
-                    }
-            );
-        </script>
+    // Hook up the slide changes to the playfield
+    Reveal.addEventListener('slidechanged', function (event) {
+        var nextindexh;
+        //var nextindexv;
+        nextindexh = event.indexh;
+        //  nextindexv = event.indexv + 1;
+        PresentationPlayField.changingToSlide(nextindexh);
+    });
+</script>
