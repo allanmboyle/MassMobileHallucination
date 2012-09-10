@@ -40,11 +40,14 @@ div.fullscreen{
 }
 
 .welcome {
-    margin-top: 20%;
-    font-size: 50px;
+    margin-top: 10%;
+    font-size: 40px;
     font-weight: 200;
     background-color: #000033;
     text-align: center;
+}
+.welcome span {
+	font-size: 25px !important;
 }
 
 
