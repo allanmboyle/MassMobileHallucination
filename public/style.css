@@ -75,3 +75,10 @@ div.fullscreen{
     text-shadow: 0 0 20px rgba(100, 100, 200, 0.8);
     font-family: "Bitstream Vera Sans Mono", monospace;
 }
+.logo {
+		display:block;
+		position:absolute;
+		bottom:0;
+		margin:0 0 20px;
+		width:100%;		
+		}
