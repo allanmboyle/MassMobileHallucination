@@ -58,7 +58,7 @@
 	}
 	.hidden { display: none;}
 	.auditorium h2{
-		font-size:35px;
+		font-size:25px;
 		padding:0 30px;
 	}
 	.auditorium {
@@ -91,16 +91,37 @@
 	p.aud_right, p.aud_left {
 		padding: 50px 0;
 	}
+	.logo {
+		display:block;
+		position:absolute;
+		bottom:0;
+		right:0;
+		margin:0 20px 20px;
+		
+		}
+	.leftText, .rightText {display:none;
+	position:absolute;
+	left:0;
+	top:20%;
+	color:#fff;
+	opacity:0.4;
+	font-size:45px;	
+	font-family:Arial, Helvetica, sans-serif;
+	}
 </style>
 
 <div class="auditorium tron_white">
 	<h2>What side of the room you sitting on?</h2>
 	<p class="aud_left" onclick="selectSide('left');">LEFT</p>
 	<p class="aud_right" onclick="selectSide('right');">RIGHT</p>
+  <div class="logo"><img src="/images/MYOB_150.png" width="150" height="52" alt="" /></div>
 </div>
 
-<div class="up_half hidden" onclick="clickedUp();"><div class="big_word up"></div></div>
+<div class="up_half hidden" onclick="clickedUp();"><div class="big_word up"></div><div class="leftText">L<br />E<br />F<br />T</div>
+<div class="rightText">R<br />I<br />G<br />H<br />T</div></div>
+
 <div class="down_half hidden" onclick="clickedDown();"><div class="big_word down"></div></div>
+
 
 <script>
 	var side;
@@ -112,8 +133,12 @@
 	    $(".auditorium").addClass("hidden");
 	    $(".up_half").removeClass("hidden");
 	    $(".down_half").removeClass("hidden");
+			$(".leftText").show();
+			$(".rightText").hide();
 			if (side == "right") {
 				$(".big_word").addClass("rhs");
+				$(".leftText").hide();
+				$(".rightText").show();
 				
 			} else {}
 	    // note: we don't get mmh to send for us, that we do in post()
