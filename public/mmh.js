@@ -165,7 +165,7 @@ var MMH = (function () {
 		// z is the vertical acceleration of the device
 		var motUD = eventData.z;
 
-		storeOrientation(scaleFactor(tiltLR), scaleFactor(tiltFB), dir, motUD,playerLocation);
+		storeOrientation(scaleFactor(tiltLR), scaleFactor(tiltFB), dir, motUD,playerLocation,"accel");
 	}
 
     // event handler which deals with accelerometer events
@@ -183,7 +183,7 @@ var MMH = (function () {
 		var motUD = null;
 		
 		// call our orientation event handler
-		storeOrientation(scaleFactor(tiltLR), scaleFactor(tiltFB), dir, motUD,playerLocation);
+		storeOrientation(scaleFactor(tiltLR), scaleFactor(tiltFB), dir, motUD,playerLocation,"accel");
     }
 
     var stopListeningForAccelorometersHandler;
@@ -228,13 +228,13 @@ var MMH = (function () {
 		var handler = function(e) {
 			storeOrientation(
 				(e.pageX / $(document).width()) * 180 - 90,
-//               (e.pageY / $(document).height()) * 180 - 90,
+                (e.pageY / $("#main").innerHeight()) * 180 - 90 ,
                 //we have flipped the direction of the arrows on pong, I'm reversing everything here
-                ((e.pageY / $("#main").innerHeight()) * 180 - 90 ) *-1,
+//                ((e.pageY / $("#main").innerHeight()) * 180 - 90 ) *-1,
 				0,
 				0 ,
                 playerLocation
-			);
+			,"mouse");
 		};
 
 		$("#main").mousemove(handler);
@@ -250,14 +250,14 @@ var MMH = (function () {
 
 	// This is just the last change recorded. The last one recorded gets sent
 	// according to the throttle.
-	function storeOrientation(tiltLR, tiltFB, dir, motionUD, location) {
+	function storeOrientation(tiltLR, tiltFB, dir, motionUD, location,source) {
 		accel = preProcessCallbackFunction ({
 			tiltLR: 		tiltLR,
 			tiltFB: 		tiltFB,
 			dir: 			dir,
 			motionUD: 		motionUD,
             playerLocation: location
-		});
+		},source);
 
 		// See if the user wants to do anything after a value has been captured
 		postProcessCallback(accel);

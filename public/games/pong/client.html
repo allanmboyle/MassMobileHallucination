@@ -161,13 +161,21 @@
 	// tilts up (i.e., forward tilt) the up button is pressed. 
 	// In addition, we want the pivot point to be higher up (back tilt) so its more
 	// comfortable in a seated position.
-	function pongValuesProcessor(accel) {
+	function pongValuesProcessor(accel, source) {
 
-        // if user is using the buttons they are sending -1 & +1 so no calibration needed
-        if((accel.tiltFB !=1 )&& (accel.tiltFB !=-1 ))
-        {
+       //for the accelerometer we are adding a 45 degree tolerance to movements
+       if (source =="accel")
+       {
 		    accel.tiltFB = (accel.tiltFB >= 45)? -1 : 1;
+       }
+
+        if (source =="mouse")
+        {
+            accel.tiltFB = (accel.tiltFB >= 0)? 1 : -1;
         }
+
+        //otherwise the acceleration came from a button click and its already fine
+
             nextTilt = accel.tiltFB;
 		return accel;
 	}
