@@ -59,7 +59,7 @@
 	.hidden { display: none;}
 	.auditorium h2{
 		font-size:25px;
-		padding:0 30px;
+		padding:0 25px;
 	}
 	.auditorium {
 		position: absolute;
@@ -94,7 +94,7 @@
 	.logo {
 		display:block;
 		position:absolute;
-		bottom:0;
+		bottom:-19px;
 		margin:0 0 20px;
 		width:100%;		
 		}
@@ -113,7 +113,7 @@
 	<h2>What side of the room you sitting on?</h2>
 	<p class="aud_left" onclick="selectSide('left');">LEFT</p>
 	<p class="aud_right" onclick="selectSide('right');">RIGHT</p>
-  <div class="logo"><img src="/images/MYOB_150.png" width="150" height="52" alt="" /></div>
+  <div class="logo"><img src="/images/MYOB_150.png" width="100" alt="" /></div>
 </div>
 
 <div class="up_half hidden" onclick="clickedUp();"><div class="big_word up"></div><div class="leftText">L<br />E<br />F<br />T</div>
@@ -125,6 +125,10 @@
 <script>
 	var side;
 	var lastTilt, nextTilt;
+
+	// bind mouse down for iphone (or other swipey devices)
+	//$(".up_half").bind('touchstart', clickedUp);
+	//$(".down_half").bind('touchstart', clickedDown);
 
 	function selectSide(side) {
 		setSideColors(side);
@@ -164,23 +168,16 @@
 	function pongValuesProcessor(accel, source) {
 
        //for the accelerometer we are adding a 45 degree tolerance to movements
-       if (source =="accel")
-       {
+       	if (source == "accel") {
 		    accel.tiltFB = (accel.tiltFB >= 45)? -1 : 1;
-       }
-
-        if (source =="mouse")
-        {
+       	} else if (source =="mouse") {
             accel.tiltFB = (accel.tiltFB >= 0)? 1 : -1;
-        }
+   		}
+		// else the acceleration came from a button click and its already fine
 
-        //otherwise the acceleration came from a button click and its already fine
+        nextTilt = accel.tiltFB;
 
-            nextTilt = accel.tiltFB;
-		return accel;
-	}
-
-	function postProcessor() {
+        // changing the buttons when/if the values change
 		if (nextTilt != lastTilt) {
 			// if there is a new value
 			if (nextTilt > 0)  { 
@@ -190,6 +187,13 @@
 				$(".down_half .big_word").removeClass("pressed")
 				$(".up_half .big_word").addClass("pressed")
 			}
+		}
+
+		return accel;
+	}
+
+	function postProcessor() {
+		if (nextTilt != lastTilt) {
 			lastTilt = nextTilt;
 
 			// send to the server only if change
