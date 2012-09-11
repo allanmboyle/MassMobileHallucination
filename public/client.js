@@ -20,7 +20,7 @@ socket.on('changeSettings', function (data) {
 
 socket.on('changeGame', function (game) {
     // not sure what to do if the game is intro for now!?
-    if (game != "intro") changeGame(game);
+    changeGame(game);
 });
 
 //
