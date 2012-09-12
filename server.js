@@ -4,19 +4,22 @@
  * Copyright (c) 2012 MYOB Australia Ltd.
  *
  */
+
 var express = require('express');
-var server = express.createServer(),
-    io = require('socket.io').listen(server),
-    playfield = require('./lib/playfield.js'),
+var server  = express.createServer();
+var io      = require('socket.io').listen(server);
+
+server.listen(process.env.PORT || 8080);
+
+console.log("Server listening on port %d", server.address().port);
+
+var    playfield = require('./lib/playfield.js'),
     players = require('./lib/players.js');
 controller = require('./lib/controller.js');
 
 // The currently connected user list
 var playerList = {};
 
-// start up the server 
-server.listen(process.env.PORT || 8080);
-console.log("Server listening on port %d", server.address().port);
 
 
 var useLongPolling = true;
