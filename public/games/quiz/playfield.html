@@ -171,6 +171,9 @@
 
 	function showCorrectAnswer() {
 		$($("tr.answerrow")[questions[q].c]).addClass("correct_answer");
+
+		// Send the answer to all the handsets so they can show the result
+       	QuizPlayfield.sendToPlayers({game: "quiz", answer: questions[q].c});
 	}
 
 	var voteTimer;

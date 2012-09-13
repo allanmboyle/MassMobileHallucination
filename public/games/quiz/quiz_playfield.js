@@ -30,6 +30,10 @@ var QuizPlayfield = (function (playfieldSocket) {
 		// can ignore this. Just need totals
 	}
 
+	me.sendToPlayers = function (data) {
+		playfieldSocket.emit("sendToPlayers", data);
+	}
+
 	// this should be called periodically to see if the totals have changed.
 	me.calculateVotes = function () {
 		var votes = [0,0,0,0];
