@@ -14,7 +14,7 @@
 <div id="slidedeck" style="display: none">
     <div id=intro>
         <ul>
-            <li>Our story beings in May 2012 ,we dreamed a dream..</li>
+            <li>Our story beings in May 2012, we dreamed a dream...</li>
             <li>the dream was pong!</li>
         </ul>
     </div>
@@ -36,7 +36,7 @@
 
         <div id=footage>
             <ul>
-                <li>amatuer footage from Carpenters experiment (CIGGRAPH - 1991)</li>
+                <li>Amatuer footage from Carpenter's experiment at SIGGRAPH in 1991</li>
             </ul>
         </div>
 
@@ -69,16 +69,16 @@
         </div>
     <div id=sick>
         <ul>
-            <li>client timer controls the send frequency to the server</li>
-            <li>server timers for data aggregation and sending to playfield </li>
-            <li>playfield timer - the game loop !</li>
+            <li>client timer controls send frequency to the server</li>
+            <li>server timer aggregates and sends to playfield </li>
+            <li>playfield timer - the game loop</li>
         </ul>
     </div>
 
     <div id=client>
         <ul>
             <li>HTML5 & Javascript</li>
-            <li>change game API to swap different games into a DIV</li>
+            <li>Change game API to swap different games into a DIV</li>
             <li>Each client establishes a websocket connection to the server</li>
             <li>Accelerometer detection support with fall back for older browsers </li>
         </ul>
@@ -86,24 +86,25 @@
 
     <div id=playfield>
         <ul>
-            <li>game loop runs  in a browser</li>
-            <li>Generic API's available for getAllPlayers, woos out, new user joins, new data from server, changeGame</li>
+            <li>Game loop runs browser side</li>
+            <li>API's available to get players list, disconnect, new user, change game, etc.</li>
         </ul>
     </div>
 
-    <div id=server>
+    <div id="server">
         <ul>
-            <li>approx 500 lines of JavaScript</li>
-            <li>Socket.IO and Node.js does  the heavy lifting</li>
-            <li>very scalable</li>
-            <li>4 aggregation modes to choose from - all data, totals, uniques, custom</li>
+            <li>Approx 500 lines of JavaScript</li>
+            <li>Socket.io and Node.js does heavy lifting</li>
+            <li>Highly scalable</li>
+            <li>3 aggregation modes to choose from - all data, totals, unique values</li>
         </ul>
     </div>
 
-    <div id=node>
-        <li>sweet spot - high concurrency, low CPU per user, lots of IO (sockets)</li>
-        <li>single language for client & server</li>
-        <li>With node.js everything runs in a parallel except your code</li>
+    <div id="node">
+        <li>This app is sweet spot for Node</li>
+        <li>Many users, low CPU, high IO</li>
+        <li>Two-way comms</li>
+        <li>Long running interactions</li>
     </div>
 
     <div id=loadtest>
@@ -125,19 +126,18 @@
             <li>we used all open source tools</li>
         </ul>
     </div>
-</div>
 
-<div id=slide16>
-    <ul>
-        <!-- Q&A ! -->
-    </ul>
-</div>
+    <div id=slide16>
+        <ul>
+            <!-- Q&A ! -->
+        </ul>
+    </div>
 
-<div id=thanks>
-    <ul>
-        <li>Thanks!</li>
-    </ul>
-</div>
+    <div id=thanks>
+        <ul>
+            <li>Thanks!</li>
+        </ul>
+    </div>
 </div>
 
 <script>

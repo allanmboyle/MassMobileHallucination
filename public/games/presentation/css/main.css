@@ -59,7 +59,7 @@ body {
 	line-height: 1;
 }
 
-@media screen and (max-width: 900px) {
+@media screen and (max-width: 1200px) {
 	body {
 		font-size: 30px;
 	}
@@ -402,9 +402,9 @@ body {
 
 .reveal .slides {
 	position: absolute;
-	max-width: 900px;
-	width: 80%;
-	height: 60%;
+	max-width: 1200px;
+	width: 90%;
+	height: 70%;
 	left: 50%;
 	top: 50%;
 	margin-top: -320px;
