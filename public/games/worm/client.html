@@ -28,14 +28,14 @@
 
 <script>
 	function movementCallback (accel) {
-		$(".line")[0].style.top = (((Math.floor(accel.tiltFB * -1 )+90)/180)*$("#main").innerHeight()) + "px";
+		$(".line")[0].style.top = (((Math.floor(accel.tiltFB  )+90)/180)*$("#main").innerHeight()) + "px";
          //document.getElementById('back').innerHTML="<font size='25'>" + accel.tiltFB + "</font>";
     }
     
 	// must implement this
 	function initClient() {
 		MMH.init(socket);
-	    MMH.listenForMovements(null, movementCallback);
+	    MMH.listenForMovements(null, movementCallback, true);
 	    MMH.startSendingOrientationToServer();
 	}
 
