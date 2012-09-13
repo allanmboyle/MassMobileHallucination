@@ -27,10 +27,10 @@ var PresentationPlayField = (function (playfieldSocket) {
         // can ignore this. Just need totals
     }
 
-    me.changingToSlide = function(slideNumber){
+    me.changingToSlide = function(slide){
        var data = {};
         data.game="presso";
-        data.slide = slideNumber;
+        data.message = slide;
        playfieldSocket.emit("sendToPlayers",data);
     }
 

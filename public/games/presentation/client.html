@@ -1,17 +1,25 @@
 
-<div id="dynamicContent" style="font-size: 20pt;color: #ffffff;">The Mass Mobile Experiment</div>
+<style type="text/css">
+    .slides {
+        text-align: left;
+        margin: 10px;
+        font-size: 20pt;
+        color: #ffffff;
+    }
+</style>
+
+<div id="dynamicContent" style="font-size: 20pt;color: #ffffff;" class="slides">The Mass Mobile Experiment</div>
 
 
 <div id="slidedeck" style="display: none">
-    <div id=slide1>
+    <div id=intro>
         <ul>
-            <li>Our story beings in May 2012</li>
-            <li>We dreamed a dream..</li>
-            <li>The dream was pong!</li>
+            <li>Our story beings in May 2012 ,we dreamed a dream..</li>
+            <li>the dream was pong!</li>
         </ul>
     </div>
 
-    <div id=slide2>
+    <div id=carpenter>
         <ul>
             <li>Loren C Caprenter born 1947</li>
             <li>co-founder and chief scientist at Pixar</li>
@@ -19,21 +27,21 @@
             <li>1991 crowd swarm experiment</li>
         </ul>
     </div>
-        <div id=slide3>
+        <div id=pong>
             <ul>
                 <li>Pong was first released in 1972 by Atari</li>
                 <li>Pong was assigned to Allan Alcorn to develop as a training exercise!</li>
             </ul>
         </div>
 
-        <div id=slide4>
+        <div id=footage>
             <ul>
                 <li>amatuer footage from Carpenters experiment (CIGGRAPH - 1991)</li>
             </ul>
         </div>
 
 
-        <div id=slide5>
+        <div id=architecture>
         <ul>
             <li>clients send messages to server</li>
             <li>server aggregates and totals</li>
@@ -43,7 +51,7 @@
         </ul>
     </div>
 
-    <div id=slide6>
+    <div id=games>
         <ul>
             <li>pong</li>
             <li>tetris</li>
@@ -56,10 +64,10 @@
         </ul>
     </div>
 
-    <div id=slide7>
+    <div id=worm>
           <!-- political worm game ! -->
         </div>
-    <div id=slide8>
+    <div id=sick>
         <ul>
             <li>client timer controls the send frequency to the server</li>
             <li>server timers for data aggregation and sending to playfield </li>
@@ -67,7 +75,7 @@
         </ul>
     </div>
 
-    <div id=slide9>
+    <div id=client>
         <ul>
             <li>HTML5 & Javascript</li>
             <li>change game API to swap different games into a DIV</li>
@@ -76,40 +84,45 @@
         </ul>
     </div>
 
-    <div id=slide10>
+    <div id=playfield>
         <ul>
-            <li>Game loop runs on the playfield (browser)</li>
-            <li>woos out, new user joins, new data from server, change game API's</li>
+            <li>game loop runs  in a browser</li>
+            <li>Generic API's available for getAllPlayers, woos out, new user joins, new data from server, changeGame</li>
         </ul>
     </div>
 
-    <div id=slide11>
+    <div id=server>
         <ul>
-            <li>500 lines of code !</li>
-            <li>Generic</li>
-            <li>Lean and Scalable!</li>
+            <li>approx 500 lines of JavaScript</li>
+            <li>Socket.IO and Node.js does  the heavy lifting</li>
+            <li>very scalable</li>
+            <li>4 aggregation modes to choose from - all data, totals, uniques, custom</li>
         </ul>
     </div>
 
-    <div id=slide12>
+    <div id=node>
+        <li>sweet spot - high concurrency, low CPU per user, lots of IO (sockets)</li>
+        <li>single language for client & server</li>
+        <li>With node.js everything runs in a parallel except your code</li>
     </div>
 
-    <div id=slide13>
+    <div id=loadtest>
         <ul>
-            <li>8000 messages per second</li>
-            <li>2000 concurrent users</li>
+            <li>tested on a single azure worker role</li>
+            <li>2000 concurrent websockets</li>
+            <li>8000+ messages per second processed!</li>
         </ul>
     </div>
 
-    <div id=slide14>
+    <div id=ponggame>
         <ul>
             <!-- pong ! -->
         </ul>
     </div>
 
-    <div id=slide15>
+    <div id=tools>
         <ul>
-
+            <li>we used all open source tools</li>
         </ul>
     </div>
 </div>
@@ -120,7 +133,7 @@
     </ul>
 </div>
 
-<div id=slide17>
+<div id=thanks>
     <ul>
         <li>Thanks!</li>
     </ul>
@@ -137,19 +150,23 @@
 		MMH.stopListeningForMovements();
 	}
 
-    function updateGameSettings(message) {
-        if (message.game != undefined && message.game == "presso") {
-            showSlide(message.slide);
+    function updateGameSettings(data) {
+        if (data.game != undefined && data.game == "presso") {
+
+      //    alert(JSON.stringify(data));
+      //      alert(JSON.stringify(data.message.clientSlide));
+            showSlide(data);
         }
     }
 
     //swap out the contents of the divs..
-    function showSlide(slideId)
+    function showSlide(data)
     {
-        var content = document.getElementById("slide" + slideId).innerHTML;
+        var content = document.getElementById(data.message.clientSlide);
+
         if (content !=null)
         {
-            document.getElementById("dynamicContent").innerHTML =content;
+            document.getElementById("dynamicContent").innerHTML =content.innerHTML;
         }
         else
         {

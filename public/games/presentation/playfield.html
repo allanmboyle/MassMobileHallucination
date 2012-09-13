@@ -16,58 +16,67 @@
     <div class="slides">
         <section>
             <h1>The Mass Mobile Experiment</h1>
+
+            <br/>
+            <span> Simon & Aidan </span>
+            <table style="text-align: left;margin: 10%">
+                <tr><td style="text-align: left;margin: 10%">@aidanjcasey</td></tr>
+                <tr><td style="text-align: left;margin: 10%">@simonraikallen</td></tr>
+            </table>
+
+
         </section>
-        <section>
+        <section clientSlide="intro">
             <h1>How it all began</h1>
         </section>
-        <section>
+        <section clientSlide="carpenter">
             <img width="501" height="449" src="/games/presentation/images/carpenter.jpg" >
         </section>
 
-        <section>
+        <section clientSlide="pong">
             <img width="501" height="449" src="/games/presentation/images/retro_pong.jpg" alt="Pong">
         </section>
 
-        <section>
+        <section clientSlide="footage">
             <h1>Video of Carpenters 1991 crowd swarm experiment</h1>
         </section>
 
-        <section>
+        <section clientSlide="architecture">
             <img width="1200" height="1200px" src="/games/presentation/images/conceptual.jpg">
         </section>
 
-        <section>
+        <section clientSlide="games">
             <h1>Game Ideas...</h1>
         </section>
 
-        <section>
+        <section clientSlide="worm">
             <h1>Political Worm !</h1>
         </section>
 
-        <section>
+        <section clientSlide="sick">
             <img width="800" height="1200px" src="/games/presentation/images/sickbag.jpg" >
         </section>
 
-        <section>
+        <section clientSlide="client">
             <h1>The Client</h1>
             <img width="800" height="1200px" src="/games/presentation/images/client.jpg" >
         </section>
-        <section>
+        <section clientSlide="playfield">
             <h1>The Playfield</h1>
             <img width="800" height="1200px" src="/games/presentation/images/playfield.jpg" >
         </section>
 
-        <section>
+        <section clientSlide="server">
             <h1>The Server</h1>
             <img width="800" height="1200px" src="/games/presentation/images/server.jpg" >
         </section>
 
-        <section>
-            <h1>Why Node</h1>
+        <section clientSlide="node">
+            <h1>Why Node?</h1>
         </section>
 
 
-        <section>
+        <section clientSlide="loadtest">
             <h1>Load Test</h1>
             <table>
                 <tr>
@@ -79,11 +88,11 @@
 
         </section>
 
-        <section>
+        <section clientSlide="ponggame">
             <h1>Pong</h1>
         </section>
 
-        <section>
+        <section clientSlide="tools">
             <h1>Tools</h1>
             <table>
                 <tr>
@@ -108,11 +117,12 @@
             <h1>Questions</h1>
         </section>
 
-        <section>
+        <section clientSlide="thanks">
             <h1>Thanks for listening!</h1>
                   <br>
 
             <span>github.com/MYOB-Technology/MassMobileHallucination.git</span>
+
         </section>
     </div>
     <!-- The navigational controls UI -->
@@ -144,6 +154,16 @@
         //var nextindexv;
         nextindexh = event.indexh;
         //  nextindexv = event.indexv + 1;
-        PresentationPlayField.changingToSlide(nextindexh);
+
+        var data = {};
+        data.slideIndex= nextindexh;
+        data.clientSlide = "";
+
+        if ($("section:eq(" + nextindexh + ")").attr('clientSlide') !=null)
+        {
+            data.clientSlide= $("section:eq(" + nextindexh + ")").attr('clientSlide');
+        }
+        PresentationPlayField.changingToSlide(data);
+
     });
 </script>
