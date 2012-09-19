@@ -1,10 +1,10 @@
-<script src="/games/presentation/presentation_playfield.js"></script>
+<script src="/games/presentation/codecompetitionPlayField_playfield.js"></script>
 <script>
     // mandatory init function
     function initPlayfield() {
-        PresentationPlayField.init();
+        CodeCompetitionPlayField.init();
 
-        return PresentationPlayField;
+        return CodeCompetitionPlayField;
     }
 </script>
 <div class="reveal">
@@ -15,19 +15,14 @@
     a slide -->
     <div class="slides">
         <section>
-            <h1>The Mass Mobile Experiment</h1>
+            <h1>AD Coding Comp Prize Giving!</h1>
 
             <br/>
-            <span> Simon & Aidan </span>
-            <table style="text-align: left;margin: 10%">
-                <tr><td style="text-align: left;margin: 10%">@aidanjcasey</td></tr>
-                <tr><td style="text-align: left;margin: 10%">@simonraikallen</td></tr>
-            </table>
-
-
+            <span> Graham, Pavan & Aidan</span>
         </section>
+
         <section clientSlide="intro">
-            <h1>How it all began</h1>
+            <h1>Aidans Slide</h1>
         </section>
         <section clientSlide="carpenter">
             <img width="701"  src="/games/presentation/images/carpenter.jpg" >
@@ -166,7 +161,7 @@
         {
             data.clientSlide= $("section:eq(" + nextindexh + ")").attr('clientSlide');
         }
-        PresentationPlayField.changingToSlide(data);
+        CodeCompetitionPlayField.changingToSlide(data);
 
     });
 </script>

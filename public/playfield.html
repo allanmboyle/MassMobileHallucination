@@ -40,7 +40,7 @@
                 <div style="height: 20%">&nbsp;</div>
                 <p class="tron_white" style="font-size: 80pt">MME</p>
             </div>
-            <p class="tron_white" style="font-size: 20pt">mme.cloudapp.net</p>
+            <p class="tron_white" style="font-size: 20pt">pong.cloudapp.net</p>
         </div>
 
         <div id="loadtest" style="display: none">
@@ -109,7 +109,8 @@
                 if (currentGame) currentGame.shutdown();
 
                 // Testing a new launch model one by one...
-                if (newGame == "quiz" || newGame == "worm" || newGame == "pong" || newGame == "presentation") {
+                if (newGame == "quiz" || newGame == "worm" || newGame == "pong" || newGame == "presentation"
+                        || newGame == "codecompetition"){
                     $("#main").load("/games/"+newGame+"/playfield.html", function () {
                         currentGame = initPlayfield();
                     });
