@@ -81,7 +81,7 @@ div.fullscreen{
 .logo {
 		display:block;
 		position:absolute;
-		bottom:-19px;
+		bottom:0px;
 		margin:0 0 20px;
 		width:100%;		
 		}
