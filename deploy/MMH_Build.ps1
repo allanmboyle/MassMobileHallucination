@@ -1,7 +1,6 @@
-﻿
-#Import-AzurePublishSettingsFile –PublishSettingsFile "C:/testdeploy/mysettings.publishsettings" 
+﻿Import-AzurePublishSettingsFile –PublishSettingsFile "C:\aidan\aidan.publishsettings"
 
-$serviceName = "mme"
+$serviceName = "atsa"
 
 $workingFolder = "C:\test"
 $pathToSource = "C:\Code\MassMobileHellucination"
