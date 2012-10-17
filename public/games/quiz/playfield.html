@@ -51,105 +51,31 @@
 		</tr>
 	</table>
 </div>
-<p class="q" style="font-size: 40pt; text-align: right;margin: 10%">pong.cloudapp.net</p>
+<p class="q" style="font-size: 40pt; text-align: right;margin: 10%">bootcamp.cloudapp.net</p>
 <script src="/games/quiz/quiz_playfield.js"></script>
 
 <script>
 	var q = -1;
-	
-/*	var questions = [
-		{q: "In which city did Australia’s first legal casino open for business in 1973?",
-			c: 3,
-			a: ["Sydney", "Canberra", "Brisbane", "Hobart"]},
-		{q: "Who painted The Scream?",
-			c: 1,
-			a: ["Rolf Harris", "Edvard Munch", "Edward Scissors hands", "Leonardo Da Vinci"]},
-		{q: "How many rows of teeth does a great white shark have?",
-            c: 0,
-			a: ["5", "3", "1", "2"]},
-        {q: "What makes Node.js blazingly fast?",
-            c: 3,
-            a: ["Google's V8 Engine" , "Single Threaded Architecture", "Non Blocking Event Loop", "All of the above"]
-        },
-        {q: "In what year did Atari first release the computer game Pong?",
-            c: 1,
-            a: ["1976", "1972", "1981", "1964"]},
-        {q: "What was the original name of the team the developed Windows NT ?",
-            c: 1,
-            a: ["The Code Monkeys", "The Portable Systems Team", "The Avengers", "The Portables"]},
-        {q: "How many lines of code in Windows XP ?",
-            c: 2,
-            a: ["1.5 Million", "15 Million", "45 Million", "900,000"]},
-
-        {q: "Whats the fastest speed a red kangaroo can a hop ?",
-            c: 2,
-            a: ["20km/hr", "40km/hr", "70km/hr", "65km/hr"]},
-        {q: "Rolling Stone magazines greatest song of all time?",
-            c: 0,
-            a: ["Bob Dylan - 'Like a Rolling Stone'" , "John Lennon - 'Imagine'", "The Beatles - 'Hey Jude'", "Men at Work - 'Land Down Under'"]
-        },
-        {q: "Where was Lada Gaga born?",
-            c: 0,
-            a: ["Mars" , "New York", "Wollongong", "Dallas"]
-        } ,
-        {q: "How many paintings did Van Gough sell during his lifetime?",
-            c: 1,
-            a: ["0" , "1", "20", "42"]
-        },
-        {q: "What is the chemical symbol for the element gold?",
-            c: 3,
-            a: ["GO" , "$$", "GD", "AU"]
-        },
-        {q: "What does a Hippologist study?",
-            c: 1,
-            a: ["Horses" , "Herbs", "Hippopotamuses", "Hip hop dancers"]
-        },
-        {q: "How many Harry Potter books are there?",
-            c: 2,
-            a: ["5" , "6", "7", "8"]
-        },
-        {q: "Where is the Node.js source code available for download?",
-            c: 0,
-            a: ["GitHub" , "CodePlex", "Joyent", "Nodejitsu"]
-        }
-	];*/
-
-
-
-
     var questions = [
-        {q: "What is the MYOB Live tag line on the newly revamped MYOB website?",
-            c: 1,
-            a: ["Manage your own business!", "Manage your business anywhere, anytime!", "Stay away from the cloud!", "Manage your expectations!"]},
-        {q: "How many members are there in the AD Coding competition group on Yammer?",
-            c: 2,
-            a: ["9", "18", "28", "34"]},
-        {q: "How many discussion threads in the AD Coding competition group on Yammer?",
-            c: 1,
-            a: ["53", "103", "203", "512"]},
-        {q: "What is the maximum number of nodes Neo4J supports?",
-            c: 0,
-            a: ["34 billion", "1 billion", "no upper limit", "1 trillion"]},
-        {q: "There were 10 entries in the competition. How many lines of code in total (inc node_modules)?",
-            c: 2,
-            a: ["~10,000", "~50,000", "~400,000", "~1,000,000"]},
-        {q: "What makes Node.js so blazingly fast?",
+        {q: "AccountRight Live services include",
             c: 3,
-            a: ["Google's V8 Engine" , "Single Threaded Architecture", "Non Blocking Event Loop", "All of the above"]
-        },
-        {q: "Where is the Node.js source code available for download?",
+            a: ["Multi user access", "-	Bankfeeds", "-	Online services", "All of the above"]},
+        {q: "MYOB Live accounting products come with phone, email & LiveChat support",
             c: 0,
-            a: ["GitHub" , "CodePlex", "Joyent", "Nodejitsu"]
-        },
-        {q: "Most popular NoSQL databases according to LinkedIn skillsets?",
+            a: ["24 x 7", "9 - 5", "7:30 - 9:30", "7 – midnight"]},
+        {q: "Which of the following AccountRight products do not have Live Services?",
+            c: 0,
+            a: ["AccountRight Basics", "AccountRight Standard", "AccountRight Plus", "AccountRight Premier"]},
+        {q: "What discount will apply for customers who want a second company file of the same file type against a serial number?",
             c: 1,
-            a: ["Neo4J" , "MongoDB", "Redis", "CouchDB"]
-        },
-        {q: "How many developers worldwide use GitHub?",
-            c: 1,
-            a: ["1 million" , "2 million", "5 million", "10 million"]
+            a: ["10%", "30%", "5%", "22%"]},
+        {q: "How many concurrent users can access and AccountRight Live file?",
+            c: 3,
+            a: ["1", "3", "5", "10"]},
+        {q: "Which two characteristics indicate a good fit for AccountRight Live?",
+            c: 0,
+            a: ["Positive attitude to online, high transaction levels" , "Positive attitude to online, non complex business", "Positive attitude to online, multi currency requirements", "Negative attitude to online, low transaction levels"]
         }
-
 
     ];
 

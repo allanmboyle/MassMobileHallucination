@@ -1,6 +1,6 @@
 ﻿Import-AzurePublishSettingsFile –PublishSettingsFile "C:\aidan\aidan.publishsettings"
 
-$serviceName = "atsa"
+$serviceName = "bootcamp"
 
 $workingFolder = "C:\test"
 $pathToSource = "C:\Code\MassMobileHellucination"

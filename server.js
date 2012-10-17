@@ -68,6 +68,9 @@ server.get('/control', function (req, res) {
 server.get('/pongadmin', function (req, res) {
     res.sendfile(__dirname + '/public/pongadmin.html');
 });
+server.get('/quizadmin', function (req, res) {
+    res.sendfile(__dirname + '/public/quizadmin.html');
+});
 
 // set up socket handlers (one per namespace)
 // Should this move to each of the modules???
