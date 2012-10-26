@@ -3,7 +3,7 @@
 $serviceName = "bootcamp"
 
 $workingFolder = "C:\test"
-$pathToSource = "C:\Code\MassMobileHellucination"
+$pathToSource = "C:\Code\bootcamp"
 
 cd $workingFolder
 

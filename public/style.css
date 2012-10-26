@@ -10,7 +10,8 @@
 Html, body {
 
     Overflow:hidden;
-		background:#35393a;
+/*background:#35393a;     */
+background:#ffffff;
 
 }
 
@@ -77,6 +78,14 @@ div.fullscreen{
    /* color: lightblue;
     text-shadow: 0 0 20px rgba(100, 100, 200, 0.8);*/
 		color: #ffffff;
+    text-shadow: 0 0 20px rgba(255, 255, 255, 0.8);
+    font-family: "Bitstream Vera Sans Mono", monospace;
+}
+
+.bootcamp_title {
+    /* color: lightblue;
+     text-shadow: 0 0 20px rgba(100, 100, 200, 0.8);*/
+    color: #373942;
     text-shadow: 0 0 20px rgba(255, 255, 255, 0.8);
     font-family: "Bitstream Vera Sans Mono", monospace;
 }
