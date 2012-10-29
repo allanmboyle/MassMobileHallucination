@@ -3,7 +3,7 @@
 $serviceName = "bootcamp"
 
 $workingFolder = "C:\test"
-$pathToSource = "C:\Code\bootcamp"
+$pathToSource = "C:\Code\MassMobileHallucination"
 
 cd $workingFolder
 
@@ -22,9 +22,6 @@ Get-ChildItem $source -Recurse -Exclude $exclude | Copy-Item -Destination {Join-
 
 $fso = New-Object -ComObject scripting.filesystemobject
 
-#clean up some duff folders...
-$fso.DeleteFolder($dest + '\.idea')
-$fso.DeleteFolder($dest + '\node_modules')
 cd $dest
 
 npm install
@@ -32,5 +29,5 @@ npm install
 #Remove-AzureService
 #Remove-AzureStorageAccount -StorageAccountName  $serviceName
 
-Publish-AzureServiceProject –ServiceName $serviceName –Location "North Central US” -Launch
+Publish-AzureServiceProject –ServiceName $serviceName –Location "West US” -Launch
 
